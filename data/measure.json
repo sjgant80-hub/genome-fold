@@ -1,0 +1,129 @@
+{
+ "prereg": "PREREG.md",
+ "computed": "2026-11-21T15:17:10.114Z",
+ "kernel": {
+  "path": "src/fold.mjs",
+  "sha256": "33badba6c12288ca2cefe58cac771e5c69d47394ab64be36beb5b64c77a9f471",
+  "preregistered": {
+   "commit": "98e8190",
+   "sha256": "33badba6c12288ca2cefe58cac771e5c69d47394ab64be36beb5b64c77a9f471"
+  },
+  "same": true
+ },
+ "data": {
+  "repo": "sjgant80-hub/docdecdemo",
+  "commit": "612bf8c633660e06bfce79f62878ab9a503d8d47",
+  "path": "data/v2/s1.json",
+  "sha256": "278ee00d3d2e77d253a0636afab3972e7cf9756f62fbc424a9c775d080509453",
+  "extract": "data/s1-text.json",
+  "extractSha256": "85432ebd8b7dcc45ee753c32e2c5701a13fb8ebfd5677055c5beb414a7545823",
+  "licence": "SQuAD 2.0 (Rajpurkar, Jia and Liang, 2018, \"Know What You Don't Know: Unanswerable Questions for SQuAD\"), CC BY-SA 4.0. Taken from DocDec's S1 set; this file is under CC BY-SA 4.0, not MIT."
+ },
+ "split": {
+  "tuneSkipped": 180,
+  "note": "DocDec's tune split is not read; the engine tunes only on its own generated questions"
+ },
+ "lane": {
+  "rule": "in lane when at least 60% of the question's content words appear as whole words in the indexed passages",
+  "share": 0.6,
+  "tune": {
+   "inLaneAccepted": 0.9385,
+   "offTopicRefused": 0.7667,
+   "n": [
+    65,
+    30
+   ]
+  },
+  "eval": {
+   "inLaneAccepted": 0.9231,
+   "offTopicRefused": 0.7333,
+   "n": [
+    65,
+    30
+   ]
+  }
+ },
+ "n": {
+  "paragraphs": 130,
+  "generated": 130,
+  "answerable": 217,
+  "unanswerable": 203,
+  "offTopic": 420
+ },
+ "metrics": {
+  "M1": {
+   "count": 153,
+   "of": 217,
+   "value": 0.7051,
+   "rule": 0.6682,
+   "pass": true
+  },
+  "M2": {
+   "count": 411,
+   "of": 420,
+   "value": 0.9786,
+   "rule": 0.82,
+   "pass": true
+  },
+  "M2lane": {
+   "count": 283,
+   "of": 420,
+   "value": 0.6738,
+   "rule": 0.82,
+   "pass": false
+  },
+  "M3": {
+   "count": 102,
+   "of": 217,
+   "value": 0.47,
+   "rule": 0.5899,
+   "pass": false
+  },
+  "M3right": {
+   "count": 81,
+   "of": 217,
+   "value": 0.3733,
+   "rule": 0.53,
+   "pass": false
+  },
+  "M4": {
+   "count": 70,
+   "of": 203,
+   "value": 0.3448,
+   "rule": 0.8867,
+   "pass": false
+  },
+  "M5": {
+   "count": 68,
+   "of": 217,
+   "value": 0.3134,
+   "rule": 0.4608,
+   "pass": false
+  },
+  "M6": {
+   "medianMs": 0.591,
+   "of": 840,
+   "rule": 100,
+   "pass": true
+  }
+ },
+ "docdec": {
+  "colbertTop1": 0.8295,
+  "cosineTop1": 0.6682,
+  "offTopicRefused": 1,
+  "answered": 0.5899,
+  "answeredRight": 0.53,
+  "unanswerableRefused": 0.8867,
+  "exactAnswers": 0.4608,
+  "secondsPerQuestion": 15.6,
+  "from": "vendor/docdec/data/v2/record.json"
+ },
+ "machine": {
+  "cpu": "12th Gen Intel(R) Core(TM) i7-1255U",
+  "threads": 12,
+  "memoryGb": 16,
+  "platform": "win32",
+  "node": "v25.7.0",
+  "conditions": "one laptop shared with other jobs while measured; the timing is indicative, not a benchmark"
+ }
+}

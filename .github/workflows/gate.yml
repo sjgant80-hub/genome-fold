@@ -12,7 +12,7 @@ jobs:
       - name: vendored pieces equal upstream at their pinned commits
         run: node --test test/vendor.test.mjs
       - name: tests
-        run: node --test test/fold.test.mjs test/genome.test.mjs test/cell.test.mjs test/writer.test.mjs test/cli.test.mjs test/measure.test.mjs
+        run: node --test test/fold.test.mjs test/genome.test.mjs test/cell.test.mjs test/writer.test.mjs test/cli.test.mjs test/measure.test.mjs test/measure-data.test.mjs
       - name: witness v0.6
         run: git clone --depth 1 --branch v0.6 https://github.com/sjgant80-hub/witness.git .witness
       - name: mutation gate — src/fold.mjs (the kernel) must be CLEAN
