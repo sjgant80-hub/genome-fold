@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title><!--NAME--></title>
+<meta name="description" content="<!--PURPOSE-->">
+<style>
+<!--STYLE-->
+</style>
+</head>
+<body>
+<header class="top">
+  <span class="brand"><!--NAME--></span>
+  <button class="ghost theme" id="theme" type="button" aria-label="Switch between light and dark">Light / dark</button>
+</header>
+<nav class="toc" aria-label="On this page">
+  <a href="#ask">Ask it</a><a href="#how">How it works</a><a href="#trace">How this cell was made</a><a href="#blueprint">Blueprint</a>
+  <a href="#adoption">Using it</a><a href="#limits">Limits</a>
+</nav>
+<main>
+<h1>Ask <!--TITLE-->, and check every answer.</h1>
+<p class="lede"><!--PURPOSE--> It was folded from <!--COUNTS--> by <a href="https://sjgant80-hub.github.io/genome-fold/">Genome Fold</a>, and it is admitted as a
+cell of the estate genome: its own CI re-runs the birth check on every push.</p>
+
+<h2 id="ask">Start here: ask it</h2>
+<ol>
+  <li>Type a question about <!--TITLE--> below and press <em>Ask</em>, or press one of the example questions.</li>
+  <li>A <span class="badge b-verified">verified</span> answer is a sentence of the source, word for word, with the passage it came from highlighted and its
+    character positions, so you can check it. <em>Verified</em> means the words are really there; it does not promise the sentence is the best answer.</li>
+  <li>A <span class="badge b-refused">refused</span> question is outside this cell's lane: too few of its words are words the source uses. A
+    <span class="badge b-unverified">not verified</span> answer was found but the judge would not verify it, so it is withheld.</li>
+</ol>
+<div class="card">
+  <label for="question">Your question</label>
+  <input type="text" id="question" value="">
+  <div class="cta"><button type="button" id="ask-button">Ask</button><!--EXAMPLES--></div>
+  <div id="answer-out" aria-live="polite"><p class="small">Everything runs in this page; nothing is sent anywhere.</p></div>
+</div>
+
+<h2 id="how">How it works</h2>
+<ol class="flow">
+  <li><strong>The source is cut into passages</strong> at blank lines and headings; a heading titles the passages under it.</li>
+  <li><strong>The answerer</strong> picks the passage that best carries your question's words (BM25 word overlap, rare words counting more), then the
+    sentence in it that carries the most of them. No language model is involved.</li>
+  <li><strong>The judge</strong> verifies the answer record only when its text is exactly the passage's characters at its positions and the passage uses
+    enough of your question's words.</li>
+  <li><strong>The lane</strong> refuses a question when too few of its words are words the source uses. Its threshold was chosen and measured on
+    questions generated from the source and a fixed off-topic set (below).</li>
+</ol>
+
+<h2 id="trace">How this cell was made: its own run</h2>
+<h3>The lane</h3>
+<!--LANE-->
+<h3>The judge's two cases</h3>
+<!--CASES-->
+<h3>The birth check</h3>
+<p>As far as a browser can run it (the reversible tombstone needs files, and runs in this repository's CI):</p>
+<div id="check-out"><!--CHECK--></div>
+<div class="cta"><button type="button" class="ghost" id="recheck">Run the check again in your browser</button></div>
+
+<h2 id="blueprint">Blueprint</h2>
+<div class="scroll"><table>
+  <thead><tr><th>Part</th><th>What it is</th></tr></thead>
+  <tbody>
+    <tr><th scope="row"><code>corpus/</code></th><td>The source files, byte for byte: <!--FILES--></td></tr>
+    <tr><th scope="row"><code>data/index.json</code></th><td>The passages the answers come from.</td></tr>
+    <tr><th scope="row"><code>data/lane.json</code></th><td>The lane rule and its measured numbers; <code>data/lane-questions.json</code> holds the questions behind them.</td></tr>
+    <tr><th scope="row"><code>kernel/</code></th><td>Genome Fold's kernel and the pieces it composes (DocDec's span and sentence finders and lane share, the estate genome's manifest
+      check), byte for byte. This page carries the same files and links them in your browser.</td></tr>
+    <tr><th scope="row"><code>genome/</code></th><td>The hooks the birth check runs (judge, lane, health, tombstone) and <code>act.mjs</code>, which answers a question.</td></tr>
+    <tr><th scope="row"><code>seed.json</code></th><td>What this cell is, its lane, its judge and its cases, its hooks and where it came from.</td></tr>
+    <tr><th scope="row"><code>FOLD.json</code></th><td>The engine commit that folded it (<!--ENGINE-->) and the hash of every source and kernel file.</td></tr>
+  </tbody>
+</table></div>
+
+<h2 id="adoption">Using it</h2>
+<ul>
+  <li><strong>In a page:</strong> this one. Share the link; it works offline once loaded.</li>
+  <li><strong>From a program or an agent:</strong> clone <a href="https://github.com/<!--REPO-->"><!--REPO--></a> and run
+    <code>echo '{"question":"..."}' | node genome/act.mjs</code>. It prints a verified record and exits 0, or a refusal and exits 1.</li>
+  <li><strong>When the source changes:</strong> fold it again with Genome Fold. The new cell is written only if the birth check admits it.</li>
+  <li><strong>Support:</strong> supplied by AI Native Solutions; support is agreed per deployment, in each deployment's agreement.</li>
+</ul>
+
+<h2 id="limits">Limits</h2>
+<ul>
+  <li>The answer is a whole sentence found by word overlap, not a short answer, and verified does not mean it is the best sentence.</li>
+  <li>No stemming: different word forms ("reject" and "rejected") do not match.</li>
+  <li>Questions that use the source's words but that it does not answer are mostly answered anyway. On a public test set, a cell folded the same way
+    refused only about a third of such questions (<a href="https://sjgant80-hub.github.io/genome-fold/#measured">the measurement</a>).</li>
+  <li>This is not advice. For anything that matters, read the cited passage in the source.</li>
+</ul>
+</main>
+<footer>
+  <p><!--LICENCE--></p>
+  <p>Folded by Kar with <a href="https://sjgant80-hub.github.io/genome-fold/">Genome Fold</a>. Supplied by <a href="https://www.ai-nativesolutions.com">AI Native Solutions</a>.
+  Code MIT licence, © 2026 Simon Gant. <a href="https://github.com/<!--REPO-->">Source</a></p>
+</footer>
+<!--DATA-->
+<script>
+<!--LOADER-->
+</script>
+<!--MODULES-->
+<script type="module">
+const mods = {};
+for (const s of document.querySelectorAll('script[data-module]')) mods[s.dataset.module] = s.textContent;
+const link = linkModules(mods, (src) => URL.createObjectURL(new Blob([src], { type: 'text/javascript' })));
+const K = await import(link('src/fold.mjs'));
+const P = await import(link('src/page.mjs'));
+const DATA = JSON.parse(document.getElementById('data').textContent);
+const INDEX = K.buildIndex(DATA.passages), SHARE = DATA.lane.share;
+const $ = (id) => document.getElementById(id);
+const ask = () => { $('answer-out').innerHTML = P.answerHtml(INDEX, K.act(INDEX, SHARE, { question: $('question').value }, DATA.seed.boundary.escalate)); };
+$('ask-button').addEventListener('click', ask);
+$('question').addEventListener('keydown', (e) => { if (e.key === 'Enter') ask(); });
+for (const b of document.querySelectorAll('button[data-q]')) b.addEventListener('click', () => { $('question').value = b.dataset.q; ask(); });
+$('recheck').addEventListener('click', () => { $('check-out').innerHTML = P.checksHtml(K.preview(INDEX, SHARE, DATA.seed)); });
+const root = document.documentElement;
+try { const t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') root.dataset.theme = t; } catch { /* storage may be blocked */ }
+$('theme').addEventListener('click', () => {
+  const dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+  root.dataset.theme = dark ? 'light' : 'dark';
+  try { localStorage.setItem('theme', root.dataset.theme); } catch { /* storage may be blocked */ }
+});
+</script>
+</body>
+</html>

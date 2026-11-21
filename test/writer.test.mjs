@@ -36,7 +36,7 @@ test('readCorpus: text files in path order, BOM dropped, dot-folders and node_mo
 
 test('engineCommit: the engine checkout\'s HEAD, and whether its kernel, vendor and cell template are committed', () => {
   const head = execFileSync('git', ['-C', ENGINE, 'rev-parse', 'HEAD'], { encoding: 'utf8' }).trim();
-  const dirty = execFileSync('git', ['-C', ENGINE, 'status', '--porcelain', '--', 'src', 'vendor', 'cell-template'], { encoding: 'utf8' }).trim();
+  const dirty = execFileSync('git', ['-C', ENGINE, 'status', '--porcelain', '--', 'src', 'vendor', 'cell-template', 'page'], { encoding: 'utf8' }).trim();
   assert.deepEqual(engineCommit(), { commit: head, clean: dirty === '' });
 });
 
@@ -46,7 +46,7 @@ test('cellFiles: every file of the cell, the corpus licence when one is given, n
   const f = cellFiles(r, d, c, META);
   assert.deepEqual(Object.keys(f).sort(), ['.github/workflows/genome.yml', 'CORPUS-LICENCE.md', 'FOLD.json', 'LICENSE', 'README.md', 'corpus/kettle.md',
     'data/index.json', 'data/lane-questions.json', 'data/lane.json', 'genome/act.mjs', 'genome/cell.mjs', 'genome/health.mjs', 'genome/io.mjs',
-    'genome/judge.mjs', 'genome/lane.mjs', 'genome/tombstone.mjs', 'kernel/src/fold.mjs', 'kernel/vendor/docdec/genome/lane-share.mjs',
+    'genome/judge.mjs', 'genome/lane.mjs', 'genome/tombstone.mjs', 'index.html', 'kernel/src/fold.mjs', 'kernel/src/page.mjs', 'kernel/vendor/docdec/genome/lane-share.mjs',
     'kernel/vendor/docdec/src/gate.mjs', 'kernel/vendor/docdec/src/late.mjs', 'kernel/vendor/estate-genome/src/genome.mjs', 'seed.json']);
   assert.equal(f['CORPUS-LICENCE.md'], '# Corpus licence\n\nThe files in `corpus/` are under CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/).\n\nWritten for this test.\n');
   const fj = JSON.parse(f['FOLD.json']);

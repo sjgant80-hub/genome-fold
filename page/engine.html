@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Genome Fold</title>
+<meta name="description" content="Fold a folder of documents into a verified question-answering cell: no language model, every answer the documents' own words with their offsets, admitted only when the estate genome's birth check passes.">
+<style>
+<!--STYLE-->
+</style>
+</head>
+<body>
+<header class="top">
+  <span class="brand">Genome Fold</span>
+  <button class="ghost theme" id="theme" type="button" aria-label="Switch between light and dark">Light / dark</button>
+</header>
+<nav class="toc" aria-label="On this page">
+  <a href="#start">Start here</a><a href="#try">Try it</a><a href="#how">How it works</a><a href="#trace">A real run</a><a href="#measured">Measured</a>
+  <a href="#blueprint">Blueprint</a><a href="#adoption">For your business</a><a href="#limits">Limits</a><a href="#paper">The explainer</a>
+</nav>
+<main>
+<h1>Turn a folder of documents into a question-answering cell you can check.</h1>
+<p class="lede">Genome Fold reads your documents (plain text or markdown) and builds a small, self-contained answerer from them. It uses no
+language model. Every answer is a sentence of your documents, copied word for word, with the passage it came from and its exact
+character positions, so anyone can check it. Questions outside the documents' subject are refused. The result ships as its own
+repository only when the estate genome's birth check admits it.</p>
+<div class="cta"><a class="button" href="#try">Fold a document now</a><a class="button ghost" href="https://sjgant80-hub.github.io/consumer-rights-cell/">See a folded cell: the Consumer Rights Act 2015</a></div>
+
+<h2 id="start">Start here</h2>
+<ol>
+  <li><strong>Try it in this page.</strong> Paste a few paragraphs into the box below (or pick .md / .txt files), give them a title and press
+    <em>Fold it</em>. The fold runs in your browser; nothing is sent anywhere.</li>
+  <li><strong>Read what came out.</strong> You see the passages it found, the lane it chose (which questions it will take), the judge's two test
+    cases and the birth check as far as a browser can run it.</li>
+  <li><strong>Ask it.</strong> Type a question. You get a verified sentence with its source and offsets, or a refusal that says why.</li>
+  <li><strong>Fold for real.</strong> On your own machine, with Node 20 or later:
+<pre>git clone https://github.com/sjgant80-hub/genome-fold
+node genome-fold/bin/fold.mjs my-docs/ my-cell/ --name my-cell --title "our returns policy" \
+  --repo your-org/my-cell --by "your name" --escalate "your team"</pre>
+    The folder <code>my-cell/</code> appears only if the birth check admits it; otherwise you get the list of what is missing. Push it as a
+    repository and its own CI runs the birth check on every push.</li>
+</ol>
+
+<h2 id="try">Try it: fold a corpus in your browser</h2>
+<div class="card">
+  <label for="title">What are these documents? (becomes the cell's title)</label>
+  <input type="text" id="title" value="the Harbour Kayak Club handbook">
+  <label for="corpus">The documents (a made-up example to start; a line like <code>=== name.md ===</code> starts another document)</label>
+  <textarea id="corpus" spellcheck="false">=== safety.md ===
+# Safety on the water
+
+Every paddler must wear a buoyancy aid at all times on the water. Helmets are required on the river below the weir.
+
+Club boats may only be taken out when two or more members are present. Sign the boat log before launching and again when you return.
+
+## Weather
+
+Sessions are cancelled when the wind is forecast above 20 knots. The duty coach makes the call by 8am on the club group.
+
+=== membership.md ===
+# Membership
+
+Full membership runs from 1 April to 31 March. Juniors under 16 must be signed up by a parent or guardian.
+
+New members complete a two-hour induction before they can borrow club kayaks. The induction covers capsize drills and rescues.
+
+Fees are refunded in full if you cancel within 14 days of joining.</textarea>
+  <label for="files">Or add .md / .txt files from your computer</label>
+  <input type="file" id="files" accept=".md,.markdown,.txt,text/plain,text/markdown" multiple>
+  <div class="cta"><button type="button" id="fold">Fold it</button></div>
+  <div id="fold-out" aria-live="polite"><p class="small">Press <em>Fold it</em> to see the cell.</p></div>
+</div>
+<div class="card">
+  <label for="question">Ask the folded cell</label>
+  <input type="text" id="question" value="How long is the induction for new members?">
+  <div class="cta"><button type="button" id="ask" disabled>Ask</button></div>
+  <div id="answer-out" aria-live="polite"><p class="small">Fold a corpus first.</p></div>
+</div>
+
+<h2 id="how">How it works</h2>
+<p>Seven steps, all of them small enough to check by hand. The same code runs in this page and on the command line: the page carries the
+kernel's files byte for byte, and its test fails if they ever differ.</p>
+<ol class="flow">
+  <li><strong>Passages.</strong> Each document is cut at blank lines and headings. A heading becomes the title of the passages under it.</li>
+  <li><strong>Index.</strong> Every word of every passage is counted, so the cell knows which words are rare (they matter more) and which are common.</li>
+  <li><strong>Answerer.</strong> For a question, the passage that best carries the question's words wins (a standard word-overlap score, BM25), and in
+    it the sentence that carries the most of them. Its exact character positions are found with DocDec's own span finder.</li>
+  <li><strong>Judge.</strong> An answer record is <em>verified</em> only when its text is exactly the passage's characters at those positions and that
+    passage uses enough of the question's words. Change one word and it is not verified. A record that is not an answer record is refused.</li>
+  <li><strong>Lane.</strong> A question is in the cell's lane when enough of its words are words the documents use. "Enough" is chosen, not guessed: the
+    engine writes questions from the documents' own rarest words, takes a fixed set of everyday off-topic questions, picks the share that
+    best separates the two on half of them, and measures it on the other half.</li>
+  <li><strong>Cases and seed.</strong> The judge's good case is a real sentence record the cell verifies; its bad case is the same record with one
+    word altered. The engine drafts the cell's <code>seed.json</code>: what it is, its lane, its judge, its hooks and where it came from.</li>
+  <li><strong>Birth check.</strong> The estate genome's check runs the cell's own hooks: it must describe itself, its judge must tell the good case
+    from the bad, its health and reversible tombstone must work, and its lane must take the in-lane sample and refuse the off-topic one.
+    Only then is the folder written.</li>
+</ol>
+
+<h2 id="trace">A real run: the Consumer Rights Act 2015, Part 1</h2>
+<!--DEMO-->
+
+<h2 id="measured">Measured, and pre-registered</h2>
+<p>Before any number was computed, the rules were written down and committed (<a href="https://github.com/sjgant80-hub/genome-fold/blob/main/PREREG.md">PREREG.md</a>).
+The test set is DocDec's S1 set: 130 Wikipedia paragraphs from SQuAD 2.0 (Rajpurkar, Jia and Liang, 2018; CC BY-SA 4.0), with 420 held-out
+questions about them and 420 off-topic ones. The engine never saw any of these questions: its only tuned number, the lane share, came from
+its own generated questions. DocDec v2's published numbers on the same questions sit beside each one.</p>
+<div class="scroll"><table>
+  <thead><tr><th>#</th><th>What</th><th>This cell</th><th>DocDec v2 (published)</th><th>Rule</th><th>Result</th></tr></thead>
+  <tbody><!--MEASURE--></tbody>
+</table></div>
+<p><strong><!--PASSES--></strong> The no-model cell finds the right passage more often than DocDec's
+cosine baseline and refuses nearly all off-topic questions, in well under a millisecond. It answers fewer questions than DocDec v2 does,
+and it does <em>not</em> refuse SQuAD's unanswerable questions: they are written to look answerable from a real paragraph, and a word-overlap
+lane cannot tell. This cell has no reader and no 34 MB model; DocDec v2 has both. The comparison shows what checking without a model buys,
+not that it does DocDec's job. CI re-derives every number here except the timing, from the shipped data and the upstream file.</p>
+
+<h2 id="blueprint">Blueprint</h2>
+<p>Five organs, built and gated one at a time, plus the demo corpus's converter. Every file of logic is mutation-tested by witness v0.6: each decision point is flipped in turn
+and the tests must notice. CLEAN means every flip was caught, with no exemptions.</p>
+<div class="scroll"><table>
+  <thead><tr><th>Organ</th><th>Files</th><th>What it does</th><th>Gate</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Vendored pieces</th><td><code>vendor/</code></td><td>DocDec's span finder and sentence finder, DocDec's lane share and its tune/eval measurement, and the estate
+      genome's birth check and hooks, copied byte for byte at pinned commits (<code>vendor/VENDOR.json</code>).</td><td>parity test against upstream</td></tr>
+    <tr><th scope="row">Fold kernel</th><td><code>src/fold.mjs</code></td><td>Passages, index, answerer, judge, lane, cases, the drafted seed, the manifest check. Pure, no I/O, the same in Node and the browser.</td><td><!--GATE:src/fold.mjs-->, 18 exports fuzzed</td></tr>
+    <tr><th scope="row">Cell writer</th><td><code>src/writer.mjs</code>, <code>bin/fold.mjs</code>, <code>cell-template/</code></td><td>Reads the corpus folder, writes the cell, runs the birth check, and moves the
+      cell into place only when it is admitted.</td><td><!--GATE:src/writer.mjs-->; CLI <!--GATE:bin/fold.mjs-->; the cell's act hook <!--GATE:cell-template/genome/act.mjs-->; the engine's act hook <!--GATE:genome/act.mjs--></td></tr>
+    <tr><th scope="row">Measurement</th><td><code>src/measure.mjs</code>, <code>PREREG.md</code>, <code>data/</code></td><td>The pre-registered numbers, re-derived in CI.</td><td><!--GATE:src/measure.mjs--></td></tr>
+    <tr><th scope="row">Pages</th><td><code>src/page.mjs</code>, <code>src/build-page.mjs</code>, <code>page/</code></td><td>This page and every folded cell's page: the kernel's files carried byte for byte, linked in the browser.</td><td><!--GATE:src/page.mjs-->; builder <!--GATE:src/build-page.mjs-->; loader <!--GATE:page/loader.js--></td></tr>
+    <tr><th scope="row">Demo corpus</th><td><code>examples/consumer-rights-act/</code></td><td>The Act's XML from legislation.gov.uk and the converter that turns it into one markdown file per chapter.</td><td><!--GATE:examples/consumer-rights-act/prepare.mjs--></td></tr>
+  </tbody>
+</table></div>
+<p>A folded cell holds: <code>seed.json</code>; <code>data/</code> (the passages, the lane measurement, the generated questions); <code>corpus/</code> (the source files,
+byte for byte); <code>kernel/</code> (this kernel and the pieces it composes, byte for byte); <code>genome/</code> (the hooks, including <code>act.mjs</code>, which answers a question);
+the birth-check workflow; <code>FOLD.json</code> (the engine commit and every hash); its own page; and its licences. The engine itself is a cell
+too: its <code>seed.json</code> and <code>genome/</code> pass the same birth check in its own CI.</p>
+
+<h2 id="adoption">What it does for your business</h2>
+<p>Most organisations have documents people keep asking about: policies, contracts, product manuals, regulations, onboarding guides.
+Genome Fold turns each set into an answerer whose every answer can be traced to a sentence and checked, and which says no rather than
+guessing. It is built for places where a wrong-but-confident answer costs more than no answer.</p>
+<div class="grid">
+  <div class="card"><h3>Chief executive</h3><p>Answers from your own documents that can be shown to a regulator, a customer or a court: the sentence, the document, the position. No model to
+    trust, no outside service to depend on.</p></div>
+  <div class="card"><h3>Finance</h3><p>No per-seat licence and no model hosting bill to run it: it answers in well under a millisecond on an ordinary laptop
+    (measured: <!--MS--> ms a question, against <!--DS--> s for a local language-model reader). We quote no money saving here, because it depends on your volumes.</p></div>
+  <div class="card"><h3>Operations</h3><p>One cell per document set, each with its own lane: the HR handbook cell refuses supplier questions and says who to ask instead.
+    Re-folding after an update is one command, and the birth check runs again.</p></div>
+  <div class="card"><h3>Technology and security</h3><p>Runs entirely where you put it: a browser tab or a Node process. No network calls, no data leaves the machine, no model
+    weights. The code is small enough to read, mutation-tested, and every cell's CI re-runs its birth check.</p></div>
+  <div class="card"><h3>Compliance and audit</h3><p>Every answer is a record of source, start and end. Anyone can check it against the file. The judge that verifies it is the same
+    one the birth check tests on a known-bad record.</p></div>
+  <div class="card"><h3>The teams who answer questions</h3><p>A first pass that points to the exact sentence, so people read one paragraph instead of a whole manual, and a refusal
+    when the answer is not in the documents at all.</p></div>
+</div>
+<h3>Rolling it out</h3>
+<ol>
+  <li>Pick one document set that people ask about every week. Export it as markdown or text.</li>
+  <li>Fold it. Read the lane numbers and the judge's cases the engine prints. If the birth check refuses the cell, the list says why.</li>
+  <li>Ask it the twenty questions your team gets most. Note where the verified sentence is not the best one (see the limits below).</li>
+  <li>Push the cell as a repository. Its CI runs the birth check on every change; its page lets anyone ask it.</li>
+  <li>Wire its act hook into your tools or agents: <code>echo '{"question":"..."}' | node genome/act.mjs</code> answers with a verified record or a refusal.</li>
+</ol>
+<h3>Straight answers to the hard questions</h3>
+<ul>
+  <li><strong>Is a verified answer a correct answer?</strong> No. Verified means the words are really in your documents at the stated position, and the
+    passage uses enough of the question's words. On the public test set, <!--M:M3right--> of answerable questions got a verified sentence from the right
+    passage. Treat it as a pointer to read, not a final word.</li>
+  <li><strong>Will it refuse questions it cannot answer?</strong> Questions outside the subject, nearly always (<!--M:M2--> on the test set). Questions inside the
+    subject that the documents do not answer, mostly not (<!--M:M4--> refused). That is the biggest limit.</li>
+  <li><strong>Where does our data go?</strong> Nowhere. The fold and the answers run on your machine or in your browser.</li>
+  <li><strong>Who supports it?</strong> Supplied by AI Native Solutions. Support is agreed per deployment, in each deployment's agreement.</li>
+  <li><strong>Who owns it?</strong> The code is MIT licensed. Your documents keep their own licence; a folded cell records it.</li>
+</ul>
+<h3>The case for the board</h3>
+<p>An answer you can check beats an answer you have to trust. Genome Fold gives each document set a small, inspectable answerer that cites
+itself and refuses outside its lane, with its weaknesses measured and published before anyone relies on it.</p>
+
+<h2 id="limits">Limits</h2>
+<ul>
+  <li>No reader and no language model: the answer is a whole sentence, not a short phrase, and finding it is word overlap.</li>
+  <li>No stemming: "boil" does not match "boils". Questions phrased in other words than the documents' are harder for it.</li>
+  <li>Verified is not the same as right: the best-supported sentence can be the wrong one (the real run above shows one).</li>
+  <li>Unanswerable questions inside the subject are mostly answered anyway (M4 failed: <!--M:M4--> refused).</li>
+  <li>The off-topic set is fixed and in English. A corpus that is itself about everyday topics will find some of them in its lane; the engine
+    then reports that, and the lane's measured numbers show it.</li>
+  <li>Plain text and markdown only. Convert other formats first (the Consumer Rights Act example converts legislation.gov.uk's XML).</li>
+  <li>In the browser, the birth check runs three of its four traits; the fourth (the reversible tombstone) needs files and runs when you fold on
+    the command line and in the cell's CI.</li>
+  <li>Measured on one public benchmark of three Wikipedia articles, not on your documents.</li>
+</ul>
+
+<h2 id="paper">The explainer: why fold, and what "verified" means</h2>
+<p><strong>The problem.</strong> An estate of software parts needs each part to say what it is, to check its own work, to know its own lane and to be
+removable without harm. The estate genome's birth check tests exactly that. Making each answering part by hand, with its own judge and its
+own lane, is slow, and the hand-made judges vary in how strict they are.</p>
+<p><strong>The fold.</strong> Genome Fold makes the part from the documents. The judge is always the same strict one: exact characters at exact positions,
+plus enough of the question in that passage. The lane is always chosen and measured the same way, on questions written from the documents and
+a fixed off-topic set, and its numbers ship with the cell. The test cases the birth check needs are written by the engine from a real answer
+and a one-word alteration of it, so the judge is shown to catch the smallest possible change.</p>
+<p><strong>What the guarantee is.</strong> If a cell says <em>verified</em>, the sentence is in the cited document at the cited position, character for character,
+and that passage uses at least the lane's share of the question's words. That is checkable by anyone, with nothing but the file. What the
+guarantee is not: that the sentence answers the question well. The measurement says how often it does, and the page says it plainly.</p>
+<p><strong>Where it came from.</strong> The span finder, the sentence finder and the lane measurement are DocDec's, unchanged and pinned. The birth check and
+its hooks are the estate genome's, unchanged and pinned. The fold engine composes them; it adds the answerer, the judge's support rule, the
+question generator and the writer.</p>
+</main>
+<footer>
+  <p>Made by Kar. Supplied by <a href="https://www.ai-nativesolutions.com">AI Native Solutions</a>. Support is agreed per deployment, in each deployment's agreement.
+  Code MIT licence, © 2026 Simon Gant. Test data: SQuAD 2.0, CC BY-SA 4.0. The Consumer Rights Act 2015 text: Open Government Licence v3.0.</p>
+  <p><a href="https://github.com/sjgant80-hub/genome-fold">Source</a> · <a href="https://github.com/sjgant80-hub/genome-fold/blob/main/PREREG.md">Pre-registration</a> ·
+  <a href="https://sjgant80-hub.github.io/estate-genome/">The estate genome</a> · <a href="https://sjgant80-hub.github.io/consumer-rights-cell/">The Consumer Rights Act cell</a></p>
+</footer>
+<script>
+<!--LOADER-->
+</script>
+<!--MODULES-->
+<script type="module">
+const mods = {};
+for (const s of document.querySelectorAll('script[data-module]')) mods[s.dataset.module] = s.textContent;
+const link = linkModules(mods, (src) => URL.createObjectURL(new Blob([src], { type: 'text/javascript' })));
+const K = await import(link('src/fold.mjs'));
+const P = await import(link('src/page.mjs'));
+const $ = (id) => document.getElementById(id);
+let cell = null;
+$('fold').addEventListener('click', () => {
+  const title = $('title').value.trim() || 'my documents', name = P.slug(title);
+  const r = K.fold({ docs: P.docsFromPaste($('corpus').value), name, title, escalate: 'kar', repo: 'your-org/' + name, by: 'you', born: new Date().toISOString().slice(0, 10) });
+  $('fold-out').innerHTML = P.foldHtml(r);
+  cell = r.ok ? r : null;
+  $('ask').disabled = cell === null;
+  $('answer-out').innerHTML = cell ? '<p class="small">Ask it something.</p>' : '<p class="small">This corpus did not fold into a cell, so there is nothing to ask.</p>';
+});
+$('ask').addEventListener('click', () => {
+  if (cell) $('answer-out').innerHTML = P.answerHtml(cell.index, K.act(cell.index, cell.lane.share, { question: $('question').value }, 'kar'));
+});
+$('question').addEventListener('keydown', (e) => { if (e.key === 'Enter') $('ask').click(); });
+$('files').addEventListener('change', async (e) => {
+  const parts = [];
+  for (const f of e.target.files) parts.push('=== ' + f.name + ' ===\n' + (await f.text()));
+  if (parts.length) $('corpus').value = parts.join('\n\n');
+});
+const root = document.documentElement;
+try { const t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') root.dataset.theme = t; } catch { /* storage may be blocked */ }
+$('theme').addEventListener('click', () => {
+  const dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+  root.dataset.theme = dark ? 'light' : 'dark';
+  try { localStorage.setItem('theme', root.dataset.theme); } catch { /* storage may be blocked */ }
+});
+$('fold').click();
+</script>
+</body>
+</html>

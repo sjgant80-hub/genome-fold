@@ -5,8 +5,9 @@
 // A folded cell holds: seed.json; data/ (the index of passages, the lane measurement, the generated lane questions);
 // corpus/ (the source files, byte for byte); kernel/ (the fold kernel and the vendored pieces it composes, byte for
 // byte); genome/ (the estate genome's pinned hooks, plus cell.mjs and act.mjs from cell-template/); the birth-check
-// workflow; FOLD.json (what was folded, by which engine commit, every hash); README.md; LICENSE (MIT, the code); and
-// CORPUS-LICENCE.md (the corpus's own licence, when one is given).
+// workflow; FOLD.json (what was folded, by which engine commit, every hash); README.md; index.html (the cell's own page,
+// which carries the kernel byte for byte and answers in the browser); LICENSE (MIT, the code); and CORPUS-LICENCE.md
+// (the corpus's own licence, when one is given).
 import { readdirSync, readFileSync, writeFileSync, mkdirSync, mkdtempSync, existsSync, renameSync, rmSync } from 'node:fs';
 import { join, relative, sep, dirname, resolve } from 'node:path';
 import { createHash } from 'node:crypto';
@@ -14,10 +15,11 @@ import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { fold, OFF_TOPIC } from './fold.mjs';
 import { check } from '../vendor/estate-genome/src/run.mjs';
+import { cellPage } from './build-page.mjs';
 
 export const ENGINE = fileURLToPath(new URL('../', import.meta.url));
 export const TEXT = /\.(md|markdown|txt)$/i;
-export const KERNEL = ['src/fold.mjs', 'vendor/docdec/src/gate.mjs', 'vendor/docdec/src/late.mjs', 'vendor/docdec/genome/lane-share.mjs',
+export const KERNEL = ['src/fold.mjs', 'src/page.mjs', 'vendor/docdec/src/gate.mjs', 'vendor/docdec/src/late.mjs', 'vendor/docdec/genome/lane-share.mjs',
   'vendor/estate-genome/src/genome.mjs'];
 export const HOOKS = ['health.mjs', 'io.mjs', 'judge.mjs', 'lane.mjs', 'tombstone.mjs'];
 const sha = (b) => createHash('sha256').update(b).digest('hex');
@@ -46,11 +48,12 @@ export function readCorpus(dir) {
   return { docs, files, skipped };
 }
 
-// engineCommit() → { commit, clean } of the engine's own checkout, or nulls when it is not a git checkout
+// engineCommit() → { commit, clean } of the engine's own checkout (clean: its kernel, vendored pieces, cell template and
+// page templates are committed), or nulls when it is not a git checkout
 export function engineCommit() {
   try {
     const commit = execFileSync('git', ['-C', ENGINE, 'rev-parse', 'HEAD'], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
-    const dirty = execFileSync('git', ['-C', ENGINE, 'status', '--porcelain', '--', 'src', 'vendor', 'cell-template'], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] });
+    const dirty = execFileSync('git', ['-C', ENGINE, 'status', '--porcelain', '--', 'src', 'vendor', 'cell-template', 'page'], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] });
     return { commit, clean: dirty.trim() === '' };
   } catch { return { commit: null, clean: null }; }
 }
@@ -108,6 +111,7 @@ export function cellFiles(result, corpusDir, corpus, meta) {
     corpus: corpus.files, skipped: corpus.skipped, licence: lic || null, kernel: kernel.map((k) => ({ path: k.path, sha256: sha(k.bytes) })),
   });
   files['README.md'] = readme(result, meta);
+  files['index.html'] = cellPage(result, meta, engineCommit(), corpus.files);
   return files;
 }
 

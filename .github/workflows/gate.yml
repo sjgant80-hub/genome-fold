@@ -1,6 +1,8 @@
 name: gate
-# The fold engine's gate: the vendored pieces equal their upstream files at the pinned commits, the tests pass, and
-# every file of logic written here is mutation-gated CLEAN by witness v0.6 (no exemptions), its exports fuzzed.
+# The fold engine's gate: the vendored pieces equal their upstream files at the pinned commits; the tests pass (the
+# measurement and the demo run re-derived from shipped data); every file of logic is mutation-gated CLEAN by witness
+# v0.6 with no exemptions and its counts match data/gates.json (what the page shows); the kernel's, the measurement's
+# and the page's exports are fuzzed; and index.html is a fixpoint of its build.
 on: [push, pull_request, workflow_dispatch]
 jobs:
   gate:
@@ -9,32 +11,22 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: '22' }
+      - name: witness v0.6
+        run: git clone --depth 1 --branch v0.6 https://github.com/sjgant80-hub/witness.git .witness
       - name: vendored pieces equal upstream at their pinned commits
         run: node --test test/vendor.test.mjs
       - name: tests
-        run: node --test test/fold.test.mjs test/genome.test.mjs test/cell.test.mjs test/writer.test.mjs test/cli.test.mjs test/measure.test.mjs test/measure-data.test.mjs
-      - name: witness v0.6
-        run: git clone --depth 1 --branch v0.6 https://github.com/sjgant80-hub/witness.git .witness
-      - name: mutation gate — src/fold.mjs (the kernel) must be CLEAN
+        run: node --test test/fold.test.mjs test/genome.test.mjs test/cell.test.mjs test/writer.test.mjs test/cli.test.mjs test/measure.test.mjs test/measure-data.test.mjs test/page.test.mjs test/prepare.test.mjs test/page-built.test.mjs
+      - name: mutation gates — every file of logic CLEAN, counts as recorded in data/gates.json
+        run: node scripts/gates.mjs
+      - name: fuzz — every export of the kernel, the measurement and the page gives a result on hostile input, never a throw
         run: |
-          node .witness/witness.mjs mutate src/fold.mjs --cap 100000 --timeout 60000 --test node --test test/fold.test.mjs | tee fold.gate.out
-          node -e "const b=require('fs').readFileSync('fold.gate.out','utf8');const j=JSON.parse(b.slice(b.indexOf('{'),b.lastIndexOf('}')+1));if(j.clean!==true||j.ignored.length){console.error('GATE NOT CLEAN');process.exit(1)}console.log('CLEAN '+j.killed+'/'+j.total)"
-      - name: mutation gate — the writer, the CLI and the act hooks must be CLEAN (genome/cell.mjs files only wire the kernel; they have no decision point to mutate)
+          fuzz() { for fn in "${@:2}"; do node .witness/witness.mjs fuzz "$1" "$fn" | tee fuzz.out
+            grep -q '"neverThrows": true' fuzz.out || { echo "::error::$1 $fn throws on hostile input"; exit 1; }; done; }
+          fuzz src/fold.mjs docsOf passagesOf buildIndex isIndex terms answer judgeRecord inLaneOf act laneQuestions chooseLane alter cases draftSeed preview fold engineJudge engineLane
+          fuzz src/measure.mjs r4 atLeast atMost extractS1 docdecRef containsGold cellOf rows metrics measureS1
+          fuzz src/page.mjs esc badge passageHtml answerHtml checksHtml laneHtml casesHtml foldHtml measureRows docsFromPaste slug
+      - name: page fixpoint — index.html is what the build makes
         run: |
-          gate() { node .witness/witness.mjs mutate "$1" --cap 100000 --timeout 60000 --test node --test "$2" | tee g.out
-            node -e "const b=require('fs').readFileSync('g.out','utf8');const j=JSON.parse(b.slice(b.indexOf('{'),b.lastIndexOf('}')+1));if(j.clean!==true||j.ignored.length){console.error('GATE NOT CLEAN: $1');process.exit(1)}console.log('CLEAN $1 '+j.killed+'/'+j.total)"; }
-          gate src/writer.mjs test/writer.test.mjs
-          gate bin/fold.mjs test/cli.test.mjs
-          gate cell-template/genome/act.mjs test/cell.test.mjs
-          gate genome/act.mjs test/genome.test.mjs
-          gate src/measure.mjs test/measure.test.mjs
-      - name: fuzz — every kernel export gives a result on hostile input, never a throw
-        run: |
-          for fn in docsOf passagesOf buildIndex isIndex terms answer judgeRecord inLaneOf act laneQuestions chooseLane alter cases draftSeed preview fold engineJudge engineLane; do
-            node .witness/witness.mjs fuzz src/fold.mjs $fn | tee fuzz.out
-            grep -q '"neverThrows": true' fuzz.out || { echo "::error::$fn throws on hostile input"; exit 1; }
-          done
-          for fn in r4 atLeast atMost extractS1 docdecRef containsGold cellOf rows metrics measureS1; do
-            node .witness/witness.mjs fuzz src/measure.mjs $fn | tee fuzz.out
-            grep -q '"neverThrows": true' fuzz.out || { echo "::error::$fn throws on hostile input"; exit 1; }
-          done
+          node scripts/make-page.mjs
+          git diff --exit-code index.html || { echo "::error::index.html is stale: run node scripts/make-page.mjs and commit it"; exit 1; }
