@@ -2,6 +2,13 @@
  "note": "Files copied byte for byte from their upstream repositories at a pinned commit. test/vendor.test.mjs checks each one against its recorded hash and against the upstream file at that commit.",
  "files": [
   {
+   "path": "vendor/docdec/data/genome-lane.json",
+   "repo": "sjgant80-hub/docdecdemo",
+   "commit": "612bf8c633660e06bfce79f62878ab9a503d8d47",
+   "upstream": "data/genome-lane.json",
+   "sha256": "9118d4b52deaf5c66aef628c7ab671209d1006116098b7da362e11d8467135f6"
+  },
+  {
    "path": "vendor/docdec/data/v2/measured.json",
    "repo": "sjgant80-hub/docdecdemo",
    "commit": "612bf8c633660e06bfce79f62878ab9a503d8d47",

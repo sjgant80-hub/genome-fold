@@ -12,7 +12,7 @@ jobs:
       - name: vendored pieces equal upstream at their pinned commits
         run: node --test test/vendor.test.mjs
       - name: tests
-        run: node --test test/fold.test.mjs test/genome.test.mjs test/cell.test.mjs test/writer.test.mjs test/cli.test.mjs
+        run: node --test test/fold.test.mjs test/genome.test.mjs test/cell.test.mjs test/writer.test.mjs test/cli.test.mjs test/measure.test.mjs
       - name: witness v0.6
         run: git clone --depth 1 --branch v0.6 https://github.com/sjgant80-hub/witness.git .witness
       - name: mutation gate — src/fold.mjs (the kernel) must be CLEAN
@@ -27,9 +27,14 @@ jobs:
           gate bin/fold.mjs test/cli.test.mjs
           gate cell-template/genome/act.mjs test/cell.test.mjs
           gate genome/act.mjs test/genome.test.mjs
+          gate src/measure.mjs test/measure.test.mjs
       - name: fuzz — every kernel export gives a result on hostile input, never a throw
         run: |
           for fn in docsOf passagesOf buildIndex isIndex terms answer judgeRecord inLaneOf act laneQuestions chooseLane alter cases draftSeed preview fold engineJudge engineLane; do
             node .witness/witness.mjs fuzz src/fold.mjs $fn | tee fuzz.out
+            grep -q '"neverThrows": true' fuzz.out || { echo "::error::$fn throws on hostile input"; exit 1; }
+          done
+          for fn in r4 atLeast atMost extractS1 docdecRef containsGold cellOf rows metrics measureS1; do
+            node .witness/witness.mjs fuzz src/measure.mjs $fn | tee fuzz.out
             grep -q '"neverThrows": true' fuzz.out || { echo "::error::$fn throws on hostile input"; exit 1; }
           done
