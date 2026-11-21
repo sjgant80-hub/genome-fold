@@ -1,0 +1,13 @@
+name: gate
+# The fold engine's gate: the vendored pieces equal their upstream files at the pinned commits, the tests pass, and
+# every file of logic written here is mutation-gated CLEAN by witness v0.6 (no exemptions).
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+      - name: vendored pieces equal upstream at their pinned commits
+        run: node --test test/vendor.test.mjs

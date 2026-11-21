@@ -1,0 +1,96 @@
+{
+ "note": "Files copied byte for byte from their upstream repositories at a pinned commit. test/vendor.test.mjs checks each one against its recorded hash and against the upstream file at that commit.",
+ "files": [
+  {
+   "path": "vendor/docdec/genome/lane-share.mjs",
+   "repo": "sjgant80-hub/docdecdemo",
+   "commit": "612bf8c633660e06bfce79f62878ab9a503d8d47",
+   "upstream": "genome/lane-share.mjs",
+   "sha256": "6195abe9d619b7e0c9aae139d7827c17bc7b524804ef554c3cd572ef0a92c4ca"
+  },
+  {
+   "path": "vendor/docdec/src/gate.mjs",
+   "repo": "sjgant80-hub/docdecdemo",
+   "commit": "612bf8c633660e06bfce79f62878ab9a503d8d47",
+   "upstream": "src/gate.mjs",
+   "sha256": "3f0b10802fa42bf793404b59996699210b72ce89b07aaca067cc060ea3e3326c"
+  },
+  {
+   "path": "vendor/docdec/src/late.mjs",
+   "repo": "sjgant80-hub/docdecdemo",
+   "commit": "612bf8c633660e06bfce79f62878ab9a503d8d47",
+   "upstream": "src/late.mjs",
+   "sha256": "a37b4c4723a1ba13d66273db6b1a7e8df3cae980c928fa63ceeb94de68695193"
+  },
+  {
+   "path": "vendor/estate-genome/src/genome.mjs",
+   "repo": "sjgant80-hub/estate-genome",
+   "commit": "faead5a026f44863421ceb2e37ecacad55a8d983",
+   "upstream": "src/genome.mjs",
+   "sha256": "7fdb545fae05ab74578b4a3c3714ecaff894b7a516e4e23b58d427dfecce43d1"
+  },
+  {
+   "path": "vendor/estate-genome/src/run.mjs",
+   "repo": "sjgant80-hub/estate-genome",
+   "commit": "faead5a026f44863421ceb2e37ecacad55a8d983",
+   "upstream": "src/run.mjs",
+   "sha256": "3d0b4b228dc9fce549a49cafc0b9fad7a56133dc1ca76cca8f971ead56171a1f"
+  },
+  {
+   "path": "vendor/estate-genome/src/supervise.mjs",
+   "repo": "sjgant80-hub/estate-genome",
+   "commit": "faead5a026f44863421ceb2e37ecacad55a8d983",
+   "upstream": "src/supervise.mjs",
+   "sha256": "4624112b9ff994950bb6156b9a6f3380a7fd7441804975cc51b2edbe1a5d734b"
+  },
+  {
+   "path": "vendor/estate-genome/template/.github/workflows/genome.yml",
+   "repo": "sjgant80-hub/estate-genome",
+   "commit": "faead5a026f44863421ceb2e37ecacad55a8d983",
+   "upstream": "template/.github/workflows/genome.yml",
+   "sha256": "995f9e06c6b302cda1c9cf6b159a317358654883352149f63a6cf39f0dbd4be3"
+  },
+  {
+   "path": "vendor/estate-genome/template/genome/cell.mjs",
+   "repo": "sjgant80-hub/estate-genome",
+   "commit": "faead5a026f44863421ceb2e37ecacad55a8d983",
+   "upstream": "template/genome/cell.mjs",
+   "sha256": "8092bb2a613d4e0c2895e191e035e49723f89f38d4707419cd204899404704e8"
+  },
+  {
+   "path": "vendor/estate-genome/template/genome/health.mjs",
+   "repo": "sjgant80-hub/estate-genome",
+   "commit": "faead5a026f44863421ceb2e37ecacad55a8d983",
+   "upstream": "template/genome/health.mjs",
+   "sha256": "a13fbaa19ff68249a741a306fc396b1e6d0f9a3af69e00b9246e97c586539810"
+  },
+  {
+   "path": "vendor/estate-genome/template/genome/io.mjs",
+   "repo": "sjgant80-hub/estate-genome",
+   "commit": "faead5a026f44863421ceb2e37ecacad55a8d983",
+   "upstream": "template/genome/io.mjs",
+   "sha256": "79776f724bdf99b9bdcb0da64a47c4c1331a64e88ceac421abe0abb3d066a0dc"
+  },
+  {
+   "path": "vendor/estate-genome/template/genome/judge.mjs",
+   "repo": "sjgant80-hub/estate-genome",
+   "commit": "faead5a026f44863421ceb2e37ecacad55a8d983",
+   "upstream": "template/genome/judge.mjs",
+   "sha256": "2b6218c9083adfa642cd0c9d5d9149aff2aa2926e6d2f5934e3a0caba42b9606"
+  },
+  {
+   "path": "vendor/estate-genome/template/genome/lane.mjs",
+   "repo": "sjgant80-hub/estate-genome",
+   "commit": "faead5a026f44863421ceb2e37ecacad55a8d983",
+   "upstream": "template/genome/lane.mjs",
+   "sha256": "71c0d59ad81d5a77f0387b516833110ffd8248d39f0d31f0e433f96f668b89e5"
+  },
+  {
+   "path": "vendor/estate-genome/template/genome/tombstone.mjs",
+   "repo": "sjgant80-hub/estate-genome",
+   "commit": "faead5a026f44863421ceb2e37ecacad55a8d983",
+   "upstream": "template/genome/tombstone.mjs",
+   "sha256": "f2cd99cd82be917a53add4fb501a183d11d6450704156c9f77321bb9b6ee0408"
+  }
+ ]
+}
