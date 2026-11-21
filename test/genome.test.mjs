@@ -4,6 +4,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
+import { spawnSync } from 'node:child_process';
 import { judge, inLane, act, health } from '../genome/cell.mjs';
 import { describe } from '../vendor/estate-genome/src/genome.mjs';
 import { check } from '../vendor/estate-genome/src/run.mjs';
@@ -33,6 +34,17 @@ test('act folds the corpus into a cell, or says what is missing', async () => {
   assert.equal(r.seed.name, 'kettle-cell');
   assert.equal('index' in r, false);
   assert.equal((await act({ docs: [] })).ok, false);
+});
+
+test('the act hook prints the fold and exits 0, or the refusal and exits 1', () => {
+  const root = fileURLToPath(new URL('../', import.meta.url));
+  const run = (i) => spawnSync(process.execPath, ['genome/act.mjs'], { cwd: root, input: JSON.stringify(i) + '\n', encoding: 'utf8' });
+  const ok = run({ docs: seed.boundary.inLane.corpus, name: 'kettle-cell', title: 'the kettle manual', escalate: 'kar', repo: 'sjgant80-hub/kettle-cell', by: 'Kar', born: '2026-11-21' });
+  assert.equal(ok.status, 0);
+  assert.equal(JSON.parse(ok.stdout).output.seed.name, 'kettle-cell');
+  const no = run({ docs: [] });
+  assert.equal(no.status, 1);
+  assert.deepEqual(JSON.parse(no.stdout), { status: 'refused', why: 'the corpus has no content words to fold: give it plain-text or markdown documents' });
 });
 
 test('health says what the engine cannot measure from inside its repository', async () => {
