@@ -1,0 +1,82 @@
+{
+  "genome": "1",
+  "name": "genome-fold",
+  "kind": "tool",
+  "purpose": "Folds a folder of plain-text or markdown documents into a verified question-answering cell: an index, an extractive answerer with no language model, a judge, a measured lane and a drafted seed, shipped only when the birth check admits it.",
+  "lane": {
+    "id": "corpus-fold",
+    "accepts": "a corpus of plain-text or markdown documents to fold into a cell",
+    "refuses": "anything that is not a text corpus: no documents, text with no content words, or a question with no corpus"
+  },
+  "interface": {
+    "in": "{\"corpus\":[{\"name\":\"<file>\",\"text\":\"<text>\"}]} to fold; with a record {question,source,start,end,text} to audit",
+    "out": "a cell folder (seed.json, index, judge, lane, act hook) admitted by the birth check, or the list of what is missing"
+  },
+  "act": {
+    "run": "node genome/act.mjs",
+    "in": "{\"docs\":[{\"name\":\"<file>\",\"text\":\"<text>\"}],\"name\":\"<slug>\",...}"
+  },
+  "judge": {
+    "what": "an answer record from a folded corpus is right when its text is exactly the cited passage's characters at its offsets and that passage uses at least the folded lane share of the question's content words",
+    "run": "node genome/judge.mjs",
+    "cases": {
+      "good": {
+        "corpus": [
+          {
+            "name": "kettle.md",
+            "text": "# The kettle\n\nThe kettle boils water in about three minutes. Descale the kettle every month with white vinegar.\n\n## Safety\n\nNever fill the kettle above the maximum line. Unplug the kettle before cleaning the element.\n\nThe base must stay dry; wipe spills from the base at once.\n"
+          }
+        ],
+        "record": {
+          "question": "How often should I descale the kettle?",
+          "source": "kettle.md#0",
+          "start": 47,
+          "end": 97,
+          "text": "Descale the kettle every month with white vinegar."
+        }
+      },
+      "bad": {
+        "corpus": [
+          {
+            "name": "kettle.md",
+            "text": "# The kettle\n\nThe kettle boils water in about three minutes. Descale the kettle every month with white vinegar.\n\n## Safety\n\nNever fill the kettle above the maximum line. Unplug the kettle before cleaning the element.\n\nThe base must stay dry; wipe spills from the base at once.\n"
+          }
+        ],
+        "record": {
+          "question": "How often should I descale the kettle?",
+          "source": "kettle.md#0",
+          "start": 47,
+          "end": 97,
+          "text": "dry the kettle every month with white vinegar."
+        }
+      }
+    }
+  },
+  "boundary": {
+    "run": "node genome/lane.mjs",
+    "inLane": {
+      "corpus": [
+        {
+          "name": "kettle.md",
+          "text": "# The kettle\n\nThe kettle boils water in about three minutes. Descale the kettle every month with white vinegar.\n\n## Safety\n\nNever fill the kettle above the maximum line. Unplug the kettle before cleaning the element.\n\nThe base must stay dry; wipe spills from the base at once.\n"
+        }
+      ]
+    },
+    "outOfLane": {
+      "question": "What is the best pizza topping?"
+    },
+    "escalate": "kar"
+  },
+  "health": {
+    "run": "node genome/health.mjs"
+  },
+  "tombstone": {
+    "apply": "node genome/tombstone.mjs apply",
+    "restore": "node genome/tombstone.mjs restore"
+  },
+  "provenance": {
+    "repo": "sjgant80-hub/genome-fold",
+    "by": "Kar, for Simon Gant",
+    "born": "2026-11-21"
+  }
+}
