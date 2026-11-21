@@ -1,0 +1,1699 @@
+{
+ "v": "docdec-v2-record/1",
+ "prereg": "PREREG.md",
+ "splits": {
+  "s1": {
+   "tune": 180,
+   "eval": 420
+  }
+ },
+ "baselinePrefix": {
+  "chosen": "without task prefixes",
+  "tuneAccuracy": {
+   "without": 0.5611,
+   "with": 0.5611
+  }
+ },
+ "globalView": {
+  "themes": [
+   {
+    "title": "Immune_system",
+    "paragraphs": 49,
+    "words": [
+     "immune",
+     "cells",
+     "pathogens",
+     "cell",
+     "adaptive",
+     "immunity"
+    ]
+   },
+   {
+    "title": "Warsaw",
+    "paragraphs": 49,
+    "words": [
+     "warsaw",
+     "polish",
+     "poland",
+     "vistula",
+     "city",
+     "with"
+    ]
+   },
+   {
+    "title": "Computational_complexity_theory",
+    "paragraphs": 48,
+    "words": [
+     "complexity",
+     "computational",
+     "algorithm",
+     "problem",
+     "solved",
+     "input"
+    ]
+   },
+   {
+    "title": "Yuan_dynasty",
+    "paragraphs": 47,
+    "words": [
+     "yuan",
+     "kublai",
+     "mongols",
+     "mongol",
+     "dynasty",
+     "khan"
+    ]
+   },
+   {
+    "title": "French_and_Indian_War",
+    "paragraphs": 46,
+    "words": [
+     "ohio",
+     "fort",
+     "french",
+     "british",
+     "indians",
+     "france"
+    ]
+   },
+   {
+    "title": "Steam_engine",
+    "paragraphs": 46,
+    "words": [
+     "steam",
+     "engine",
+     "engines",
+     "turbine",
+     "boiler",
+     "turbines"
+    ]
+   },
+   {
+    "title": "Economic_inequality",
+    "paragraphs": 44,
+    "words": [
+     "inequality",
+     "income",
+     "that",
+     "economic",
+     "labor",
+     "wealth"
+    ]
+   },
+   {
+    "title": "Force",
+    "paragraphs": 44,
+    "words": [
+     "newton",
+     "force",
+     "gravity",
+     "acceleration",
+     "electromagnetic",
+     "object"
+    ]
+   },
+   {
+    "title": "Huguenot",
+    "paragraphs": 44,
+    "words": [
+     "huguenots",
+     "huguenot",
+     "edict",
+     "nantes",
+     "protestant",
+     "france"
+    ]
+   },
+   {
+    "title": "Rhine",
+    "paragraphs": 44,
+    "words": [
+     "rhine",
+     "flows",
+     "river",
+     "meuse",
+     "waal",
+     "constance"
+    ]
+   },
+   {
+    "title": "Oxygen",
+    "paragraphs": 43,
+    "words": [
+     "oxygen",
+     "molecules",
+     "combustion",
+     "reactive",
+     "atmosphere",
+     "compounds"
+    ]
+   },
+   {
+    "title": "European_Union_law",
+    "paragraphs": 40,
+    "words": [
+     "tfeu",
+     "treaties",
+     "justice",
+     "member",
+     "treaty",
+     "court"
+    ]
+   },
+   {
+    "title": "Imperialism",
+    "paragraphs": 39,
+    "words": [
+     "imperialism",
+     "empire",
+     "colonial",
+     "colonialism",
+     "empires",
+     "africa"
+    ]
+   },
+   {
+    "title": "Islamism",
+    "paragraphs": 39,
+    "words": [
+     "islamist",
+     "islamic",
+     "islamists",
+     "muslim",
+     "brotherhood",
+     "islam"
+    ]
+   },
+   {
+    "title": "Normans",
+    "paragraphs": 39,
+    "words": [
+     "normans",
+     "norman",
+     "normandy",
+     "norse",
+     "byzantine",
+     "crusade"
+    ]
+   },
+   {
+    "title": "Scottish_Parliament",
+    "paragraphs": 39,
+    "words": [
+     "parliament",
+     "scottish",
+     "parliamentary",
+     "presiding",
+     "scotland",
+     "msps"
+    ]
+   },
+   {
+    "title": "Southern_California",
+    "paragraphs": 39,
+    "words": [
+     "california",
+     "diego",
+     "angeles",
+     "bernardino",
+     "riverside",
+     "southern"
+    ]
+   },
+   {
+    "title": "University_of_Chicago",
+    "paragraphs": 37,
+    "words": [
+     "chicago",
+     "university",
+     "graduate",
+     "students",
+     "campus",
+     "academic"
+    ]
+   },
+   {
+    "title": "Ctenophora",
+    "paragraphs": 31,
+    "words": [
+     "ctenophores",
+     "tentacles",
+     "comb",
+     "species",
+     "cilia",
+     "ctenophore"
+    ]
+   },
+   {
+    "title": "Prime_number",
+    "paragraphs": 31,
+    "words": [
+     "primes",
+     "prime",
+     "theorem",
+     "integer",
+     "composite",
+     "numbers"
+    ]
+   },
+   {
+    "title": "Harvard_University",
+    "paragraphs": 30,
+    "words": [
+     "harvard",
+     "cambridge",
+     "university",
+     "college",
+     "undergraduate",
+     "students"
+    ]
+   },
+   {
+    "title": "Fresno,_California",
+    "paragraphs": 28,
+    "words": [
+     "fresno",
+     "neighborhood",
+     "city",
+     "california",
+     "joaquin",
+     "downtown"
+    ]
+   },
+   {
+    "title": "Civil_disobedience",
+    "paragraphs": 26,
+    "words": [
+     "disobedience",
+     "civil",
+     "disobedients",
+     "guilty",
+     "punishment",
+     "arrest"
+    ]
+   },
+   {
+    "title": "Pharmacy",
+    "paragraphs": 26,
+    "words": [
+     "pharmacy",
+     "pharmacists",
+     "medications",
+     "patients",
+     "patient",
+     "pharmacies"
+    ]
+   },
+   {
+    "title": "Private_school",
+    "paragraphs": 26,
+    "words": [
+     "schools",
+     "private",
+     "school",
+     "tuition",
+     "fees",
+     "boarding"
+    ]
+   },
+   {
+    "title": "Geology",
+    "paragraphs": 25,
+    "words": [
+     "rocks",
+     "rock",
+     "geology",
+     "sedimentary",
+     "deformation",
+     "geological"
+    ]
+   },
+   {
+    "title": "Victoria_(Australia)",
+    "paragraphs": 25,
+    "words": [
+     "victoria",
+     "victorian",
+     "melbourne",
+     "australia",
+     "australian",
+     "phillip"
+    ]
+   },
+   {
+    "title": "1973_oil_crisis",
+    "paragraphs": 24,
+    "words": [
+     "1973",
+     "embargo",
+     "price",
+     "crisis",
+     "opec",
+     "1974"
+    ]
+   },
+   {
+    "title": "Intergovernmental_Panel_on_Climate_Change",
+    "paragraphs": 24,
+    "words": [
+     "ipcc",
+     "assessment",
+     "report",
+     "climate",
+     "panel",
+     "graph"
+    ]
+   },
+   {
+    "title": "Black_Death",
+    "paragraphs": 23,
+    "words": [
+     "plague",
+     "bubonic",
+     "fleas",
+     "pandemic",
+     "pestis",
+     "black"
+    ]
+   },
+   {
+    "title": "Packet_switching",
+    "paragraphs": 23,
+    "words": [
+     "network",
+     "packet",
+     "networks",
+     "networking",
+     "packets",
+     "arpanet"
+    ]
+   },
+   {
+    "title": "Construction",
+    "paragraphs": 22,
+    "words": [
+     "construction",
+     "project",
+     "contractor",
+     "contractors",
+     "design",
+     "owner"
+    ]
+   },
+   {
+    "title": "Sky_(United_Kingdom)",
+    "paragraphs": 22,
+    "words": [
+     "bskyb",
+     "digital",
+     "channels",
+     "subscription",
+     "branded",
+     "service"
+    ]
+   },
+   {
+    "title": "Amazon_rainforest",
+    "paragraphs": 21,
+    "words": [
+     "amazon",
+     "rainforest",
+     "forest",
+     "deforestation",
+     "basin",
+     "amazonian"
+    ]
+   },
+   {
+    "title": "Jacksonville,_Florida",
+    "paragraphs": 21,
+    "words": [
+     "jacksonville",
+     "florida",
+     "city",
+     "johns",
+     "consolidated",
+     "augustine"
+    ]
+   }
+  ],
+  "refusedByCheck": {
+   "1": 0,
+   "2": 7,
+   "3": 138,
+   "4": 119,
+   "5": 5
+  }
+ },
+ "chosen": {
+  "B0": {
+   "t": null,
+   "e": null,
+   "reader": false
+  },
+  "B1": {
+   "t": 0.810311,
+   "e": null,
+   "reader": false
+  },
+  "L1": {
+   "t": 0.967617,
+   "e": null,
+   "reader": false
+  },
+  "L1e": {
+   "t": 0.932321,
+   "e": 0.844256,
+   "reader": false
+  },
+  "B1+R": {
+   "t": 0.531129,
+   "e": null,
+   "reader": true
+  },
+  "L1+R": {
+   "t": 0.927045,
+   "e": null,
+   "reader": true
+  },
+  "v2": {
+   "t": 0.927045,
+   "e": 0.750759,
+   "reader": true
+  }
+ },
+ "s1": {
+  "B0": {
+   "setting": {
+    "t": null,
+    "e": null,
+    "reader": false
+   },
+   "n": 420,
+   "answerable": 217,
+   "unanswerable": 203,
+   "right": 145,
+   "answeredAnswerable": 217,
+   "refusedUnanswerable": 0,
+   "recall": 0.6682,
+   "precision": 0.6682,
+   "refusal": 0,
+   "accuracy": 0.3452,
+   "spans": {
+    "answered": 0,
+    "em": null,
+    "f1": null,
+    "audited": 0,
+    "verbatim": 0,
+    "passageWords": null,
+    "sentenceWords": null
+   }
+  },
+  "B1": {
+   "setting": {
+    "t": 0.810311,
+    "e": null,
+    "reader": false
+   },
+   "n": 420,
+   "answerable": 217,
+   "unanswerable": 203,
+   "right": 42,
+   "answeredAnswerable": 54,
+   "refusedUnanswerable": 176,
+   "recall": 0.1935,
+   "precision": 0.7778,
+   "refusal": 0.867,
+   "accuracy": 0.519,
+   "spans": {
+    "answered": 0,
+    "em": null,
+    "f1": null,
+    "audited": 0,
+    "verbatim": 0,
+    "passageWords": null,
+    "sentenceWords": null
+   }
+  },
+  "L1": {
+   "setting": {
+    "t": 0.967617,
+    "e": null,
+    "reader": false
+   },
+   "n": 420,
+   "answerable": 217,
+   "unanswerable": 203,
+   "right": 9,
+   "answeredAnswerable": 9,
+   "refusedUnanswerable": 200,
+   "recall": 0.0415,
+   "precision": 1,
+   "refusal": 0.9852,
+   "accuracy": 0.4976,
+   "spans": {
+    "answered": 0,
+    "em": null,
+    "f1": null,
+    "audited": 0,
+    "verbatim": 0,
+    "passageWords": null,
+    "sentenceWords": null
+   }
+  },
+  "L1e": {
+   "setting": {
+    "t": 0.932321,
+    "e": 0.844256,
+    "reader": false
+   },
+   "n": 420,
+   "answerable": 217,
+   "unanswerable": 203,
+   "right": 59,
+   "answeredAnswerable": 68,
+   "refusedUnanswerable": 149,
+   "recall": 0.2719,
+   "precision": 0.8676,
+   "refusal": 0.734,
+   "accuracy": 0.4952,
+   "spans": {
+    "answered": 0,
+    "em": null,
+    "f1": null,
+    "audited": 0,
+    "verbatim": 0,
+    "passageWords": null,
+    "sentenceWords": null
+   }
+  },
+  "B1+R": {
+   "setting": {
+    "t": 0.531129,
+    "e": null,
+    "reader": true
+   },
+   "n": 420,
+   "answerable": 217,
+   "unanswerable": 203,
+   "right": 122,
+   "answeredAnswerable": 144,
+   "refusedUnanswerable": 171,
+   "recall": 0.5622,
+   "precision": 0.8472,
+   "refusal": 0.8424,
+   "accuracy": 0.6976,
+   "spans": {
+    "answered": 144,
+    "em": 0.7153,
+    "f1": 0.8227,
+    "audited": 176,
+    "verbatim": 176,
+    "passageWords": 93.3636,
+    "sentenceWords": 23.6818
+   }
+  },
+  "L1+R": {
+   "setting": {
+    "t": 0.927045,
+    "e": null,
+    "reader": true
+   },
+   "n": 420,
+   "answerable": 217,
+   "unanswerable": 203,
+   "right": 153,
+   "answeredAnswerable": 170,
+   "refusedUnanswerable": 169,
+   "recall": 0.7051,
+   "precision": 0.9,
+   "refusal": 0.8325,
+   "accuracy": 0.7667,
+   "spans": {
+    "answered": 170,
+    "em": 0.7706,
+    "f1": 0.8626,
+    "audited": 204,
+    "verbatim": 204,
+    "passageWords": 96.8039,
+    "sentenceWords": 23.4363
+   }
+  },
+  "v2": {
+   "setting": {
+    "t": 0.927045,
+    "e": 0.750759,
+    "reader": true
+   },
+   "n": 420,
+   "answerable": 217,
+   "unanswerable": 203,
+   "right": 115,
+   "answeredAnswerable": 128,
+   "refusedUnanswerable": 180,
+   "recall": 0.53,
+   "precision": 0.8984,
+   "refusal": 0.8867,
+   "accuracy": 0.7024,
+   "spans": {
+    "answered": 128,
+    "em": 0.7813,
+    "f1": 0.8689,
+    "audited": 151,
+    "verbatim": 151,
+    "passageWords": 99.1788,
+    "sentenceWords": 23.2649
+   }
+  },
+  "v2 matched": {
+   "setting": {
+    "t": 0.955358,
+    "e": 0.826772,
+    "reader": true
+   },
+   "n": 420,
+   "answerable": 217,
+   "unanswerable": 203,
+   "right": 36,
+   "answeredAnswerable": 41,
+   "refusedUnanswerable": 197,
+   "recall": 0.1659,
+   "precision": 0.878,
+   "refusal": 0.9704,
+   "accuracy": 0.5548,
+   "spans": {
+    "answered": 41,
+    "em": 0.6829,
+    "f1": 0.8379,
+    "audited": 47,
+    "verbatim": 47,
+    "passageWords": 97.766,
+    "sentenceWords": 22.0851
+   }
+  }
+ },
+ "s2": {
+  "B0": {
+   "setting": {
+    "t": null,
+    "e": null,
+    "reader": false
+   },
+   "n": 420,
+   "answerable": 217,
+   "unanswerable": 203,
+   "right": 143,
+   "answeredAnswerable": 217,
+   "refusedUnanswerable": 0,
+   "recall": 0.659,
+   "precision": 0.659,
+   "refusal": 0,
+   "accuracy": 0.3405,
+   "spans": {
+    "answered": 0,
+    "em": null,
+    "f1": null,
+    "audited": 0,
+    "verbatim": 0,
+    "passageWords": null,
+    "sentenceWords": null
+   }
+  },
+  "B1": {
+   "setting": {
+    "t": 0.810311,
+    "e": null,
+    "reader": false
+   },
+   "n": 420,
+   "answerable": 217,
+   "unanswerable": 203,
+   "right": 42,
+   "answeredAnswerable": 54,
+   "refusedUnanswerable": 176,
+   "recall": 0.1935,
+   "precision": 0.7778,
+   "refusal": 0.867,
+   "accuracy": 0.519,
+   "spans": {
+    "answered": 0,
+    "em": null,
+    "f1": null,
+    "audited": 0,
+    "verbatim": 0,
+    "passageWords": null,
+    "sentenceWords": null
+   }
+  },
+  "L1": {
+   "setting": {
+    "t": 0.967617,
+    "e": null,
+    "reader": false
+   },
+   "n": 420,
+   "answerable": 217,
+   "unanswerable": 203,
+   "right": 9,
+   "answeredAnswerable": 9,
+   "refusedUnanswerable": 200,
+   "recall": 0.0415,
+   "precision": 1,
+   "refusal": 0.9852,
+   "accuracy": 0.4976,
+   "spans": {
+    "answered": 0,
+    "em": null,
+    "f1": null,
+    "audited": 0,
+    "verbatim": 0,
+    "passageWords": null,
+    "sentenceWords": null
+   }
+  },
+  "L1e": {
+   "setting": {
+    "t": 0.932321,
+    "e": 0.844256,
+    "reader": false
+   },
+   "n": 420,
+   "answerable": 217,
+   "unanswerable": 203,
+   "right": 59,
+   "answeredAnswerable": 68,
+   "refusedUnanswerable": 149,
+   "recall": 0.2719,
+   "precision": 0.8676,
+   "refusal": 0.734,
+   "accuracy": 0.4952,
+   "spans": {
+    "answered": 0,
+    "em": null,
+    "f1": null,
+    "audited": 0,
+    "verbatim": 0,
+    "passageWords": null,
+    "sentenceWords": null
+   }
+  },
+  "B1+R": {
+   "setting": {
+    "t": 0.531129,
+    "e": null,
+    "reader": true
+   },
+   "n": 420,
+   "answerable": 217,
+   "unanswerable": 203,
+   "right": 120,
+   "answeredAnswerable": 143,
+   "refusedUnanswerable": 173,
+   "recall": 0.553,
+   "precision": 0.8392,
+   "refusal": 0.8522,
+   "accuracy": 0.6976,
+   "spans": {
+    "answered": 143,
+    "em": 0.7133,
+    "f1": 0.8173,
+    "audited": 173,
+    "verbatim": 173,
+    "passageWords": 92.7919,
+    "sentenceWords": 23.6243
+   }
+  },
+  "L1+R": {
+   "setting": {
+    "t": 0.927045,
+    "e": null,
+    "reader": true
+   },
+   "n": 420,
+   "answerable": 217,
+   "unanswerable": 203,
+   "right": 151,
+   "answeredAnswerable": 167,
+   "refusedUnanswerable": 169,
+   "recall": 0.6959,
+   "precision": 0.9042,
+   "refusal": 0.8325,
+   "accuracy": 0.7619,
+   "spans": {
+    "answered": 167,
+    "em": 0.7725,
+    "f1": 0.8661,
+    "audited": 201,
+    "verbatim": 201,
+    "passageWords": 97.0846,
+    "sentenceWords": 23.4428
+   }
+  },
+  "v2": {
+   "setting": {
+    "t": 0.927045,
+    "e": 0.750759,
+    "reader": true
+   },
+   "n": 420,
+   "answerable": 217,
+   "unanswerable": 203,
+   "right": 113,
+   "answeredAnswerable": 126,
+   "refusedUnanswerable": 181,
+   "recall": 0.5207,
+   "precision": 0.8968,
+   "refusal": 0.8916,
+   "accuracy": 0.7,
+   "spans": {
+    "answered": 126,
+    "em": 0.7778,
+    "f1": 0.8668,
+    "audited": 148,
+    "verbatim": 148,
+    "passageWords": 99.1622,
+    "sentenceWords": 23.2095
+   }
+  },
+  "v2 matched": {
+   "setting": {
+    "t": 0.955358,
+    "e": 0.826772,
+    "reader": true
+   },
+   "n": 420,
+   "answerable": 217,
+   "unanswerable": 203,
+   "right": 36,
+   "answeredAnswerable": 41,
+   "refusedUnanswerable": 197,
+   "recall": 0.1659,
+   "precision": 0.878,
+   "refusal": 0.9704,
+   "accuracy": 0.5548,
+   "spans": {
+    "answered": 41,
+    "em": 0.6829,
+    "f1": 0.8379,
+    "audited": 47,
+    "verbatim": 47,
+    "passageWords": 97.766,
+    "sentenceWords": 22.0851
+   }
+  }
+ },
+ "offTopic": {
+  "B1": {
+   "refused": 420,
+   "of": 420,
+   "refusal": 1
+  },
+  "L1": {
+   "refused": 420,
+   "of": 420,
+   "refusal": 1
+  },
+  "L1e": {
+   "refused": 420,
+   "of": 420,
+   "refusal": 1
+  },
+  "B1+R": {
+   "refused": 418,
+   "of": 420,
+   "refusal": 0.9952
+  },
+  "L1+R": {
+   "refused": 419,
+   "of": 420,
+   "refusal": 0.9976
+  },
+  "v2": {
+   "refused": 420,
+   "of": 420,
+   "refusal": 1
+  }
+ },
+ "v1": {
+  "accuracy": 0.4833,
+  "baseline": 0.519,
+  "test": {
+   "n": 420,
+   "a": 203,
+   "b": 218,
+   "aOnly": 27,
+   "bOnly": 42,
+   "p": 0.09118649056701152
+  },
+  "v1Refusal": 1,
+  "baselineRefusal": 0.867,
+  "v1Recall": 0,
+  "baselineRecall": 0.1935
+ },
+ "s3": {
+  "tune": 150,
+  "eval": 350,
+  "paragraphs": 4937,
+  "edges": 5136,
+  "baselinePrefix": "with task prefixes",
+  "lambda": 0.025,
+  "lambdasTried": 61,
+  "pairExact": {
+   "graph": 0.6629,
+   "cosineTop2": 0.5286,
+   "colbertTop2": 0.4743
+  },
+  "recallAt2": {
+   "graph": 0.8,
+   "cosineTop2": 0.7386,
+   "colbertTop2": 0.7214
+  },
+  "bridge": {
+   "n": 282,
+   "graph": 0.6348,
+   "cosine": 0.4326
+  },
+  "comparison": {
+   "n": 68,
+   "graph": 0.7794,
+   "cosine": 0.9265
+  },
+  "answers": {
+   "graph": {
+    "n": 350,
+    "missing": 0,
+    "refused": 131,
+    "em": 0.3743,
+    "f1": 0.4618,
+    "audited": 438,
+    "verbatim": 438
+   },
+   "cosineTop2": {
+    "n": 350,
+    "missing": 0,
+    "refused": 157,
+    "em": 0.3371,
+    "f1": 0.3978,
+    "audited": 386,
+    "verbatim": 386
+   }
+  }
+ },
+ "s4": {
+  "n": 86,
+  "detection": {
+   "linkedToItsOwnOldVersion": 86,
+   "linkedWrong": 0,
+   "notLinked": 0,
+   "rule": "5-word shingle Jaccard >= 0.6, no source ids given"
+  },
+  "retrieval": {
+   "latestMemory": 68,
+   "latestFlat": 23,
+   "staleFlat": 47,
+   "historyAsOf2021": 70
+  },
+  "answers": {
+   "memoryNewValue": 33,
+   "memoryOldValue": 0,
+   "flatNewValue": 15,
+   "flatOldValue": 26
+  }
+ },
+ "s5": {
+  "remembered": 204,
+  "answersGiven": 230,
+  "askedOfRemembered": 230,
+  "refusedLogged": 370,
+  "threshold": 0.966989,
+  "eval": 420,
+  "served": 37,
+  "falseServes": 7,
+  "staleServed": 0,
+  "staleCaught": 8,
+  "warmRight": 284,
+  "coldRight": 286,
+  "metabolismFourMonthsLater": {
+   "kept": 204,
+   "pruned": 0
+  }
+ },
+ "h1": {
+  "nodes": {
+   "article": 3,
+   "paragraph": 130,
+   "sentence": 610
+  },
+  "n": 217,
+  "rank1AnswerBearing": {
+   "cosine": 0.7097,
+   "hyperbolic": 0.1705,
+   "fused": 0.6406
+  },
+  "hubness": {
+   "cosine": 0,
+   "hyperbolic": 0.788,
+   "fused": 0.0323
+  },
+  "test": {
+   "n": 217,
+   "a": 139,
+   "b": 154,
+   "aOnly": 28,
+   "bOnly": 43,
+   "p": 0.09592363141082376
+  },
+  "reproduced": false
+ },
+ "l5": {
+  "routing": {
+   "lookupReadAsLookup": 0.9357,
+   "compositionalReadAsCompositional": 0.4257,
+   "lookupN": 420,
+   "compositionalN": 350
+  },
+  "fastPath": {
+   "corpus": "S2 (1,204 paragraphs)",
+   "fullColbertTop1": 0.8203,
+   "shortlist20ThenColbert": 0.8295,
+   "n": 217
+  }
+ },
+ "claims": {
+  "C1": {
+   "claim": "Finds the specific fact a pooled vector blurs",
+   "pass": true,
+   "detail": {
+    "s1": {
+     "colbert": 0.8295,
+     "cosine": 0.6682,
+     "n": 217,
+     "test": {
+      "n": 217,
+      "a": 180,
+      "b": 145,
+      "aOnly": 43,
+      "bOnly": 8,
+      "p": 6.867117736675254e-7
+     },
+     "pass": true
+    },
+    "s2": {
+     "colbert": 0.8203,
+     "cosine": 0.659,
+     "n": 217,
+     "test": {
+      "n": 217,
+      "a": 178,
+      "b": 143,
+      "aOnly": 44,
+      "bOnly": 9,
+      "p": 0.000001220851017613711
+     },
+     "pass": true
+    },
+    "pass": true
+   }
+  },
+  "C2": {
+   "claim": "Won't answer what it can't ground, better than the baseline",
+   "pass": false,
+   "detail": {
+    "a": {
+     "v2": 0.7024,
+     "baseline": 0.519,
+     "test": {
+      "n": 420,
+      "a": 295,
+      "b": 218,
+      "aOnly": 116,
+      "bOnly": 39,
+      "p": 4.5089591670570646e-10
+     },
+     "pass": true
+    },
+    "b": {
+     "v2Refusal": 0.9704,
+     "baselineRefusal": 0.867,
+     "v2Recall": 0.1659,
+     "baselineRecall": 0.1935,
+     "test": {
+      "n": 203,
+      "a": 197,
+      "b": 176,
+      "aOnly": 27,
+      "bOnly": 6,
+      "p": 0.0003240634687244892
+     },
+     "pass": false
+    },
+    "pass": false
+   }
+  },
+  "C3": {
+   "claim": "Composes two cited sources where single retrieval returns one piece",
+   "pass": true,
+   "detail": {
+    "graph": 0.6629,
+    "cosineTop2": 0.5286,
+    "colbertTop2": 0.4743,
+    "test": {
+     "n": 350,
+     "a": 232,
+     "b": 185,
+     "aOnly": 82,
+     "bOnly": 35,
+     "p": 0.000016504133479434384
+    },
+    "n": 350
+   }
+  },
+  "C4": {
+   "claim": "Precision holds at 9x the corpus",
+   "pass": true,
+   "detail": {
+    "v2": 0.7,
+    "baseline": 0.519,
+    "test": {
+     "n": 420,
+     "a": 294,
+     "b": 218,
+     "aOnly": 114,
+     "bOnly": 38,
+     "p": 5.116445827371417e-10
+    },
+    "pass": true,
+    "precisionS1": 0.8984,
+    "precisionS2": 0.8968
+   }
+  },
+  "C5": {
+   "claim": "Current, not stale",
+   "pass": false,
+   "detail": {
+    "latestMemory": 0.7907,
+    "latestFlat": 0.2674,
+    "history": 0.814,
+    "test": {
+     "n": 86,
+     "a": 68,
+     "b": 23,
+     "aOnly": 45,
+     "bOnly": 0,
+     "p": 5.684341886080802e-14
+    },
+    "n": 86
+   }
+  },
+  "C6": {
+   "claim": "Auditable: every answer is its source’s own words, at offsets anyone can check",
+   "pass": true,
+   "detail": {
+    "audited": 1383,
+    "verbatim": 1383,
+    "pass": true
+   }
+  },
+  "C7": {
+   "claim": "Gets better with use",
+   "pass": false,
+   "detail": {
+    "warmAccuracy": 0.6762,
+    "coldAccuracy": 0.681,
+    "falseServeRate": 0.0345,
+    "readerCallsSaved": 37,
+    "staleServed": 0,
+    "staleCaught": 8,
+    "threshold": 0.966989
+   }
+  }
+ },
+ "examples": {
+  "lateWins": [
+   {
+    "qid": "56de4b5c4396321400ee279a",
+    "question": "Who used the church to unify themselves?",
+    "answers": [
+     "dukes",
+     "the dukes"
+    ],
+    "gold": "Normans#33",
+    "cosine": {
+     "id": "Normans#5",
+     "text": "The descendants of Rollo's Vikings and their Frankish wives would replace the Norse religion and Old Norse language with Catholicism (Christianity) and the Gallo-Romance language of the local people, blending their maternal Frankish heritage with Old Norse traditions and customs to synthesize a unique \"Norman\" culture in the north of France. The Norman language was forged by the adoption of the indigenous langue d'oïl branch of Romance by a Norse-speaking ruling class, and it developed into the regional language that survives today.",
+     "score": 0.570764
+    },
+    "colbert": {
+     "id": "Normans#33",
+     "text": "In the visual arts, the Normans did not have the rich and distinctive traditions of the cultures they conquered. However, in the early 11th century the dukes began a programme of church reform, encouraging the Cluniac reform of monasteries and patronising intellectual pursuits, especially the proliferation of scriptoria and the reconstitution of a compilation of lost illuminated manuscripts. The church was utilised by the dukes as a unifying force for their disparate duchy. The chief monasteries taking part in this \"renaissance\" of Norman art and scholarship were Mont-Saint-Michel, Fécamp, Jumièges, Bec, Saint-Ouen, Saint-Evroul, and Saint-Wandrille. These centres were in contact with the so-called \"Winchester school\", which channeled a pure Carolingian artistic tradition to Normandy. In the final decade of the 11th and first of the 12th century, Normandy experienced a golden age of illustrated manuscripts, but it was brief and the major scriptoria of Normandy ceased to function after the midpoint of the century.",
+     "score": 0.939315,
+     "evidence": [
+      {
+       "token": "used",
+       "matched": "##ilised",
+       "sim": 0.865
+      },
+      {
+       "token": "church",
+       "matched": "church",
+       "sim": 0.885
+      },
+      {
+       "token": "un",
+       "matched": "un",
+       "sim": 0.883
+      },
+      {
+       "token": "##ify",
+       "matched": "##ifying",
+       "sim": 0.853
+      },
+      {
+       "token": "themselves",
+       "matched": "their",
+       "sim": 0.758
+      }
+     ]
+    }
+   },
+   {
+    "qid": "56e16182e3433e1400422e2a",
+    "question": "What is the term for a task that generally lends itself to being solved by a computer?",
+    "answers": [
+     "computational problems",
+     "A computational problem",
+     "computational problem"
+    ],
+    "gold": "Computational_complexity_theory#0",
+    "cosine": {
+     "id": "Computational_complexity_theory#17",
+     "text": "For a precise definition of what it means to solve a problem using a given amount of time and space, a computational model such as the deterministic Turing machine is used. The time required by a deterministic Turing machine M on input x is the total number of state transitions, or steps, the machine makes before it halts and outputs the answer (\"yes\" or \"no\"). A Turing machine M is said to operate within time f(n), if the time required by M on each input of length n is at most f(n). A decision problem A can be solved in time f(n) if there exists a Turing machine operating in time f(n) that solves the problem. Since complexity theory is interested in classifying problems based on their difficulty, one defines sets of problems based on some criteria. For instance, the set of problems solvable within time f(n) on a deterministic Turing machine is then denoted by DTIME(f(n)).",
+     "score": 0.712712
+    },
+    "colbert": {
+     "id": "Computational_complexity_theory#0",
+     "text": "Computational complexity theory is a branch of the theory of computation in theoretical computer science that focuses on classifying computational problems according to their inherent difficulty, and relating those classes to each other. A computational problem is understood to be a task that is in principle amenable to being solved by a computer, which is equivalent to stating that the problem may be solved by mechanical application of mathematical steps, such as an algorithm.",
+     "score": 0.941555,
+     "evidence": [
+      {
+       "token": "term",
+       "matched": "a",
+       "sim": 0.931
+      },
+      {
+       "token": "task",
+       "matched": "task",
+       "sim": 0.896
+      },
+      {
+       "token": "generally",
+       "matched": "a",
+       "sim": 0.827
+      },
+      {
+       "token": "lend",
+       "matched": "relating",
+       "sim": 0.723
+      },
+      {
+       "token": "itself",
+       "matched": "by",
+       "sim": 0.816
+      },
+      {
+       "token": "solved",
+       "matched": "solved",
+       "sim": 0.915
+      },
+      {
+       "token": "computer",
+       "matched": "computer",
+       "sim": 0.937
+      }
+     ]
+    }
+   },
+   {
+    "qid": "56e17a7ccd28a01900c679a2",
+    "question": "In computational complexity theory, what is the term given to describe the baseline abstract question needing to be solved? ",
+    "answers": [
+     "the problem",
+     "a problem",
+     "problem"
+    ],
+    "gold": "Computational_complexity_theory#3",
+    "cosine": {
+     "id": "Computational_complexity_theory#0",
+     "text": "Computational complexity theory is a branch of the theory of computation in theoretical computer science that focuses on classifying computational problems according to their inherent difficulty, and relating those classes to each other. A computational problem is understood to be a task that is in principle amenable to being solved by a computer, which is equivalent to stating that the problem may be solved by mechanical application of mathematical steps, such as an algorithm.",
+     "score": 0.803185
+    },
+    "colbert": {
+     "id": "Computational_complexity_theory#3",
+     "text": "A computational problem can be viewed as an infinite collection of instances together with a solution for every instance. The input string for a computational problem is referred to as a problem instance, and should not be confused with the problem itself. In computational complexity theory, a problem refers to the abstract question to be solved. In contrast, an instance of this problem is a rather concrete utterance, which can serve as the input for a decision problem. For example, consider the problem of primality testing. The instance is a number (e.g. 15) and the solution is \"yes\" if the number is prime and \"no\" otherwise (in this case \"no\"). Stated another way, the instance is a particular input to the problem, and the solution is the output corresponding to the given input.",
+     "score": 0.950727,
+     "evidence": [
+      {
+       "token": "computational",
+       "matched": "computational",
+       "sim": 0.971
+      },
+      {
+       "token": "complexity",
+       "matched": "complexity",
+       "sim": 0.972
+      },
+      {
+       "token": "theory",
+       "matched": "theory",
+       "sim": 0.986
+      },
+      {
+       "token": "term",
+       "matched": "is",
+       "sim": 0.916
+      },
+      {
+       "token": "given",
+       "matched": "for",
+       "sim": 0.954
+      },
+      {
+       "token": "describe",
+       "matched": "refers",
+       "sim": 0.924
+      },
+      {
+       "token": "baseline",
+       "matched": "a",
+       "sim": 0.62
+      },
+      {
+       "token": "abstract",
+       "matched": "abstract",
+       "sim": 0.955
+      },
+      {
+       "token": "question",
+       "matched": "question",
+       "sim": 0.959
+      },
+      {
+       "token": "needing",
+       "matched": "problem",
+       "sim": 0.827
+      },
+      {
+       "token": "solved",
+       "matched": "solved",
+       "sim": 0.958
+      }
+     ]
+    }
+   }
+  ],
+  "lateLoses": [
+   {
+    "qid": "56e16839cd28a01900c67887",
+    "question": "What measure of a computational problem broadly defines the inherent difficulty of the solution?",
+    "answers": [
+     "if its solution requires significant resources",
+     "its solution requires significant resources"
+    ],
+    "gold": "Computational_complexity_theory#1",
+    "cosine": {
+     "id": "Computational_complexity_theory#1",
+     "text": "A problem is regarded as inherently difficult if its solution requires significant resources, whatever the algorithm used. The theory formalizes this intuition, by introducing mathematical models of computation to study these problems and quantifying the amount of resources needed to solve them, such as time and storage. Other complexity measures are also used, such as the amount of communication (used in communication complexity), the number of gates in a circuit (used in circuit complexity) and the number of processors (used in parallel computing). One of the roles of computational complexity theory is to determine the practical limits on what computers can and cannot do.",
+     "score": 0.784804
+    },
+    "colbert": {
+     "id": "Computational_complexity_theory#0",
+     "text": "Computational complexity theory is a branch of the theory of computation in theoretical computer science that focuses on classifying computational problems according to their inherent difficulty, and relating those classes to each other. A computational problem is understood to be a task that is in principle amenable to being solved by a computer, which is equivalent to stating that the problem may be solved by mechanical application of mathematical steps, such as an algorithm.",
+     "score": 0.946715,
+     "evidence": [
+      {
+       "token": "measure",
+       "matched": "science",
+       "sim": 0.758
+      },
+      {
+       "token": "computational",
+       "matched": "computational",
+       "sim": 0.962
+      },
+      {
+       "token": "problem",
+       "matched": "problem",
+       "sim": 0.959
+      },
+      {
+       "token": "broadly",
+       "matched": "a",
+       "sim": 0.712
+      },
+      {
+       "token": "defines",
+       "matched": "is",
+       "sim": 0.945
+      },
+      {
+       "token": "inherent",
+       "matched": "inherent",
+       "sim": 0.873
+      },
+      {
+       "token": "difficulty",
+       "matched": "difficulty",
+       "sim": 0.917
+      },
+      {
+       "token": "solution",
+       "matched": "solved",
+       "sim": 0.906
+      }
+     ]
+    }
+   }
+  ],
+  "offTopic": {
+   "qid": "oos:572634a789a1e219009ac56d",
+   "question": "How is circuit switching allocated ",
+   "nearest": {
+    "id": "Computational_complexity_theory#29",
+    "text": "Many complexity classes are defined using the concept of a reduction. A reduction is a transformation of one problem into another problem. It captures the informal notion of a problem being at least as difficult as another problem. For instance, if a problem X can be solved using an algorithm for Y, X is no more difficult than Y, and we say that X reduces to Y. There are many different types of reductions, based on the method of reduction, such as Cook reductions, Karp reductions and Levin reductions, and the bound on the complexity of reductions, such as polynomial-time reductions or log-space reductions."
+   },
+   "score": 0.937543,
+   "why": "the best source does not support 'allocated'"
+  },
+  "nearMiss": [
+   {
+    "qid": "5ad5316b5b96ef001a10ab73",
+    "question": "What branch of theoretical computer class deals with broadly classifying computational problems by difficulty and class of relationship?",
+    "check": 3,
+    "why": "the best source does not support 'broadly'",
+    "baselineAnswered": {
+     "id": "Computational_complexity_theory#0",
+     "text": "Computational complexity theory is a branch of the theory of computation in theoretical computer science that focuses on classifying computational problems according to their inherent difficulty, and relating those classes to each other. A computational problem is understood to be a task that is in principle amenable to being solved by a computer, which is equivalent to stating that the problem may be solved by mechanical application of mathematical steps, such as an algorithm."
+    },
+    "v2Looked": {
+     "id": "Computational_complexity_theory#0",
+     "text": "Computational complexity theory is a branch of the theory of computation in theoretical computer science that focuses on classifying computational problems according to their inherent difficulty, and relating those classes to each other. A computational problem is understood to be a task that is in principle amenable to being solved by a computer, which is equivalent to stating that the problem may be solved by mechanical application of mathematical steps, such as an algorithm."
+    },
+    "weakestToken": "broadly",
+    "reader": "Computational complexity theory"
+   },
+   {
+    "qid": "5ad3ffd7604f3c001a3ffca7",
+    "question": "What kind of art did the Normans have a rich tradition of?",
+    "check": 4,
+    "why": "the best source does not contain the answer",
+    "baselineAnswered": {
+     "id": "Normans#35",
+     "text": "By far the most famous work of Norman art is the Bayeux Tapestry, which is not a tapestry but a work of embroidery. It was commissioned by Odo, the Bishop of Bayeux and first Earl of Kent, employing natives from Kent who were learned in the Nordic traditions imported in the previous half century by the Danish Vikings."
+    },
+    "v2Looked": {
+     "id": "Normans#35",
+     "text": "By far the most famous work of Norman art is the Bayeux Tapestry, which is not a tapestry but a work of embroidery. It was commissioned by Odo, the Bishop of Bayeux and first Earl of Kent, employing natives from Kent who were learned in the Nordic traditions imported in the previous half century by the Danish Vikings."
+    },
+    "weakestToken": "rich",
+    "reader": "NONE"
+   }
+  ],
+  "grounded": {
+   "qid": "56de4b5c4396321400ee2799",
+   "question": "When did the church reform begin?",
+   "answers": [
+    "early 11th century",
+    "11th century",
+    "in the early 11th century"
+   ],
+   "source": {
+    "id": "Normans#33",
+    "text": "In the visual arts, the Normans did not have the rich and distinctive traditions of the cultures they conquered. However, in the early 11th century the dukes began a programme of church reform, encouraging the Cluniac reform of monasteries and patronising intellectual pursuits, especially the proliferation of scriptoria and the reconstitution of a compilation of lost illuminated manuscripts. The church was utilised by the dukes as a unifying force for their disparate duchy. The chief monasteries taking part in this \"renaissance\" of Norman art and scholarship were Mont-Saint-Michel, Fécamp, Jumièges, Bec, Saint-Ouen, Saint-Evroul, and Saint-Wandrille. These centres were in contact with the so-called \"Winchester school\", which channeled a pure Carolingian artistic tradition to Normandy. In the final decade of the 11th and first of the 12th century, Normandy experienced a golden age of illustrated manuscripts, but it was brief and the major scriptoria of Normandy ceased to function after the midpoint of the century."
+   },
+   "span": {
+    "start": 122,
+    "end": 147,
+    "text": "in the early 11th century"
+   },
+   "sentence": {
+    "start": 113,
+    "end": 394,
+    "text": "However, in the early 11th century the dukes began a programme of church reform, encouraging the Cluniac reform of monasteries and patronising intellectual pursuits, especially the proliferation of scriptoria and the reconstitution of a compilation of lost illuminated manuscripts."
+   },
+   "evidence": [
+    {
+     "token": "church",
+     "matched": "church",
+     "sim": 0.872
+    },
+    {
+     "token": "reform",
+     "matched": "reform",
+     "sim": 0.922
+    },
+    {
+     "token": "begin",
+     "matched": "began",
+     "sim": 0.932
+    }
+   ],
+   "route": "lookup",
+   "routeWhy": "one fact"
+  },
+  "multiHop": {
+   "qid": "5ae67dba55429908198fa5f0",
+   "question": "The Memphis Hustle are based in a suburb of a city with a population of what in 2010?",
+   "answer": "48,982",
+   "type": "bridge",
+   "gold": [
+    "Memphis Hustle",
+    "Southaven, Mississippi"
+   ],
+   "single": [
+    {
+     "id": "Memphis Hustle",
+     "text": "The Memphis Hustle are an American professional basketball team of the NBA G League announced to begin play for the 2017–18 season as an affiliate of the Memphis Grizzlies of the National Basketball Association (NBA). Based in the Memphis suburb of Southaven, Mississippi, the team will play their home games at the Landers Center."
+    },
+    {
+     "id": "Memphis metropolitan area",
+     "text": "The Memphis-Forrest City Combined Statistical Area, TN-MS-AR (CSA) is the commercial and cultural hub of The Mid-South or Ark-Miss-Tenn. The census defined combined statistical area covers ten counties in three states – Tennessee, Mississippi, and Arkansas. As of census 2010 the MSA had a population of 1,324,108 . The Forrest City Micropolitan area was added to the Memphis area in 2012 to form the Memphis-Forrest City Combined Statistical area and had a population of 1,369,548 according to census estimates. The greater Mid-South area as a whole has a population of 2.4 million according to 2013 census estimates. This area is covered by Memphis local news channels and includes the Missouri Bootheel, Northeast Arkansas, West Tennessee, and North Mississippi."
+    }
+   ],
+   "walk": [
+    {
+     "id": "Memphis Hustle",
+     "text": "The Memphis Hustle are an American professional basketball team of the NBA G League announced to begin play for the 2017–18 season as an affiliate of the Memphis Grizzlies of the National Basketball Association (NBA). Based in the Memphis suburb of Southaven, Mississippi, the team will play their home games at the Landers Center."
+    },
+    {
+     "id": "Southaven, Mississippi",
+     "text": "Southaven is a city in DeSoto County, Mississippi, United States. It is a suburb of Memphis, Tennessee, and a principal city in the Memphis metropolitan area. The 2010 census reported a population of 48,982, making Southaven the third largest city in Mississippi. Southaven is traversed from north to south by the I-55/I-69 freeway. The city's name derives from the fact that Southaven is located south of Whitehaven, a neighborhood in Memphis."
+    }
+   ],
+   "linked": true,
+   "composed": {
+    "answer": "48,982",
+    "verdict": false,
+    "spanIn": "b",
+    "cites": [
+     {
+      "id": "Memphis Hustle",
+      "start": 0,
+      "end": 217,
+      "text": "The Memphis Hustle are an American professional basketball team of the NBA G League announced to begin play for the 2017–18 season as an affiliate of the Memphis Grizzlies of the National Basketball Association (NBA)."
+     },
+     {
+      "id": "Southaven, Mississippi",
+      "start": 159,
+      "end": 263,
+      "text": "The 2010 census reported a population of 48,982, making Southaven the third largest city in Mississippi."
+     }
+    ]
+   }
+  },
+  "fresh": {
+   "qid": "56ddde6b9a695914005b9628",
+   "question": "In what country is Normandy located?",
+   "oldAnswer": "France",
+   "newAnswer": "William the Conqueror",
+   "v1": {
+    "id": "Normans#0@v1",
+    "text": "The Normans (Norman: Nourmands; French: Normands; Latin: Normanni) were the people who in the 10th and 11th centuries gave their name to Normandy, a region in France. They were descended from Norse (\"Norman\" comes from \"Norseman\") raiders and pirates from Denmark, Iceland and Norway who, under their leader Rollo, agreed to swear fealty to King Charles III of West Francia. Through generations of assimilation and mixing with the native Frankish and Roman-Gaulish populations, their descendants would gradually merge with the Carolingian-based cultures of West Francia. The distinct cultural and ethnic identity of the Normans emerged initially in the first half of the 10th century, and it continued to evolve over the succeeding centuries.",
+    "validFrom": "2020-01-01"
+   },
+   "v2": {
+    "id": "Normans#0@v2",
+    "text": "The Normans (Norman: Nourmands; French: Normands; Latin: Normanni) were the people who in the 10th and 11th centuries gave their name to Normandy, a region in William the Conqueror. They were descended from Norse (\"Norman\" comes from \"Norseman\") raiders and pirates from Denmark, Iceland and Norway who, under their leader Rollo, agreed to swear fealty to King Charles III of West Francia. Through generations of assimilation and mixing with the native Frankish and Roman-Gaulish populations, their descendants would gradually merge with the Carolingian-based cultures of West Francia. The distinct cultural and ethnic identity of the Normans emerged initially in the first half of the 10th century, and it continued to evolve over the succeeding centuries.",
+    "validFrom": "2026-06-01"
+   },
+   "flatPicked": "Normans#0@v1",
+   "memoryPicked": "Normans#0@v2",
+   "flatSaid": "France",
+   "memorySaid": null
+  },
+  "refusedAnswerable": [
+   {
+    "qid": "56de4c324396321400ee27ab",
+    "question": "What kind of needlework was used in the creation of the Bayeux Tapestry?",
+    "answers": [
+     "embroidery"
+    ],
+    "why": "the best source does not support 'needle'",
+    "check": 3
+   },
+   {
+    "qid": "56e16182e3433e1400422e28",
+    "question": "What branch of theoretical computer science deals with broadly classifying computational problems by difficulty and class of relationship?",
+    "answers": [
+     "Computational complexity theory"
+    ],
+    "why": "the best source does not support 'broadly'",
+    "check": 3
+   }
+  ],
+  "answeredUnanswerable": [
+   {
+    "qid": "5ad3fe0d604f3c001a3ffc1c",
+    "question": "What is the most common form of Norman art in churches?",
+    "source": {
+     "id": "Normans#36",
+     "text": "In Britain, Norman art primarily survives as stonework or metalwork, such as capitals and baptismal fonts. In southern Italy, however, Norman artwork survives plentifully in forms strongly influenced by its Greek, Lombard, and Arab forebears. Of the royal regalia preserved in Palermo, the crown is Byzantine in style and the coronation cloak is of Arab craftsmanship with Arabic inscriptions. Many churches preserve sculptured fonts, capitals, and more importantly mosaics, which were common in Norman Italy and drew heavily on the Greek heritage. Lombard Salerno was a centre of ivorywork in the 11th century and this continued under Norman domination. Finally should be noted the intercourse between French Crusaders traveling to the Holy Land who brought with them French artefacts with which to gift the churches at which they stopped in southern Italy amongst their Norman cousins. For this reason many south Italian churches preserve works from France alongside their native pieces."
+    },
+    "span": {
+     "start": 466,
+     "end": 473,
+     "text": "mosaics"
+    }
+   },
+   {
+    "qid": "5ad532575b96ef001a10ab7e",
+    "question": "What are three basic primary resources used to gauge complexity?",
+    "source": {
+     "id": "Computational_complexity_theory#18",
+     "text": "Analogous definitions can be made for space requirements. Although time and space are the most well-known complexity resources, any complexity measure can be viewed as a computational resource. Complexity measures are very generally defined by the Blum complexity axioms. Other complexity measures used in complexity theory include communication complexity, circuit complexity, and decision tree complexity."
+    },
+    "span": {
+     "start": 67,
+     "end": 81,
+     "text": "time and space"
+    }
+   }
+  ]
+ },
+ "complete": true,
+ "sources": {
+  "squadSha256": "80a5225e94905956a6446d296ca1093975c4d3b3260f1d6c8f68bc2ab77182d8",
+  "hotpotSha256": "c20b638ca82b21d04fe12e14ff417ad05153d4d215a65de54497fca4e972f7c6",
+  "colbert": "answerdotai/answerai-colbert-small-v1 model_int8.onnx sha256 de45baeaa7a48cda647fcf71582e2a0920dca303654034570aa6144d84526283",
+  "reader": "qwen2.5:7b",
+  "readerOptions": {
+   "temperature": 0,
+   "seed": 7,
+   "num_ctx": 4096,
+   "num_predict": 48
+  },
+  "readerThreads": {
+   "12": 1343,
+   "Ollama default (6 on this laptop)": 826
+  }
+ }
+}

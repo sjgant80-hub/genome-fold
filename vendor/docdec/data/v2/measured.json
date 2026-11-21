@@ -1,0 +1,45 @@
+{
+ "machine": {
+  "cpu": "12th Gen Intel(R) Core(TM) i7-1255U",
+  "cores": 12,
+  "memoryGb": 16,
+  "gpu": "none used"
+ },
+ "n": 30,
+ "medianMs": {
+  "colbertEncodeQuestion": 132.3,
+  "maxsimOver130": 384.9,
+  "maxsimOver1204": 3170.9,
+  "cosineOver1204": 3.4,
+  "graphWalk": 0.3,
+  "reader": 12289.8
+ },
+ "readerTokens": {
+  "promptMean": 220.7,
+  "outputMean": 4.8,
+  "tokenizer": "qwen2.5:7b (its own tokenizer, as reported by Ollama)"
+ },
+ "network": {
+  "connections": [
+   [
+    "127.0.0.1",
+    1
+   ]
+  ],
+  "outside": [],
+  "localOnly": true
+ },
+ "conditions": {
+  "otherModelsLoaded": [
+   "qwen2.5:14b"
+  ],
+  "readerReloads": 4,
+  "quiet": false
+ },
+ "c8": {
+  "localOnly": true,
+  "mediansPublished": true,
+  "pass": true
+ },
+ "localSecondsPerQuestion": 15.6
+}
