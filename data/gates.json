@@ -1,0 +1,65 @@
+{
+ "witness": "v0.6",
+ "files": {
+  "src/fold.mjs": {
+   "test": "test/fold.test.mjs",
+   "total": 70,
+   "killed": 70,
+   "clean": true
+  },
+  "src/writer.mjs": {
+   "test": "test/writer.test.mjs",
+   "total": 6,
+   "killed": 6,
+   "clean": true
+  },
+  "bin/fold.mjs": {
+   "test": "test/cli.test.mjs",
+   "total": 4,
+   "killed": 4,
+   "clean": true
+  },
+  "cell-template/genome/act.mjs": {
+   "test": "test/cell.test.mjs",
+   "total": 1,
+   "killed": 1,
+   "clean": true
+  },
+  "genome/act.mjs": {
+   "test": "test/genome.test.mjs",
+   "total": 1,
+   "killed": 1,
+   "clean": true
+  },
+  "src/measure.mjs": {
+   "test": "test/measure.test.mjs",
+   "total": 18,
+   "killed": 18,
+   "clean": true
+  },
+  "src/page.mjs": {
+   "test": "test/page.test.mjs",
+   "total": 22,
+   "killed": 22,
+   "clean": true
+  },
+  "src/build-page.mjs": {
+   "test": "test/page.test.mjs",
+   "total": 9,
+   "killed": 9,
+   "clean": true
+  },
+  "page/loader.js": {
+   "test": "test/page.test.mjs",
+   "total": 2,
+   "killed": 2,
+   "clean": true
+  },
+  "examples/consumer-rights-act/prepare.mjs": {
+   "test": "test/prepare.test.mjs",
+   "total": 36,
+   "killed": 36,
+   "clean": true
+  }
+ }
+}

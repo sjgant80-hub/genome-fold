@@ -1,0 +1,1278 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Genome Fold</title>
+<meta name="description" content="Fold a folder of documents into a verified question-answering cell: no language model, every answer the documents' own words with their offsets, admitted only when the estate genome's birth check passes.">
+<style>
+:root {
+  --bg: #fbfaf7; --surface: #ffffff; --ink: #1d232b; --muted: #5a6573; --line: #dfe3e8; --accent: #1f5fae; --accent-ink: #ffffff;
+  --ok: #1d7a3e; --no: #b3261e; --na: #6b6f76; --mark: #fff0a8; --mark-ink: #1d232b; --code: #f1f3f6;
+  --b-verified: #dff3e6; --b-unverified: #fdf0d5; --b-refused: #f9e0de;
+  --radius: 10px; --gap: 16px; --font: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12161b; --surface: #1a2028; --ink: #e8ecf1; --muted: #a3adb9; --line: #2e3742; --accent: #7fb0f0; --accent-ink: #0d1117;
+    --ok: #6fd28e; --no: #f2a39d; --na: #a3adb9; --mark: #6a5a10; --mark-ink: #fff7d1; --code: #232b35;
+    --b-verified: #173a25; --b-unverified: #3d3014; --b-refused: #42201d; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12161b; --surface: #1a2028; --ink: #e8ecf1; --muted: #a3adb9; --line: #2e3742; --accent: #7fb0f0; --accent-ink: #0d1117;
+  --ok: #6fd28e; --no: #f2a39d; --na: #a3adb9; --mark: #6a5a10; --mark-ink: #fff7d1; --code: #232b35;
+  --b-verified: #173a25; --b-unverified: #3d3014; --b-refused: #42201d; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.6 var(--font); overflow-wrap: break-word; }
+main, header.top, footer { max-width: 940px; margin: 0 auto; padding: 0 16px; }
+header.top { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 14px; }
+header.top .brand { font-weight: 700; letter-spacing: .01em; }
+nav.toc { max-width: 940px; margin: 8px auto 0; padding: 0 16px; display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 14px; }
+nav.toc a { color: var(--accent); text-decoration: none; }
+nav.toc a:hover, nav.toc a:focus { text-decoration: underline; }
+h1 { font-size: clamp(26px, 5.4vw, 40px); line-height: 1.15; margin: 22px 0 10px; }
+h2 { font-size: clamp(21px, 4vw, 27px); margin: 44px 0 10px; padding-top: 8px; border-top: 1px solid var(--line); }
+h3 { font-size: 19px; margin: 26px 0 8px; }
+h4 { font-size: 16px; margin: 18px 0 6px; }
+p, li { max-width: 72ch; }
+a { color: var(--accent); overflow-wrap: anywhere; }
+.lede { font-size: 18px; color: var(--muted); }
+.small { font-size: 13px; color: var(--muted); }
+code, pre { font-family: var(--mono); font-size: 13.5px; background: var(--code); border-radius: 6px; }
+code { padding: 1px 5px; overflow-wrap: anywhere; }
+pre { padding: 12px; overflow-x: auto; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 420px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; margin: 14px 0; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+.grid .card { margin: 0; }
+.cta { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0; }
+button, .button { font: inherit; font-weight: 600; border: 1px solid var(--accent); background: var(--accent); color: var(--accent-ink); padding: 9px 16px;
+  border-radius: 8px; cursor: pointer; text-decoration: none; display: inline-block; }
+button.ghost, .button.ghost { background: transparent; color: var(--accent); }
+button:disabled { opacity: .5; cursor: not-allowed; }
+button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+label { display: block; font-weight: 600; margin: 12px 0 4px; }
+textarea, input[type="text"] { width: 100%; font: 14px/1.5 var(--mono); color: var(--ink); background: var(--surface); border: 1px solid var(--line);
+  border-radius: 8px; padding: 10px; }
+textarea { min-height: 200px; resize: vertical; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; margin: 8px 0; }
+th, td { text-align: left; vertical-align: top; padding: 7px 8px; border-bottom: 1px solid var(--line); }
+thead th { color: var(--muted); font-weight: 600; }
+.scroll { overflow-x: auto; }
+.badge { display: inline-block; font-size: 12px; font-weight: 700; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--line); }
+.b-verified { background: var(--b-verified); } .b-unverified { background: var(--b-unverified); } .b-refused { background: var(--b-refused); }
+.ok { color: var(--ok); font-weight: 700; } .no { color: var(--no); font-weight: 700; } .na { color: var(--na); font-weight: 700; }
+mark { background: var(--mark); color: var(--mark-ink); padding: 0 2px; border-radius: 3px; }
+blockquote.passage { margin: 8px 0; padding: 10px 12px; border-left: 4px solid var(--accent); background: var(--surface); border-radius: 0 8px 8px 0; font-size: 14.5px; }
+.ptitle { font-size: 12.5px; color: var(--muted); margin-bottom: 4px; }
+ol.flow { list-style: none; padding: 0; margin: 12px 0; display: grid; gap: 8px; counter-reset: s; }
+ol.flow > li { counter-increment: s; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 12px 10px 46px; position: relative; max-width: none; }
+ol.flow > li::before { content: counter(s); position: absolute; left: 12px; top: 10px; width: 24px; height: 24px; border-radius: 50%; background: var(--accent);
+  color: var(--accent-ink); font-weight: 700; font-size: 13px; display: grid; place-items: center; }
+ol.flow > li + li::after { content: ""; position: absolute; left: 23px; top: -9px; width: 2px; height: 9px; background: var(--line); }
+details { margin: 8px 0; } summary { cursor: pointer; font-weight: 600; }
+.theme { font-size: 13px; padding: 6px 10px; }
+footer { margin-top: 48px; padding-bottom: 40px; font-size: 14px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 16px; }
+@media (max-width: 480px) { body { font-size: 15.5px; } th, td { padding: 6px 5px; } .card { padding: 12px; } }
+
+</style>
+</head>
+<body>
+<header class="top">
+  <span class="brand">Genome Fold</span>
+  <button class="ghost theme" id="theme" type="button" aria-label="Switch between light and dark">Light / dark</button>
+</header>
+<nav class="toc" aria-label="On this page">
+  <a href="#start">Start here</a><a href="#try">Try it</a><a href="#how">How it works</a><a href="#trace">A real run</a><a href="#measured">Measured</a>
+  <a href="#blueprint">Blueprint</a><a href="#adoption">For your business</a><a href="#limits">Limits</a><a href="#paper">The explainer</a>
+</nav>
+<main>
+<h1>Turn a folder of documents into a question-answering cell you can check.</h1>
+<p class="lede">Genome Fold reads your documents (plain text or markdown) and builds a small, self-contained answerer from them. It uses no
+language model. Every answer is a sentence of your documents, copied word for word, with the passage it came from and its exact
+character positions, so anyone can check it. Questions outside the documents' subject are refused. The result ships as its own
+repository only when the estate genome's birth check admits it.</p>
+<div class="cta"><a class="button" href="#try">Fold a document now</a><a class="button ghost" href="https://sjgant80-hub.github.io/consumer-rights-cell/">See a folded cell: the Consumer Rights Act 2015</a></div>
+
+<h2 id="start">Start here</h2>
+<ol>
+  <li><strong>Try it in this page.</strong> Paste a few paragraphs into the box below (or pick .md / .txt files), give them a title and press
+    <em>Fold it</em>. The fold runs in your browser; nothing is sent anywhere.</li>
+  <li><strong>Read what came out.</strong> You see the passages it found, the lane it chose (which questions it will take), the judge's two test
+    cases and the birth check as far as a browser can run it.</li>
+  <li><strong>Ask it.</strong> Type a question. You get a verified sentence with its source and offsets, or a refusal that says why.</li>
+  <li><strong>Fold for real.</strong> On your own machine, with Node 20 or later:
+<pre>git clone https://github.com/sjgant80-hub/genome-fold
+node genome-fold/bin/fold.mjs my-docs/ my-cell/ --name my-cell --title "our returns policy" \
+  --repo your-org/my-cell --by "your name" --escalate "your team"</pre>
+    The folder <code>my-cell/</code> appears only if the birth check admits it; otherwise you get the list of what is missing. Push it as a
+    repository and its own CI runs the birth check on every push.</li>
+</ol>
+
+<h2 id="try">Try it: fold a corpus in your browser</h2>
+<div class="card">
+  <label for="title">What are these documents? (becomes the cell's title)</label>
+  <input type="text" id="title" value="the Harbour Kayak Club handbook">
+  <label for="corpus">The documents (a made-up example to start; a line like <code>=== name.md ===</code> starts another document)</label>
+  <textarea id="corpus" spellcheck="false">=== safety.md ===
+# Safety on the water
+
+Every paddler must wear a buoyancy aid at all times on the water. Helmets are required on the river below the weir.
+
+Club boats may only be taken out when two or more members are present. Sign the boat log before launching and again when you return.
+
+## Weather
+
+Sessions are cancelled when the wind is forecast above 20 knots. The duty coach makes the call by 8am on the club group.
+
+=== membership.md ===
+# Membership
+
+Full membership runs from 1 April to 31 March. Juniors under 16 must be signed up by a parent or guardian.
+
+New members complete a two-hour induction before they can borrow club kayaks. The induction covers capsize drills and rescues.
+
+Fees are refunded in full if you cancel within 14 days of joining.</textarea>
+  <label for="files">Or add .md / .txt files from your computer</label>
+  <input type="file" id="files" accept=".md,.markdown,.txt,text/plain,text/markdown" multiple>
+  <div class="cta"><button type="button" id="fold">Fold it</button></div>
+  <div id="fold-out" aria-live="polite"><p class="small">Press <em>Fold it</em> to see the cell.</p></div>
+</div>
+<div class="card">
+  <label for="question">Ask the folded cell</label>
+  <input type="text" id="question" value="How long is the induction for new members?">
+  <div class="cta"><button type="button" id="ask" disabled>Ask</button></div>
+  <div id="answer-out" aria-live="polite"><p class="small">Fold a corpus first.</p></div>
+</div>
+
+<h2 id="how">How it works</h2>
+<p>Seven steps, all of them small enough to check by hand. The same code runs in this page and on the command line: the page carries the
+kernel's files byte for byte, and its test fails if they ever differ.</p>
+<ol class="flow">
+  <li><strong>Passages.</strong> Each document is cut at blank lines and headings. A heading becomes the title of the passages under it.</li>
+  <li><strong>Index.</strong> Every word of every passage is counted, so the cell knows which words are rare (they matter more) and which are common.</li>
+  <li><strong>Answerer.</strong> For a question, the passage that best carries the question's words wins (a standard word-overlap score, BM25), and in
+    it the sentence that carries the most of them. Its exact character positions are found with DocDec's own span finder.</li>
+  <li><strong>Judge.</strong> An answer record is <em>verified</em> only when its text is exactly the passage's characters at those positions and that
+    passage uses enough of the question's words. Change one word and it is not verified. A record that is not an answer record is refused.</li>
+  <li><strong>Lane.</strong> A question is in the cell's lane when enough of its words are words the documents use. "Enough" is chosen, not guessed: the
+    engine writes questions from the documents' own rarest words, takes a fixed set of everyday off-topic questions, picks the share that
+    best separates the two on half of them, and measures it on the other half.</li>
+  <li><strong>Cases and seed.</strong> The judge's good case is a real sentence record the cell verifies; its bad case is the same record with one
+    word altered. The engine drafts the cell's <code>seed.json</code>: what it is, its lane, its judge, its hooks and where it came from.</li>
+  <li><strong>Birth check.</strong> The estate genome's check runs the cell's own hooks: it must describe itself, its judge must tell the good case
+    from the bad, its health and reversible tombstone must work, and its lane must take the in-lane sample and refuse the off-topic one.
+    Only then is the folder written.</li>
+</ol>
+
+<h2 id="trace">A real run: the Consumer Rights Act 2015, Part 1</h2>
+<p>Folded on 2026-11-21 with the command line, from the text as published on legislation.gov.uk. The cell is live:
+<a href="https://sjgant80-hub.github.io/consumer-rights-cell/">https://sjgant80-hub.github.io/consumer-rights-cell/</a> (repository <a href="https://github.com/sjgant80-hub/consumer-rights-cell">sjgant80-hub/consumer-rights-cell</a>).</p>
+<ol class="flow">
+<li><strong>The source.</strong> Part 1 of the Consumer Rights Act 2015 (sections 1 to 60), as revised to 29 October 2026, fetched as XML from <a href="https://www.legislation.gov.uk/ukpga/2015/15/part/1/data.xml">https://www.legislation.gov.uk/ukpga/2015/15/part/1/data.xml</a>
+(sha256 <code>d43c398aa31fa46f…</code>) and turned into 5 markdown files, one per chapter, by
+<code>examples/consumer-rights-act/prepare.mjs</code>. Contains public sector information licensed under the Open Government Licence v3.0.</li>
+<li><strong>Passages and index.</strong> 372 passages (one per subsection) under 60 section headings.</li>
+<li><strong>Lane.</strong> 372 questions written from the Act's own rarest words, against the fixed off-topic set. <p>in lane when at least 50% of the question&#39;s content words appear as whole words in the indexed passages.</p><table><thead><tr><th></th><th>in-lane accepted</th><th>off-topic refused</th><th>questions</th></tr></thead><tbody><tr><th scope="row">tune (chose the share)</th><td>1</td><td>0.9333</td><td>186 + 30</td></tr><tr><th scope="row">eval (measured it)</th><td>1</td><td>0.8667</td><td>186 + 30</td></tr></tbody></table></li>
+<li><strong>The judge's cases.</strong> <ul><li>good case (a real sentence record), for the question “Where is oral implied explained?”: <code>01-chapter-1.md#1</code> 0–128: “(2) It applies whether the contract is written or oral or implied from the parties&#39; conduct, or more than one of these combined.” → <span class="badge b-verified">verified</span></li><li>bad case (the same record, one word altered): <code>01-chapter-1.md#1</code> 0–128: “(2) It apply whether the contract is written or oral or implied from the parties&#39; conduct, or more than one of these combined.” → <span class="badge b-unverified">not verified</span></li></ul></li>
+<li><strong>Lane samples.</strong> In lane: “Where is oral implied explained?”. Out of lane: “What is the best pizza topping?”.</li>
+<li><strong>Seed and birth check.</strong> The drafted seed.json passed the manifest check, and the birth check on the written folder said:
+<code>ADMITTED: a cell (4 of 4: describe yes, verify yes, prune yes, boundary yes)</code>. In the cell's own CI: <a href="https://github.com/sjgant80-hub/consumer-rights-cell/actions/runs/44923296581">ADMITTED: a cell (4 of 4: describe yes, verify yes, prune yes, boundary yes)</a>.</li>
+<li><strong>Asking it.</strong> Three questions, as they came out (the second is a miss, kept to show what verified does and does not mean):<div class="card"><p><strong>“Must a service be performed with reasonable care and skill?”</strong></p><p><span class="badge b-verified">verified</span> <strong>(1) Every contract to supply a service is to be treated as including a term that the trader must perform the service with reasonable care and skill.</strong></p><p class="small">source <code>04-chapter-4.md#9</code>, characters 0 to 148</p><blockquote class="passage"><div class="ptitle">Section 49: Service to be performed with reasonable care and skill · <code>04-chapter-4.md#9</code></div><mark>(1) Every contract to supply a service is to be treated as including a term that the trader must perform the service with reasonable care and skill.</mark></blockquote></div><div class="card"><p><strong>“How long do I have to reject faulty goods?”</strong></p><p><span class="badge b-verified">verified</span> <strong>(2) If the consumer is entitled to reject the goods in an instalment, but does not reject all of those goods, the consumer— (a) may reject some or all of the goods in the instalment that do not conform to the contract, but (b) may not reject any goods in the instalment that do conform to the contract.</strong></p><p class="small">source <code>02-chapter-2.md#104</code>, characters 0 to 302</p><blockquote class="passage"><div class="ptitle">Section 21: Partial rejection of goods · <code>02-chapter-2.md#104</code></div><mark>(2) If the consumer is entitled to reject the goods in an instalment, but does not reject all of those goods, the consumer— (a) may reject some or all of the goods in the instalment that do not conform to the contract, but (b) may not reject any goods in the instalment that do conform to the contract.</mark></blockquote><p class="small">Verified, but not the answer: the sentence really is in the Act at those positions (section 21, partial rejection), yet the time limit for the short-term right to reject (30 days) is in section 22(3). Verified means the words are there, not that they are the best answer.</p></div><div class="card"><p><strong>“What is the best pizza topping?”</strong></p><p><span class="badge b-refused">refused</span> out of lane: too few of the question&#39;s words are words this corpus uses · escalated to <code>kar</code></p></div></li>
+</ol>
+
+<h2 id="measured">Measured, and pre-registered</h2>
+<p>Before any number was computed, the rules were written down and committed (<a href="https://github.com/sjgant80-hub/genome-fold/blob/main/PREREG.md">PREREG.md</a>).
+The test set is DocDec's S1 set: 130 Wikipedia paragraphs from SQuAD 2.0 (Rajpurkar, Jia and Liang, 2018; CC BY-SA 4.0), with 420 held-out
+questions about them and 420 off-topic ones. The engine never saw any of these questions: its only tuned number, the lane share, came from
+its own generated questions. DocDec v2's published numbers on the same questions sit beside each one.</p>
+<div class="scroll"><table>
+  <thead><tr><th>#</th><th>What</th><th>This cell</th><th>DocDec v2 (published)</th><th>Rule</th><th>Result</th></tr></thead>
+  <tbody><tr><th scope="row">M1</th><td>Right passage (answerer alone)</td><td>0.7051 <span class="small">(153 of 217 answerable)</span></td><td>0.8295 (ColBERT top-1); cosine 0.6682</td><td>at least 0.6682</td><td><span class="ok">pass</span></td></tr><tr><th scope="row">M2</th><td>Off-topic refused (no verified answer leaves)</td><td>0.9786 <span class="small">(411 of 420 off-topic)</span></td><td>1</td><td>at least 0.82</td><td><span class="ok">pass</span></td></tr><tr><th scope="row">M2lane</th><td>Off-topic refused by the lane alone</td><td>0.6738 <span class="small">(283 of 420 off-topic)</span></td><td>—</td><td>at least 0.82</td><td><span class="no">fail</span></td></tr><tr><th scope="row">M3</th><td>Answerable answered with a verified record</td><td>0.47 <span class="small">(102 of 217 answerable)</span></td><td>0.5899</td><td>at least 0.5899</td><td><span class="no">fail</span></td></tr><tr><th scope="row">M3right</th><td>… and from the right passage</td><td>0.3733 <span class="small">(81 of 217 answerable)</span></td><td>0.53</td><td>at least 0.53</td><td><span class="no">fail</span></td></tr><tr><th scope="row">M4</th><td>Unanswerable refused</td><td>0.3448 <span class="small">(70 of 203 unanswerable)</span></td><td>0.8867</td><td>at least 0.8867</td><td><span class="no">fail</span></td></tr><tr><th scope="row">M5</th><td>Verified record holds a gold answer</td><td>0.3134 <span class="small">(68 of 217 answerable)</span></td><td>0.4608 (exact short answers)</td><td>at least 0.4608</td><td><span class="no">fail</span></td></tr><tr><th scope="row">M6</th><td>Median time of one answer, this laptop</td><td>0.591 ms <span class="small">(840 questions)</span></td><td>15.6 s (local reader)</td><td>at most 100 ms</td><td><span class="ok">pass</span></td></tr></tbody>
+</table></div>
+<p><strong>Three of eight pass; five fail, and they stay failed.</strong> The no-model cell finds the right passage more often than DocDec's
+cosine baseline and refuses nearly all off-topic questions, in well under a millisecond. It answers fewer questions than DocDec v2 does,
+and it does <em>not</em> refuse SQuAD's unanswerable questions: they are written to look answerable from a real paragraph, and a word-overlap
+lane cannot tell. This cell has no reader and no 34 MB model; DocDec v2 has both. The comparison shows what checking without a model buys,
+not that it does DocDec's job. CI re-derives every number here except the timing, from the shipped data and the upstream file.</p>
+
+<h2 id="blueprint">Blueprint</h2>
+<p>Five organs, built and gated one at a time, plus the demo corpus's converter. Every file of logic is mutation-tested by witness v0.6: each decision point is flipped in turn
+and the tests must notice. CLEAN means every flip was caught, with no exemptions.</p>
+<div class="scroll"><table>
+  <thead><tr><th>Organ</th><th>Files</th><th>What it does</th><th>Gate</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Vendored pieces</th><td><code>vendor/</code></td><td>DocDec's span finder and sentence finder, DocDec's lane share and its tune/eval measurement, and the estate
+      genome's birth check and hooks, copied byte for byte at pinned commits (<code>vendor/VENDOR.json</code>).</td><td>parity test against upstream</td></tr>
+    <tr><th scope="row">Fold kernel</th><td><code>src/fold.mjs</code></td><td>Passages, index, answerer, judge, lane, cases, the drafted seed, the manifest check. Pure, no I/O, the same in Node and the browser.</td><td>CLEAN 70/70, 18 exports fuzzed</td></tr>
+    <tr><th scope="row">Cell writer</th><td><code>src/writer.mjs</code>, <code>bin/fold.mjs</code>, <code>cell-template/</code></td><td>Reads the corpus folder, writes the cell, runs the birth check, and moves the
+      cell into place only when it is admitted.</td><td>CLEAN 6/6; CLI CLEAN 4/4; the cell's act hook CLEAN 1/1; the engine's act hook CLEAN 1/1</td></tr>
+    <tr><th scope="row">Measurement</th><td><code>src/measure.mjs</code>, <code>PREREG.md</code>, <code>data/</code></td><td>The pre-registered numbers, re-derived in CI.</td><td>CLEAN 18/18</td></tr>
+    <tr><th scope="row">Pages</th><td><code>src/page.mjs</code>, <code>src/build-page.mjs</code>, <code>page/</code></td><td>This page and every folded cell's page: the kernel's files carried byte for byte, linked in the browser.</td><td>CLEAN 22/22; builder CLEAN 9/9; loader CLEAN 2/2</td></tr>
+    <tr><th scope="row">Demo corpus</th><td><code>examples/consumer-rights-act/</code></td><td>The Act's XML from legislation.gov.uk and the converter that turns it into one markdown file per chapter.</td><td>CLEAN 36/36</td></tr>
+  </tbody>
+</table></div>
+<p>A folded cell holds: <code>seed.json</code>; <code>data/</code> (the passages, the lane measurement, the generated questions); <code>corpus/</code> (the source files,
+byte for byte); <code>kernel/</code> (this kernel and the pieces it composes, byte for byte); <code>genome/</code> (the hooks, including <code>act.mjs</code>, which answers a question);
+the birth-check workflow; <code>FOLD.json</code> (the engine commit and every hash); its own page; and its licences. The engine itself is a cell
+too: its <code>seed.json</code> and <code>genome/</code> pass the same birth check in its own CI.</p>
+
+<h2 id="adoption">What it does for your business</h2>
+<p>Most organisations have documents people keep asking about: policies, contracts, product manuals, regulations, onboarding guides.
+Genome Fold turns each set into an answerer whose every answer can be traced to a sentence and checked, and which says no rather than
+guessing. It is built for places where a wrong-but-confident answer costs more than no answer.</p>
+<div class="grid">
+  <div class="card"><h3>Chief executive</h3><p>Answers from your own documents that can be shown to a regulator, a customer or a court: the sentence, the document, the position. No model to
+    trust, no outside service to depend on.</p></div>
+  <div class="card"><h3>Finance</h3><p>No per-seat licence and no model hosting bill to run it: it answers in well under a millisecond on an ordinary laptop
+    (measured: 0.591 ms a question, against 15.6 s for a local language-model reader). We quote no money saving here, because it depends on your volumes.</p></div>
+  <div class="card"><h3>Operations</h3><p>One cell per document set, each with its own lane: the HR handbook cell refuses supplier questions and says who to ask instead.
+    Re-folding after an update is one command, and the birth check runs again.</p></div>
+  <div class="card"><h3>Technology and security</h3><p>Runs entirely where you put it: a browser tab or a Node process. No network calls, no data leaves the machine, no model
+    weights. The code is small enough to read, mutation-tested, and every cell's CI re-runs its birth check.</p></div>
+  <div class="card"><h3>Compliance and audit</h3><p>Every answer is a record of source, start and end. Anyone can check it against the file. The judge that verifies it is the same
+    one the birth check tests on a known-bad record.</p></div>
+  <div class="card"><h3>The teams who answer questions</h3><p>A first pass that points to the exact sentence, so people read one paragraph instead of a whole manual, and a refusal
+    when the answer is not in the documents at all.</p></div>
+</div>
+<h3>Rolling it out</h3>
+<ol>
+  <li>Pick one document set that people ask about every week. Export it as markdown or text.</li>
+  <li>Fold it. Read the lane numbers and the judge's cases the engine prints. If the birth check refuses the cell, the list says why.</li>
+  <li>Ask it the twenty questions your team gets most. Note where the verified sentence is not the best one (see the limits below).</li>
+  <li>Push the cell as a repository. Its CI runs the birth check on every change; its page lets anyone ask it.</li>
+  <li>Wire its act hook into your tools or agents: <code>echo '{"question":"..."}' | node genome/act.mjs</code> answers with a verified record or a refusal.</li>
+</ol>
+<h3>Straight answers to the hard questions</h3>
+<ul>
+  <li><strong>Is a verified answer a correct answer?</strong> No. Verified means the words are really in your documents at the stated position, and the
+    passage uses enough of the question's words. On the public test set, 37% of answerable questions got a verified sentence from the right
+    passage. Treat it as a pointer to read, not a final word.</li>
+  <li><strong>Will it refuse questions it cannot answer?</strong> Questions outside the subject, nearly always (98% on the test set). Questions inside the
+    subject that the documents do not answer, mostly not (34% refused). That is the biggest limit.</li>
+  <li><strong>Where does our data go?</strong> Nowhere. The fold and the answers run on your machine or in your browser.</li>
+  <li><strong>Who supports it?</strong> Supplied by AI Native Solutions. Support is agreed per deployment, in each deployment's agreement.</li>
+  <li><strong>Who owns it?</strong> The code is MIT licensed. Your documents keep their own licence; a folded cell records it.</li>
+</ul>
+<h3>The case for the board</h3>
+<p>An answer you can check beats an answer you have to trust. Genome Fold gives each document set a small, inspectable answerer that cites
+itself and refuses outside its lane, with its weaknesses measured and published before anyone relies on it.</p>
+
+<h2 id="limits">Limits</h2>
+<ul>
+  <li>No reader and no language model: the answer is a whole sentence, not a short phrase, and finding it is word overlap.</li>
+  <li>No stemming: "boil" does not match "boils". Questions phrased in other words than the documents' are harder for it.</li>
+  <li>Verified is not the same as right: the best-supported sentence can be the wrong one (the real run above shows one).</li>
+  <li>Unanswerable questions inside the subject are mostly answered anyway (M4 failed: 34% refused).</li>
+  <li>The off-topic set is fixed and in English. A corpus that is itself about everyday topics will find some of them in its lane; the engine
+    then reports that, and the lane's measured numbers show it.</li>
+  <li>Plain text and markdown only. Convert other formats first (the Consumer Rights Act example converts legislation.gov.uk's XML).</li>
+  <li>In the browser, the birth check runs three of its four traits; the fourth (the reversible tombstone) needs files and runs when you fold on
+    the command line and in the cell's CI.</li>
+  <li>Measured on one public benchmark of three Wikipedia articles, not on your documents.</li>
+</ul>
+
+<h2 id="paper">The explainer: why fold, and what "verified" means</h2>
+<p><strong>The problem.</strong> An estate of software parts needs each part to say what it is, to check its own work, to know its own lane and to be
+removable without harm. The estate genome's birth check tests exactly that. Making each answering part by hand, with its own judge and its
+own lane, is slow, and the hand-made judges vary in how strict they are.</p>
+<p><strong>The fold.</strong> Genome Fold makes the part from the documents. The judge is always the same strict one: exact characters at exact positions,
+plus enough of the question in that passage. The lane is always chosen and measured the same way, on questions written from the documents and
+a fixed off-topic set, and its numbers ship with the cell. The test cases the birth check needs are written by the engine from a real answer
+and a one-word alteration of it, so the judge is shown to catch the smallest possible change.</p>
+<p><strong>What the guarantee is.</strong> If a cell says <em>verified</em>, the sentence is in the cited document at the cited position, character for character,
+and that passage uses at least the lane's share of the question's words. That is checkable by anyone, with nothing but the file. What the
+guarantee is not: that the sentence answers the question well. The measurement says how often it does, and the page says it plainly.</p>
+<p><strong>Where it came from.</strong> The span finder, the sentence finder and the lane measurement are DocDec's, unchanged and pinned. The birth check and
+its hooks are the estate genome's, unchanged and pinned. The fold engine composes them; it adds the answerer, the judge's support rule, the
+question generator and the writer.</p>
+</main>
+<footer>
+  <p>Made by Kar. Supplied by <a href="https://www.ai-nativesolutions.com">AI Native Solutions</a>. Support is agreed per deployment, in each deployment's agreement.
+  Code MIT licence, © 2026 Simon Gant. Test data: SQuAD 2.0, CC BY-SA 4.0. The Consumer Rights Act 2015 text: Open Government Licence v3.0.</p>
+  <p><a href="https://github.com/sjgant80-hub/genome-fold">Source</a> · <a href="https://github.com/sjgant80-hub/genome-fold/blob/main/PREREG.md">Pre-registration</a> ·
+  <a href="https://sjgant80-hub.github.io/estate-genome/">The estate genome</a> · <a href="https://sjgant80-hub.github.io/consumer-rights-cell/">The Consumer Rights Act cell</a></p>
+</footer>
+<script>
+// linkModules(mods, toUrl) — the page carries each module as the exact bytes of its file (a <script type="text/plain"
+// data-module="<path>">), so the logic that runs here is the logic the mutation gate proved. This links them: every
+// relative import is pointed at the linked copy of the module it names, and toUrl turns a source into an importable URL
+// (a Blob URL in the browser; a data: URL in the page test). Returns link(path) → the URL to import.
+function linkModules(mods, toUrl) {
+  const urls = {};
+  const resolve = (from, spec) => {
+    const parts = from.split('/').slice(0, -1);
+    for (const s of spec.split('/')) { if (s === '..') parts.pop(); else if (s !== '.') parts.push(s); }
+    return parts.join('/');
+  };
+  const link = (path) => {
+    if (urls[path]) return urls[path];
+    if (!Object.hasOwn(mods, path)) throw new Error('this page does not carry the module ' + path);
+    const src = mods[path].replace(/(\bfrom\s*)(['"])(\.\.?\/[^'"]+)\2/g, (m, a, q, spec) => a + q + link(resolve(path, spec)) + q);
+    urls[path] = toUrl(src);
+    return urls[path];
+  };
+  return link;
+}
+
+</script>
+<script type="text/plain" data-module="src/fold.mjs">// fold.mjs — the fold engine's kernel. Pure and total: any input gives a result with reasons, never a throw. No I/O, no
+// clock, no model. It runs the same in Node and in the browser (the page carries this file byte for byte).
+//
+// A corpus (documents of plain text or markdown) folds into a cell:
+//   index     the corpus cut into passages (a blank line or a markdown heading ends a passage)
+//   answerer  extractive, no language model: the passage that best carries the question's content words (BM25), and in
+//             it the sentence that carries the most of them, returned as an answer record {source, start, end, text}
+//   judge     a record is verified only when its text is exactly the source passage's characters at its offsets AND
+//             the passage carries at least the lane share of the question's content words; refused when malformed
+//   lane      the share of a question's content words that the corpus uses, with the share chosen on a tune split of
+//             questions generated from the corpus's own terms against a fixed off-topic set, and measured on the rest
+//   cases     the good case is a real sentence record; the bad case is the same record with one word altered
+//   seed      a drafted seed.json, and the manifest check (the estate genome's describe) run on it
+// Composes, unchanged: DocDec's findSpan and sentenceAround (its gate), DocDec's lane share and its tune/eval
+// measurement, and the estate genome's describe. They are vendored, pinned to their commits (vendor/VENDOR.json).
+import { findSpan, sentenceAround } from '../vendor/docdec/src/gate.mjs';
+import { words, content, vocabulary, laneShare, measure } from '../vendor/docdec/genome/lane-share.mjs';
+import { at, describe } from '../vendor/estate-genome/src/genome.mjs';
+
+export const LIMITS = { docs: 1000, chars: 3000000 };
+export const BM25 = { k1: 1.2, b: 0.75 };
+export const QUESTIONS = { min: 20, max: 400, terms: 3 };
+// The generated in-lane questions: a passage's rarest content words set in a question frame. Each frame adds words of
+// its own, as a real question does, so a generated question never reads as pure corpus vocabulary.
+export const TEMPLATES = ['What does the text say about X?', 'Where is X explained?', 'Which part covers X?',
+  'What happens with X?', 'Who is responsible for X?'];
+// The fixed off-topic set: everyday questions no corpus folded here is meant to answer. Its first half tunes the lane,
+// its second half measures it.
+export const OFF_TOPIC = [
+  'What is the best pizza topping?', 'How long should I boil an egg?', 'Who won the football world cup in 1966?',
+  'What is the capital city of Australia?', 'How do I fix a flat bicycle tyre?', 'Which planet has the most moons?',
+  'What temperature should I bake bread at?', 'How tall is Mount Everest?', 'Who painted the Mona Lisa?',
+  'What is a good name for a puppy?', 'How many strings does a violin have?', 'When does the tennis season start?',
+  'What should I plant in a shady garden?', 'How do I make a cup of green tea?', 'Which film won best picture last year?',
+  'What is the fastest land animal?', 'How do I tune a guitar by ear?', 'Where can I watch the northern lights?',
+  'What time does the sun set in winter?', 'How do I clean a cast iron pan?', 'Who wrote the novel Moby Dick?',
+  'What is the rule for offside in football?', 'How much water should a cactus get?', 'What colour goes with navy blue?',
+  'How do I train for a marathon?', 'Which cheese is best on toast?', 'What is the tallest building in the world?',
+  'How do I knit a scarf for beginners?', 'Where do penguins live in the wild?', 'What is the recipe for pancakes?',
+  'How many players are on a rugby team?', 'What is the plot of Romeo and Juliet?', 'How do I stop my cat scratching?',
+  'Which beach is best for surfing?', 'How do volcanoes erupt?', 'What snacks are good for a picnic?',
+  'How do I change a car tyre?', 'Who invented the telephone?', 'What is the weather like in Iceland?',
+  'How do I grow tomatoes indoors?', 'Which board game is fun for six people?', 'What makes a rainbow appear?',
+  'How long do goldfish live?', 'What is the best way to learn chess?', 'Who sang the song Yesterday?',
+  'How do I make my sourdough rise?', 'Which mountains are in Scotland?', 'What do koalas eat?',
+  'How do I draw a horse?', 'What is the loudest musical instrument?', 'How far away is the moon?',
+  'Which dance is popular at weddings?', 'How do I keep roses healthy?', 'What is the oldest tree on earth?',
+  'How do I play the drums?', 'Which country makes the most coffee?', 'What should I pack for a ski trip?',
+  'How do bees make honey?', 'What is a good stretch after running?', 'Who discovered penicillin?',
+];
+export const STATUS = ['verified', 'unverified', 'refused'];
+
+const str = (v) => (typeof v === 'string' ? v : '');
+const list = (v) => (Array.isArray(v) ? v : []);
+const BUILT = new WeakSet();   // indexes made by buildIndex: nothing else is read as one
+
+// docsOf(docs) → [{name, text}]: the documents with text, a safe distinct name each, at most LIMITS.docs of them and
+// LIMITS.chars of text in all (documents past the limit are dropped; fold reports how many)
+export function docsOf(docs) {
+  const out = [], seen = new Set();
+  let chars = 0;
+  for (const d of list(docs).slice(0, LIMITS.docs)) {
+    const text = str(at(d, 'text'));
+    chars += text.length;
+    if (text.trim() === '' || chars > LIMITS.chars) continue;
+    let name = str(at(d, 'name')).trim().replace(/[^A-Za-z0-9._-]+/g, '-') || 'doc';
+    while (seen.has(name)) name = name + '-' + (out.length + 1);
+    seen.add(name);
+    out.push({ name, text });
+  }
+  return out;
+}
+
+// passagesOf(docs) → [{id, title, text}]: each document cut at blank lines and markdown headings; a heading becomes the
+// title of the passages under it (the document's name until the first heading); whitespace inside a passage is one space
+export function passagesOf(docs) {
+  const out = [];
+  for (const d of docsOf(docs)) {
+    let title = d.name, k = 0, buf = [];
+    const flush = () => {
+      const text = buf.join(' ').replace(/\s+/g, ' ').trim();
+      buf = [];
+      if (text !== '') out.push({ id: d.name + '#' + k++, title, text });
+    };
+    for (const line of d.text.split(/\r?\n/)) {
+      const h = /^ {0,3}#{1,6}\s+(.*?)[\s#]*$/.exec(line);
+      if (h) { flush(); title = h[1] || d.name; }
+      else if (line.trim() === '') flush();
+      else buf.push(line);
+    }
+    flush();
+  }
+  return out;
+}
+
+// buildIndex(passages) → the index: passages with a non-empty id and text (first of each id kept), their word counts,
+// document frequencies, vocabulary and an id lookup. Opaque: only an index built here is ever read as one.
+export function buildIndex(passages) {
+  const ps = [], byId = new Map();
+  for (const p of list(passages)) {
+    const id = str(at(p, 'id')), text = str(at(p, 'text'));
+    if (id === '' || text.trim() === '' || byId.has(id)) continue;
+    byId.set(id, ps.length);
+    ps.push({ id, title: str(at(p, 'title')), text });
+  }
+  const toks = ps.map((p) => words(p.title + ' ' + p.text));
+  const tf = toks.map((t) => { const m = new Map(); for (const w of t) m.set(w, (m.get(w) || 0) + 1); return m; });
+  const df = new Map();
+  for (const m of tf) for (const w of m.keys()) df.set(w, (df.get(w) || 0) + 1);
+  const total = toks.reduce((a, t) => a + t.length, 0);
+  const index = { passages: ps, byId, tf, len: toks.map((t) => t.length), df, avg: total / Math.max(1, ps.length), vocab: vocabulary(ps) };
+  BUILT.add(index);
+  return index;
+}
+export const isIndex = (index) => BUILT.has(index);
+
+// idf(index, w) → BM25's inverse document frequency (always above 0 for a word the corpus uses)
+function idf(index, w) {
+  const n = index.passages.length, d = index.df.get(w) || 0;
+  return Math.log(1 + (n - d + 0.5) / (d + 0.5));
+}
+
+// terms(question) → the question's distinct content words, in order (DocDec's content words: 3+ letters, no stopwords)
+export const terms = (question) => [...new Set(content(str(question)))];
+
+// scores(index, ts) → each passage's BM25 score for the words ts
+function scores(index, ts) {
+  const { k1, b } = BM25;
+  return index.passages.map((p, i) => ts.reduce((s, w) => {
+    const f = index.tf[i].get(w) || 0;
+    return s + idf(index, w) * f * (k1 + 1) / (f + k1 * (1 - b + b * index.len[i] / index.avg));
+  }, 0));
+}
+
+// bestSentence(index, i, ts) → in passage i, the sentence (DocDec's sentenceAround) around an occurrence of a question
+// word that carries the most idf weight of the question's words; the earliest wins a tie
+function bestSentence(index, i, ts) {
+  const text = index.passages[i].text, want = new Set(ts);
+  let best = null, bestScore = -1;
+  for (const m of text.matchAll(/[A-Za-z0-9]+/g)) {
+    if (!want.has(m[0].toLowerCase())) continue;
+    const s = sentenceAround(text, m.index, m.index + m[0].length);
+    const has = new Set(words(s.text));
+    const score = ts.reduce((a, w) => a + (has.has(w) ? idf(index, w) : 0), 0);
+    if (score > bestScore) { best = s; bestScore = score; }
+  }
+  return best || sentenceAround(text, 0, 0);
+}
+
+// answer(index, question) → { record:{source,start,end,text}, passage, score } or { refuse:true, why }
+// The record's offsets come from DocDec's findSpan, so its text is the passage's own characters.
+export function answer(index, question) {
+  const ts = terms(question);
+  if (!isIndex(index)) return { refuse: true, why: 'no index to answer from' };
+  if (ts.length === 0) return { refuse: true, why: 'the question has no content words' };
+  const sc = scores(index, ts);
+  let best = 0;
+  sc.forEach((s, i) => { if (s > sc[best]) best = i; });
+  if (!(sc[best] > 0)) return { refuse: true, why: 'no passage uses any of the question\'s content words' };
+  const s = bestSentence(index, best, ts), p = index.passages[best];
+  const span = findSpan(p.text.slice(s.start), s.text);
+  if (span === null) return { refuse: true, why: 'the sentence could not be anchored to its offsets' };
+  return { record: { source: p.id, start: s.start + span.start, end: s.start + span.end, text: span.text }, passage: best, score: sc[best] };
+}
+
+// support(question, passage) → the share of the question's content words the passage (title and text) uses
+const support = (question, passage) => laneShare(str(question), vocabulary([passage]));
+
+// judgeRecord(index, record, share) → 'verified' | 'unverified' | 'refused'
+//   refused     not an answer record {question, source, start, end, text} with whole-number offsets and some text, or
+//               its source is not a passage of this index
+//   unverified  its text is not exactly the passage's characters at its offsets, or the passage carries less than the
+//               lane share of the question's content words
+export function judgeRecord(index, record, share) {
+  const q = at(record, 'question'), src = at(record, 'source'), start = at(record, 'start'), end = at(record, 'end'), text = at(record, 'text');
+  const i = isIndex(index) ? index.byId.get(src) : undefined;
+  if (typeof q !== 'string' || !Number.isInteger(start) || !Number.isInteger(end) || str(text).trim() === '' || i === undefined) return 'refused';
+  const p = index.passages[i];
+  const exact = start >= 0 && end - start === text.length && p.text.slice(start, end) === text;
+  return exact && support(q, p) >= share ? 'verified' : 'unverified';
+}
+
+// inLaneOf(index, input, share) → true when input is {question} and at least the lane share of its content words are
+// words the corpus uses
+export function inLaneOf(index, input, share) {
+  const q = at(input, 'question');
+  return typeof q === 'string' && isIndex(index) && laneShare(q, index.vocab) >= share;
+}
+
+// act(index, share, input, escalate) → the guarded answer: out of lane is refused and escalated; an answer leaves only
+// as a verified record; a record the judge will not verify is withheld, never shown
+export function act(index, share, input, escalate) {
+  if (!inLaneOf(index, input, share)) {
+    return { status: 'refused', why: 'out of lane: too few of the question\'s words are words this corpus uses', escalate: str(escalate) };
+  }
+  const question = at(input, 'question'), a = answer(index, question);
+  if (a.refuse) return { status: 'refused', why: a.why };
+  const record = { question, ...a.record };
+  const verdict = judgeRecord(index, record, share);
+  if (verdict === 'verified') return { status: 'verified', record };
+  return { status: verdict, why: 'withheld: the best passage carries too few of the question\'s words to verify an answer' };
+}
+
+// rarest(index, i, n) → up to n of passage i's content words, rarest in the corpus first, first occurrence breaking ties
+function rarest(index, i, n) {
+  const p = index.passages[i];
+  return [...new Set(content(p.text))].sort((a, b) => index.df.get(a) - index.df.get(b)).slice(0, n);
+}
+
+// laneQuestions(index) → the generated in-lane questions, in passage order: between QUESTIONS.min and QUESTIONS.max of
+// them, spread evenly over the passages that have content words; question k uses 1 + (k mod #terms) of its passage's
+// rarest words in frame k mod #frames
+export function laneQuestions(index) {
+  if (!isIndex(index)) return [];
+  const pool = index.passages.map((p, i) => rarest(index, i, QUESTIONS.terms)).filter((t) => t.length > 0);
+  if (pool.length === 0) return [];
+  const n = Math.min(QUESTIONS.max, Math.max(QUESTIONS.min, pool.length));
+  return Array.from({ length: n }, (_, k) => {
+    const t = pool[Math.floor((k * pool.length) / n)];
+    return TEMPLATES[k % TEMPLATES.length].replace('X', t.slice(0, 1 + (k % t.length)).join(' '));
+  });
+}
+
+// chooseLane(index, questions) → DocDec's lane measurement, unchanged: the share chosen on the first half of the
+// generated questions and the off-topic set (best balanced accuracy, the lowest share on a tie), measured on the rest
+export function chooseLane(index, questions) {
+  if (!isIndex(index)) return null;
+  return measure({ paragraphs: index.passages, questions: list(questions).map((text) => ({ text })), oos: OFF_TOPIC.map((text) => ({ text })) });
+}
+
+// alter(record, index) → the same record with one word altered: its first content word swapped for the next content word
+// of the corpus in alphabetical order (the one before it when it is the last, the word doubled when it is the only one)
+export function alter(record, index) {
+  const text = str(at(record, 'text'));
+  const m = [...text.matchAll(/[A-Za-z0-9]+/g)].find((x) => content(x[0]).length > 0);
+  if (!m || !isIndex(index)) return null;
+  const w = m[0].toLowerCase(), v = [...index.vocab].filter((x) => content(x).length > 0).sort();
+  const swap = v.find((x) => x > w) || v.filter((x) => x < w).pop() || w + w;
+  return { ...record, text: text.slice(0, m.index) + swap + text.slice(m.index + m[0].length) };
+}
+
+// cases(index, share, questions) → { good, bad }: the good case is the first generated question the cell answers with a
+// verified record; the bad case is that record with one word altered. null when no question gets a verified record.
+export function cases(index, share, questions) {
+  for (const q of list(questions)) {
+    const r = act(index, share, { question: q });
+    if (r.status === 'verified') return { good: r.record, bad: alter(r.record, index) };
+  }
+  return null;
+}
+
+const cap = (s, n) => (s.length > n ? s.slice(0, n - 1).trim() + '…' : s);
+
+// draftSeed(meta, parts) → the cell's seed.json. meta: {name, title, lane, escalate, repo, by, born}; parts: {cases,
+// samples}. Anything missing is left empty, for the manifest check to name.
+export function draftSeed(meta, parts) {
+  const m = (k) => str(at(meta, k)).trim();
+  const title = cap(m('title') || m('name'), 120), c = at(parts, 'cases'), s = at(parts, 'samples');
+  return {
+    genome: '1', name: m('name'), kind: 'repo',
+    purpose: `Answers questions about ${title} from its own text only: the best-supported sentence, word for word, with its passage and character offsets. Refuses questions outside its lane.`,
+    lane: { id: m('lane') || m('name'), accepts: `a question about ${title}`, refuses: `questions whose words the ${title} text does not use` },
+    interface: {
+      in: '{"question":"<text>"} to ask (node genome/act.mjs); an answer record {question,source,start,end,text} to audit',
+      out: 'a verified answer record (passage id, character offsets, the exact sentence), or a refusal that says why',
+    },
+    judge: {
+      what: 'an answer record is right when its text is exactly the cited passage\'s characters at its offsets and that passage uses at least the lane share of the question\'s content words',
+      run: 'node genome/judge.mjs', cases: { good: at(c, 'good') ?? null, bad: at(c, 'bad') ?? null },
+    },
+    boundary: { run: 'node genome/lane.mjs', inLane: at(s, 'inLane') ?? null, outOfLane: at(s, 'outOfLane') ?? null, escalate: m('escalate') },
+    health: { run: 'node genome/health.mjs' },
+    tombstone: { apply: 'node genome/tombstone.mjs apply', restore: 'node genome/tombstone.mjs restore' },
+    act: { run: 'node genome/act.mjs', in: '{"question":"<text>"}' },
+    provenance: { repo: m('repo'), by: m('by'), born: m('born') },
+  };
+}
+
+// preview(index, share, seed) → the birth check as far as it runs without files: describe (the genome's own manifest
+// check), verify (the judge on the seed's cases) and boundary (the lane on its samples). Prune needs the written cell.
+export function preview(index, share, seed) {
+  const cs = at(at(seed, 'judge'), 'cases'), b = at(seed, 'boundary');
+  const d = describe(seed);
+  const good = judgeRecord(index, at(cs, 'good'), share), bad = judgeRecord(index, at(cs, 'bad'), share);
+  const inL = inLaneOf(index, at(b, 'inLane'), share), outL = inLaneOf(index, at(b, 'outOfLane'), share);
+  return {
+    describe: { pass: d.pass, reasons: d.reasons },
+    verify: { pass: good === 'verified' && bad !== 'verified', good, bad },
+    boundary: { pass: inL && !outL, inLane: inL, outOfLane: outL },
+    prune: { pass: null, why: 'the tombstone round-trip runs on the written cell folder, in the birth check' },
+  };
+}
+
+// fold(input) → { ok, missing, ... }. input: { docs:[{name,text}], name, title, lane, escalate, repo, by, born }.
+// ok only when the corpus folds into a cell whose manifest, judge and lane pass the preview; otherwise missing names
+// what stopped it, and nothing is drafted as shippable.
+export function fold(input) {
+  const docs = docsOf(at(input, 'docs'));
+  const index = buildIndex(passagesOf(docs));
+  const questions = laneQuestions(index);
+  const counts = { docs: docs.length, dropped: list(at(input, 'docs')).length - docs.length, passages: index.passages.length, questions: questions.length };
+  if (questions.length === 0) return { ok: false, missing: ['the corpus has no content words to fold: give it plain-text or markdown documents'], counts };
+  const lane = chooseLane(index, questions);
+  const c = cases(index, lane.share, questions);
+  const outOfLane = OFF_TOPIC.find((q) => !inLaneOf(index, { question: q }, lane.share));
+  const samples = { inLane: c ? { question: c.good.question } : null, outOfLane: outOfLane === undefined ? null : { question: outOfLane } };
+  const seed = draftSeed(input, { cases: c, samples });
+  const check = preview(index, lane.share, seed);
+  const missing = [];
+  if (c === null) missing.push('no generated question gets a verified answer record, so the cell has no good case');
+  if (outOfLane === undefined) missing.push('every off-topic question is in lane, so the lane refuses nothing');
+  for (const r of check.describe.reasons) missing.push('seed.json: ' + r);
+  return { ok: missing.length === 0, missing, counts, index, questions, lane, cases: c, samples, seed, check };
+}
+
+// engineJudge(input) → the engine's own judge (its genome): input {corpus:[{name,text}], record}; the corpus is folded
+// and the record judged by the folded cell's judge
+export function engineJudge(input) {
+  const index = buildIndex(passagesOf(at(input, 'corpus')));
+  const questions = laneQuestions(index);
+  if (questions.length === 0) return 'refused';
+  return judgeRecord(index, at(input, 'record'), chooseLane(index, questions).share);
+}
+
+// engineLane(input) → the engine's lane: input {corpus:[{name,text}]} whose text yields questions to fold from
+export const engineLane = (input) => laneQuestions(buildIndex(passagesOf(at(input, 'corpus')))).length > 0;
+
+export default { LIMITS, BM25, QUESTIONS, TEMPLATES, OFF_TOPIC, STATUS, docsOf, passagesOf, buildIndex, isIndex, terms,
+  answer, judgeRecord, inLaneOf, act, laneQuestions, chooseLane, alter, cases, draftSeed, preview,
+  fold, engineJudge, engineLane };
+</script>
+<script type="text/plain" data-module="src/page.mjs">// page.mjs — what the pages show, as pure functions: HTML strings built from the kernel's own results, every value
+// escaped. The engine's page and every folded cell's page carry this file byte for byte, beside the kernel.
+import { isIndex } from './fold.mjs';
+import { at } from '../vendor/estate-genome/src/genome.mjs';
+
+const str = (v) => (typeof v === 'string' ? v : typeof v === 'number' || typeof v === 'boolean' ? String(v) : '');
+const list = (v) => (Array.isArray(v) ? v : []);
+export const LABEL = { verified: 'verified', unverified: 'not verified', refused: 'refused' };
+
+// esc(v) → text safe to place in HTML (anything that is not a string, number or boolean shows as nothing)
+export const esc = (v) => str(v).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+
+// badge(status) → a status pill; an unknown status shows as refused
+export function badge(status) {
+  const s = typeof status === 'string' && Object.hasOwn(LABEL, status) ? status : 'refused';
+  return `<span class="badge b-${s}">${LABEL[s]}</span>`;
+}
+
+// passageHtml(index, record) → the cited passage with the record's characters marked, or '' when the record does not
+// name a passage of the index
+export function passageHtml(index, record) {
+  const i = isIndex(index) ? index.byId.get(at(record, 'source')) : undefined;
+  if (i === undefined) return '';
+  const p = index.passages[i], s = at(record, 'start'), e = at(record, 'end');
+  const ok = Number.isInteger(s) && Number.isInteger(e) && s >= 0 && e <= p.text.length;
+  const body = ok ? esc(p.text.slice(0, s)) + '<mark>' + esc(p.text.slice(s, e)) + '</mark>' + esc(p.text.slice(e)) : esc(p.text);
+  return `<blockquote class="passage"><div class="ptitle">${esc(p.title)} · <code>${esc(p.id)}</code></div>${body}</blockquote>`;
+}
+
+// answerHtml(index, r) → what the cell's act() said, shown plainly: the verified record with its passage and offsets, or
+// the refusal and why
+export function answerHtml(index, r) {
+  const rec = at(r, 'record'), status = at(r, 'status');
+  if (status === 'verified') {
+    return `<p>${badge('verified')} <strong>${esc(at(rec, 'text'))}</strong></p>` +
+      `<p class="small">source <code>${esc(at(rec, 'source'))}</code>, characters ${esc(at(rec, 'start'))} to ${esc(at(rec, 'end'))}</p>` +
+      passageHtml(index, rec);
+  }
+  const why = esc(at(r, 'why')), up = esc(at(r, 'escalate'));
+  return `<p>${badge(status)} ${why}${up ? ` · escalated to <code>${up}</code>` : ''}</p>`;
+}
+
+// checksHtml(check) → the birth check as far as the browser runs it: one row per trait
+export function checksHtml(check) {
+  const row = (name, t, what) => {
+    const pass = at(t, 'pass');
+    const mark = pass === true ? '<span class="ok">yes</span>' : pass === false ? '<span class="no">no</span>' : '<span class="na">in CI</span>';
+    return `<tr><th scope="row">${name}</th><td>${mark}</td><td>${what}</td></tr>`;
+  };
+  const d = at(check, 'describe'), v = at(check, 'verify'), b = at(check, 'boundary'), p = at(check, 'prune');
+  const reasons = list(at(d, 'reasons'));
+  return '<table class="checks"><thead><tr><th>Trait</th><th>Holds</th><th>What was checked</th></tr></thead><tbody>' +
+    row('describe', d, reasons.length === 0 ? 'seed.json passes every manifest check of the estate genome' : reasons.map(esc).join('; ')) +
+    row('verify', v, `the judge on the good case: ${esc(at(v, 'good'))}; on the bad case: ${esc(at(v, 'bad'))}`) +
+    row('boundary', b, `in-lane sample taken: ${esc(at(b, 'inLane'))}; off-topic sample taken: ${esc(at(b, 'outOfLane'))}`) +
+    row('prune', p, esc(at(p, 'why'))) + '</tbody></table>';
+}
+
+// laneHtml(lane) → the lane rule and what it did on the generated questions it was chosen and measured on
+export function laneHtml(lane) {
+  const t = at(lane, 'tune'), e = at(lane, 'eval'), n = (x) => list(at(x, 'n'));
+  return `<p>${esc(at(lane, 'rule'))}.</p><table><thead><tr><th></th><th>in-lane accepted</th><th>off-topic refused</th><th>questions</th></tr></thead><tbody>` +
+    `<tr><th scope="row">tune (chose the share)</th><td>${esc(at(t, 'inLaneAccepted'))}</td><td>${esc(at(t, 'offTopicRefused'))}</td><td>${esc(n(t)[0])} + ${esc(n(t)[1])}</td></tr>` +
+    `<tr><th scope="row">eval (measured it)</th><td>${esc(at(e, 'inLaneAccepted'))}</td><td>${esc(at(e, 'offTopicRefused'))}</td><td>${esc(n(e)[0])} + ${esc(n(e)[1])}</td></tr></tbody></table>`;
+}
+
+// casesHtml(cs, v) → the judge's good and bad case, each with the verdict the judge gave it
+export function casesHtml(cs, v) {
+  const rec = (x) => (x ? `<code>${esc(at(x, 'source'))}</code> ${esc(at(x, 'start'))}–${esc(at(x, 'end'))}: “${esc(at(x, 'text'))}”` : 'none');
+  return '<ul>' +
+    `<li>good case (a real sentence record), for the question “${esc(at(at(cs, 'good'), 'question'))}”: ${rec(at(cs, 'good'))} → ${badge(at(v, 'good'))}</li>` +
+    `<li>bad case (the same record, one word altered): ${rec(at(cs, 'bad'))} → ${badge(at(v, 'bad'))}</li></ul>`;
+}
+
+// foldHtml(r) → a fold's result: what is missing, or the counts, the lane, the cases with the judge's verdicts, the
+// samples, the birth-check preview and the drafted seed.json
+export function foldHtml(r) {
+  const missing = list(at(r, 'missing')), c = at(r, 'counts'), cs = at(r, 'cases'), s = at(r, 'samples'), seed = at(r, 'seed');
+  const head = at(r, 'ok') === true
+    ? `<p>${badge('verified')} The corpus folds into a cell: ${esc(at(c, 'docs'))} document(s), ${esc(at(c, 'passages'))} passages, ${esc(at(c, 'questions'))} generated lane questions.</p>`
+    : `<p>${badge('refused')} Not shipped. What is missing:</p><ul>${missing.map((m) => `<li>${esc(m)}</li>`).join('')}</ul>`;
+  if (cs === undefined) return head;
+  return head + '<h4>The lane</h4>' + laneHtml(at(r, 'lane')) +
+    '<h4>The judge\'s cases</h4>' + casesHtml(cs, at(at(r, 'check'), 'verify')) +
+    '<h4>The lane\'s samples</h4><ul>' +
+    `<li>in lane: “${esc(at(at(s, 'inLane'), 'question'))}”</li><li>out of lane: “${esc(at(at(s, 'outOfLane'), 'question'))}”</li></ul>` +
+    '<h4>The birth check, in the browser</h4>' + checksHtml(at(r, 'check')) +
+    `<details><summary>The drafted seed.json</summary><pre>${esc(JSON.stringify(seed ?? null, null, 2))}</pre></details>`;
+}
+
+// measureRows(m) → the pre-registered measurement's table rows, DocDec v2's published number beside each
+export function measureRows(m) {
+  const ms = at(m, 'metrics'), d = at(m, 'docdec');
+  const rows = [
+    ['M1', 'Right passage (answerer alone)', 'answerable', at(d, 'colbertTop1') + ' (ColBERT top-1); cosine ' + at(d, 'cosineTop1')],
+    ['M2', 'Off-topic refused (no verified answer leaves)', 'off-topic', at(d, 'offTopicRefused')],
+    ['M2lane', 'Off-topic refused by the lane alone', 'off-topic', '—'],
+    ['M3', 'Answerable answered with a verified record', 'answerable', at(d, 'answered')],
+    ['M3right', '… and from the right passage', 'answerable', at(d, 'answeredRight')],
+    ['M4', 'Unanswerable refused', 'unanswerable', at(d, 'unanswerableRefused')],
+    ['M5', 'Verified record holds a gold answer', 'answerable', at(d, 'exactAnswers') + ' (exact short answers)'],
+  ];
+  const tr = ([k, what, of, ref]) => {
+    const x = at(ms, k);
+    return `<tr><th scope="row">${k}</th><td>${what}</td><td>${esc(at(x, 'value'))} <span class="small">(${esc(at(x, 'count'))} of ${esc(at(x, 'of'))} ${of})</span></td>` +
+      `<td>${esc(ref)}</td><td>at least ${esc(at(x, 'rule'))}</td><td>${at(x, 'pass') === true ? '<span class="ok">pass</span>' : '<span class="no">fail</span>'}</td></tr>`;
+  };
+  const t = at(ms, 'M6');
+  return rows.map(tr).join('') +
+    `<tr><th scope="row">M6</th><td>Median time of one answer, this laptop</td><td>${esc(at(t, 'medianMs'))} ms <span class="small">(${esc(at(t, 'of'))} questions)</span></td>` +
+    `<td>${esc(at(d, 'secondsPerQuestion'))} s (local reader)</td><td>at most ${esc(at(t, 'rule'))} ms</td><td>${at(t, 'pass') === true ? '<span class="ok">pass</span>' : '<span class="no">fail</span>'}</td></tr>`;
+}
+
+// docsFromPaste(text) → the pasted text as documents: a line "=== name ===" starts a new document; text before the first
+// such line is one document called pasted.md
+export function docsFromPaste(text) {
+  const docs = [];
+  let name = 'pasted.md', buf = [];
+  const flush = () => { const t = buf.join('\n'); if (t.trim() !== '') docs.push({ name, text: t }); buf = []; };
+  for (const line of str(text).split('\n')) {
+    const m = /^=== *(.+?) *===$/.exec(line.trim());
+    if (m) { flush(); name = m[1]; } else buf.push(line);
+  }
+  flush();
+  return docs;
+}
+
+// slug(s) → a lower-case name the genome accepts, from any title
+export const slug = (s) => str(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60) || 'my-cell';
+
+export default { LABEL, esc, badge, passageHtml, answerHtml, checksHtml, laneHtml, casesHtml, foldHtml, measureRows, docsFromPaste, slug };
+</script>
+<script type="text/plain" data-module="vendor/docdec/src/gate.mjs">// DocDec v2 · src/gate.mjs — L4, the verifier gate. Pure. The refusal is the product.
+//
+// An answer leaves only if every check passes, in this order, and each refusal says which check stopped it:
+//   1 a source exists                       → else "not in your documents: nothing to search"
+//   2 the best source clears the bar        → else "no source clears the grounding bar"
+//   3 every content term is supported       → else "the best source does not support '<term>'"
+//   4 the reader found an answer in it      → else "the best source does not contain the answer"
+//   5 the reader's phrase is IN the source  → else "the reader's phrase is not in the source" (a model never supplies text)
+// The answer is the source's own text at character offsets a third party can check.
+
+const str = (x) => (typeof x === 'string' ? x : '');
+const arr = (x) => (Array.isArray(x) ? x : []);
+const fin = (x) => (typeof x === 'number' && Number.isFinite(x));
+
+// parseReader(raw) → { none:true } | { phrase } — first line, trimmed, outer quotes and ONE trailing full stop removed
+export function parseReader(raw) {
+  let s = str(raw).split('\n')[0].trim();
+  if (s.length >= 2 && /^["'‘“]/.test(s) && /["'’”]$/.test(s)) s = s.slice(1, -1).trim();
+  if (s.endsWith('.')) s = s.slice(0, -1).trim();
+  if (s.length === 0 || /^none\b/i.test(s)) return { none: true };
+  return { phrase: s };
+}
+
+// findSpan(passage, phrase) → { start, end, text } in the ORIGINAL passage, or null. Case-insensitive; any run of
+// whitespace in either string matches any run in the other. The returned text is the passage's own characters.
+export function findSpan(passage, phrase) {
+  const p = str(passage), f = str(phrase).trim();
+  if (f.length === 0) return null;
+  let flat = '';
+  const map = [];
+  let lastSpace = true;
+  for (let i = 0; i < p.length; i++) {
+    const ch = p[i];
+    if (/\s/.test(ch)) { if (!lastSpace) { flat += ' '; map.push(i); } lastSpace = true; }
+    else { flat += ch.toLowerCase(); map.push(i); lastSpace = false; }
+  }
+  const needle = f.toLowerCase().replace(/\s+/g, ' ');
+  const at = flat.indexOf(needle);
+  if (at < 0) return null;
+  const start = map[at], end = map[at + needle.length - 1] + 1;
+  return { start, end, text: p.slice(start, end) };
+}
+
+// sentenceAround(passage, start, end) → the sentence (by . ! ? boundaries) containing [start, end)
+export function sentenceAround(passage, start, end) {
+  const p = str(passage);
+  if (!fin(start) || !fin(end) || start < 0 || end > p.length || start > end) return null;
+  let s = start;
+  while (s > 0 && !/[.!?]\s/.test(p.slice(s - 2, s))) s--;
+  let e = end;
+  while (e < p.length && !/[.!?]/.test(p[e - 1] || '')) e++;
+  return { start: s, end: e, text: p.slice(s, e).trim() };
+}
+
+// decide(c, opts) — c: { id, text, score, weakest, weakestToken, reader } for the best source (or null).
+// opts: { bar, evidence, useReader }. Unset checks are off. Returns { answer, span? } or { refuse:true, why, check }.
+export function decide(c, opts) {
+  const o = opts && typeof opts === 'object' ? opts : {};
+  if (!c || typeof c !== 'object' || c.id == null) return { refuse: true, check: 1, why: 'not in your documents: nothing to search' };
+  if (fin(o.bar) && !(fin(c.score) && c.score >= o.bar)) return { refuse: true, check: 2, why: 'no source clears the grounding bar' };
+  if (fin(o.evidence) && !(fin(c.weakest) && c.weakest >= o.evidence)) {
+    return { refuse: true, check: 3, why: `the best source does not support '${str(c.weakestToken).replace(/^##/, '')}'` };
+  }
+  if (o.useReader !== true) return { answer: c.id };
+  const r = parseReader(c.reader);
+  if (r.none) return { refuse: true, check: 4, why: 'the best source does not contain the answer' };
+  const span = findSpan(c.text, r.phrase);
+  if (!span) return { refuse: true, check: 5, why: "the reader's phrase is not in the source" };
+  return { answer: c.id, span, sentence: sentenceAround(c.text, span.start, span.end) };
+}
+
+// decideTwo(pair, question) — multi-hop: pair { a:{id,title,text}, b:{...}, reader }. The answer must be found word for
+// word in one of the two sources, or be yes/no (a verdict, not a span). Each source is cited by its sentence that best
+// overlaps the question and answer (chosen by code, never by the model).
+export function decideTwo(pair, question) {
+  const p = pair && typeof pair === 'object' ? pair : {};
+  if (!p.a || !p.b) return { refuse: true, check: 1, why: 'not in your documents: no pair of sources' };
+  const r = parseReader(p.reader);
+  if (r.none) return { refuse: true, check: 4, why: 'the two sources do not contain the answer' };
+  const yn = /^(yes|no)$/i.test(r.phrase);
+  const inA = findSpan(p.a.text, r.phrase), inB = findSpan(p.b.text, r.phrase);
+  if (!yn && !inA && !inB) return { refuse: true, check: 5, why: "the reader's answer is not in either source" };
+  const cite = (src, span) => (span ? sentenceAround(src.text, span.start, span.end) : bestSentence(src.text, `${str(question)} ${r.phrase}`));
+  return { answer: yn ? r.phrase.toLowerCase() : (inA || inB).text, verdict: yn, spanIn: inA ? 'a' : (inB ? 'b' : null),
+    cites: [{ id: p.a.id, ...cite(p.a, inA) }, { id: p.b.id, ...cite(p.b, inB) }] };
+}
+
+const WORD = /[a-z0-9]+/g;
+// bestSentence(text, probe) → the sentence of text sharing the most distinct words (3+ letters) with probe; first wins ties
+export function bestSentence(text, probe) {
+  const t = str(text);
+  const want = new Set((str(probe).toLowerCase().match(WORD) || []).filter((w) => w.length >= 3));
+  const parts = [];
+  const re = /[^.!?]+[.!?]*/g; let m;
+  while ((m = re.exec(t)) !== null) { if (m[0].trim().length > 0) parts.push({ start: m.index, end: m.index + m[0].length }); }
+  let best = null, bestN = -1;
+  for (const s of parts) {
+    const words = new Set((t.slice(s.start, s.end).toLowerCase().match(WORD) || []));
+    let n = 0; for (const w of want) if (words.has(w)) n++;
+    if (n > bestN) { bestN = n; best = s; }
+  }
+  if (!best) return { start: 0, end: t.length, text: t.trim() };
+  return { start: best.start, end: best.end, text: t.slice(best.start, best.end).trim() };
+}
+
+// ── SQuAD's official answer normalisation, exact match and F1 ──
+export function normalize(s) {
+  return str(s).toLowerCase().replace(/[^\p{L}\p{N}\s]/gu, ' ').replace(/\b(a|an|the)\b/g, ' ').replace(/\s+/g, ' ').trim();
+}
+export function em(pred, golds) { const p = normalize(pred); return arr(golds).some((g) => normalize(g) === p) ? 1 : 0; }
+export function f1(pred, golds) {
+  const pt = normalize(pred).split(' ').filter(Boolean);
+  let best = 0;
+  for (const g of arr(golds)) {
+    const gt = normalize(g).split(' ').filter(Boolean);
+    if (pt.length === 0 && gt.length === 0) { best = Math.max(best, 1); continue; } // one side empty: no shared words, 0
+    const counts = new Map(); for (const w of gt) counts.set(w, (counts.get(w) || 0) + 1);
+    let same = 0; for (const w of pt) { const c = counts.get(w) || 0; if (c > 0) { same++; counts.set(w, c - 1); } }
+    if (same === 0) continue;
+    const prec = same / pt.length, rec = same / gt.length;
+    best = Math.max(best, (2 * prec * rec) / (prec + rec));
+  }
+  return best;
+}
+
+export default { parseReader, findSpan, sentenceAround, decide, decideTwo, bestSentence, normalize, em, f1 };
+</script>
+<script type="text/plain" data-module="vendor/docdec/src/late.mjs">// DocDec v2 · src/late.mjs — L1, late interaction (ColBERT-style MaxSim), pure.
+//
+// A single-vector retriever squeezes a paragraph into one point and compares points. Late interaction keeps one vector
+// per token: every question token looks for its best-matching token anywhere in the passage, and the passage's score is
+// the sum of those best matches. A specific term the question hinges on can no longer be averaged away by the rest of
+// the paragraph — and when it has NO good match, that shows up as one weak token (the evidence signal the gate reads).
+// No I/O, no model, no clock. Vectors arrive already quantised (int8, x/127) so every score is reproducible exactly.
+
+const arr = (x) => (Array.isArray(x) ? x : []);
+const str = (x) => (typeof x === 'string' ? x : '');
+
+// the same stopword list as DocDec v1's kernel, so "content token" means the same thing in both versions
+export const STOP = new Set(('a an and the of to in on for is are was were be been being as at by with from this that these those it its ' +
+  'which who whom whose what when where why how do does did not no nor can could would should will shall may might must ' +
+  'i you he she they we me him her them us my your his their our or if then than so such about into over under out up down ' +
+  'have has had been more most some any all each both few other own same very s t').split(' '));
+const SPECIAL = new Set(['[CLS]', '[SEP]', '[MASK]', '[PAD]', '[unused0]', '[unused1]', '[UNK]']);
+
+// isContent(token) → true for a question token that carries meaning: not a special token, not punctuation, not a stopword
+export function isContent(token) {
+  const t = str(token);
+  if (t.length === 0 || SPECIAL.has(t)) return false;
+  const bare = t.startsWith('##') ? t.slice(2) : t;
+  if (!/[a-z0-9]/i.test(bare)) return false;
+  return !STOP.has(bare.toLowerCase());
+}
+
+// fromInt8(bytes, dim) → Float32Array of the dequantised rows (x / 127). bytes: Int8Array or array of ints.
+export function fromInt8(bytes, dim) {
+  const b = bytes && typeof bytes.length === 'number' ? bytes : [];
+  const d = Number.isInteger(dim) && dim > 0 ? dim : 1;
+  const n = Math.floor(b.length / d) * d;
+  return Float32Array.from({ length: n }, (_, i) => (Number(b[i]) || 0) / 127);
+}
+
+// b64ToInt8(s) → Int8Array; works in any JS runtime with atob (browsers, Node 16+). An Int8Array stores each byte
+// modulo 256, so 200 reads back as -56: the signed bytes come back exactly as they were written.
+export function b64ToInt8(s) {
+  let bin = '';
+  try { bin = atob(str(s)); } catch (_) { bin = ''; }
+  return Int8Array.from(bin, (ch) => ch.charCodeAt(0));
+}
+
+// maxsim(Q, D, dim) → { score, sims, best }: Q and D are flat Float32Arrays of unit rows. For every question row the
+// best dot product over all passage rows (sims) and which passage row it was (best); score = sum(sims) / rows(Q).
+export function maxsim(Q, D, dim) {
+  const d = Number.isInteger(dim) && dim > 0 ? dim : 1;
+  const q = Q && Q.length ? Q : new Float32Array(0);
+  const p = D && D.length ? D : new Float32Array(0);
+  const nq = Math.floor(q.length / d), nd = Math.floor(p.length / d);
+  const sims = new Float32Array(nq), best = new Int32Array(nq);
+  if (nq === 0) return { score: 0, sims, best };
+  let total = 0;
+  for (let i = 0; i !== nq; i++) {
+    let m = -Infinity, at = -1;
+    const qo = i * d;
+    for (let j = 0; j !== nd; j++) {
+      const po = j * d;
+      let x = 0;
+      for (let k = 0; k < d; k++) x += q[qo + k] * p[po + k];
+      if (x > m) { m = x; at = j; }
+    }
+    if (at < 0) m = 0;
+    sims[i] = m; best[i] = at;
+    total += m;
+  }
+  return { score: total / nq, sims, best };
+}
+
+// evidence(qTokens, sims, best, dTokens) → the per-token audit of one question/passage match: each content token, its
+// best match in the passage and how strong it is, and the WEAKEST content token (the one the passage supports least).
+export function evidence(qTokens, sims, best, dTokens) {
+  const qt = arr(qTokens), dt = arr(dTokens);
+  const rows = [];
+  qt.forEach((tok, i) => {
+    if (!isContent(tok)) return;
+    const s = sims && Number.isFinite(sims[i]) ? sims[i] : 0;
+    const j = best && Number.isInteger(best[i]) ? best[i] : -1;
+    rows.push({ token: tok, sim: s, at: j, matched: j >= 0 && j < dt.length ? dt[j] : null });
+  });
+  let weakest = null;
+  for (const r of rows) if (weakest === null || r.sim < weakest.sim) weakest = r;
+  return { tokens: rows, weakest: weakest ? weakest.sim : 0, weakestToken: weakest ? weakest.token : null };
+}
+
+// byIdOrder(items) → Map(String(id) → its position in plain string order): a tie-break with no comparison to get wrong
+export function byIdOrder(items) {
+  const ids = [...new Set(arr(items).map((x) => String(x && x.id)))].sort();
+  return new Map(ids.map((id, i) => [id, i]));
+}
+
+// rank(scored) → the same items sorted best first; equal scores by id, so the order never depends on input order
+// (equal ids keep their input order: the sort is stable)
+export function rank(scored) {
+  const xs = arr(scored).filter((x) => x && typeof x === 'object')
+    .map((x) => ({ ...x, score: Number.isFinite(x.score) ? x.score : -Infinity }));
+  const pos = byIdOrder(xs);
+  return xs.sort((a, b) => (b.score - a.score) || (pos.get(String(a.id)) - pos.get(String(b.id))));
+}
+
+// cosine(a, b) → the single-vector baseline's similarity (byte-identical to DocDec v1's rerun.mjs)
+export function cosine(a, b) {
+  const x = a && a.length ? a : [], y = b && b.length ? b : [];
+  let d = 0, na = 0, nb = 0;
+  for (let i = 0; i < x.length && i < y.length; i++) { d += x[i] * y[i]; na += x[i] * x[i]; nb += y[i] * y[i]; }
+  return d / (Math.sqrt(na) * Math.sqrt(nb) || 1);
+}
+
+export default { STOP, isContent, fromInt8, b64ToInt8, maxsim, evidence, byIdOrder, rank, cosine };
+</script>
+<script type="text/plain" data-module="vendor/docdec/genome/lane-share.mjs">// lane-share.mjs — DocDec's lane, as pure functions: the share of a question's content words found in the index, and
+// the measurement that chose the share on DocDec's own sets. genome/cell.mjs runs it; genome/lane-measure.mjs records it.
+import { STOP } from '../src/late.mjs';
+
+export const SHARES = [0.5, 0.6, 0.67, 0.75, 0.8, 1];
+export const words = (t) => String(t).toLowerCase().match(/[a-z0-9]+/g) || [];
+export const content = (q) => words(q).filter((w) => w.length >= 3 && !STOP.has(w));
+export const vocabulary = (passages) => new Set(passages.flatMap((p) => words(p.title + ' ' + p.text)));
+
+// laneShare(question, vocab) → the share of the question's content words found in the index (0 when it has none)
+export function laneShare(question, vocab) {
+  const c = content(question);
+  return c.length === 0 ? 0 : c.filter((w) => vocab.has(w)).length / c.length;
+}
+
+// measure(s1) → the share chosen on tune by balanced accuracy, and what it does on eval.
+// s1: { paragraphs, questions (about the indexed passages: in lane), oos (off-topic: out of lane) }.
+// Tune = the first half of each set in file order; eval = the second half.
+export function measure(s1) {
+  const vocab = vocabulary(s1.paragraphs);
+  const inq = s1.questions.map((q) => q.text), oos = s1.oos.map((q) => q.text);
+  const cut = (a) => [a.slice(0, Math.floor(a.length / 2)), a.slice(Math.floor(a.length / 2))];
+  const [inT, inE] = cut(inq), [ooT, ooE] = cut(oos);
+  const accepted = (qs, t) => qs.filter((q) => laneShare(q, vocab) >= t).length;
+  const refused = (qs, t) => qs.length - accepted(qs, t);
+  const r4 = (x) => Math.round(x * 10000) / 10000;
+  let best = null;
+  for (const t of SHARES) {
+    const bal = (accepted(inT, t) / inT.length + refused(ooT, t) / ooT.length) / 2;
+    if (best === null || bal > best.bal) best = { t, bal };
+  }
+  const t = best.t;
+  return {
+    rule: `in lane when at least ${Math.round(t * 100)}% of the question's content words appear as whole words in the indexed passages`,
+    share: t,
+    tune: { inLaneAccepted: r4(accepted(inT, t) / inT.length), offTopicRefused: r4(refused(ooT, t) / ooT.length), n: [inT.length, ooT.length] },
+    eval: { inLaneAccepted: r4(accepted(inE, t) / inE.length), offTopicRefused: r4(refused(ooE, t) / ooE.length), n: [inE.length, ooE.length] },
+  };
+}
+</script>
+<script type="text/plain" data-module="vendor/estate-genome/src/genome.mjs">// genome.mjs — the birth check's judge. Pure and total: garbage in gives a verdict with reasons, never a throw.
+//
+// A part is admitted as a cell only when all four traits hold:
+//   describe  · it ships a seed.json that says what it is, its lane, its interface, its judge, its hooks, where it came from
+//   verify    · its judge calls a known-good case verified and refuses to call a known-bad case verified
+//   prune     · it reports its health, and its tombstone round-trips: applied it changes the part, restored it is byte-identical
+//   boundary  · it accepts an in-lane input, and refuses an out-of-lane one, naming who it escalates to
+// The runner (bin/genome-check.mjs) executes the part's own hooks and hands their output here. This module only judges.
+
+export const GENOME = '1';
+export const TRAITS = ['describe', 'verify', 'prune', 'boundary'];
+export const STATUSES = ['verified', 'unverified', 'refused'];
+export const KINDS = ['repo', 'agent', 'contract', 'model', 'tool', 'service'];
+
+const SLUG = /^[a-z0-9][a-z0-9._-]{0,99}$/;
+const DATE = /^\d{4}-\d{2}-\d{2}/;
+const REPO = /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/;
+
+// at(o, k) → o[k] if o is a plain object and reading it does not throw, else undefined
+export function at(o, k) {
+  if (o === null || typeof o !== 'object' || Array.isArray(o)) return undefined;
+  try { return o[k]; } catch { return undefined; }
+}
+const text = (v) => (typeof v === 'string' ? v.trim() : '');
+const has = (o, k) => at(o, k) !== undefined;
+
+// parseSeed(text) → { ok, seed } or { ok:false, why }
+export function parseSeed(src) {
+  if (typeof src !== 'string') return { ok: false, why: 'no seed.json text' };
+  let v;
+  try { v = JSON.parse(src); } catch { return { ok: false, why: 'seed.json is not valid JSON' }; }
+  if (v === null || typeof v !== 'object' || Array.isArray(v)) return { ok: false, why: 'seed.json must be one JSON object' };
+  return { ok: true, seed: v };
+}
+
+// lastJson(out) → the last line of a hook's output that parses as a JSON object, else null (hooks may log before it)
+export function lastJson(out) {
+  if (typeof out !== 'string') return null;
+  const lines = out.split(/\r?\n/);
+  for (let i = lines.length - 1; i >= 0; i--) {
+    const line = lines[i].trim();
+    if (!line.startsWith('{')) continue;
+    try { return JSON.parse(line); } catch { /* not this line: a line that starts with { and parses is always an object */ }
+  }
+  return null;
+}
+
+// describe(seed) → { trait:'describe', pass, reasons }: the manifest any agent can find, route to and compose by
+export function describe(seed) {
+  const r = [];
+  const need = (ok, why) => { if (!ok) r.push(why); };
+  const lane = at(seed, 'lane'), io = at(seed, 'interface'), judge = at(seed, 'judge'), cases = at(judge, 'cases');
+  const bound = at(seed, 'boundary'), health = at(seed, 'health'), tomb = at(seed, 'tombstone'), prov = at(seed, 'provenance');
+  need(at(seed, 'genome') === GENOME, `genome must be "${GENOME}"`);
+  need(SLUG.test(text(at(seed, 'name'))), 'name must be a lower-case slug');
+  need(KINDS.includes(at(seed, 'kind')), `kind must be one of ${KINDS.join(', ')}`);
+  const purpose = text(at(seed, 'purpose'));
+  need(purpose.length >= 20 && purpose.length <= 400, 'purpose must say what it does in 20 to 400 characters');
+  need(SLUG.test(text(at(lane, 'id'))), 'lane.id must be a lower-case slug');
+  need(text(at(lane, 'accepts')) !== '', 'lane.accepts must say what it takes');
+  need(text(at(lane, 'refuses')) !== '', 'lane.refuses must say what it turns away');
+  need(text(at(io, 'in')) !== '', 'interface.in must say what goes in');
+  need(text(at(io, 'out')) !== '', 'interface.out must say what comes out');
+  need(text(at(judge, 'what')) !== '', 'judge.what must say what makes an output right');
+  need(text(at(judge, 'run')) !== '', 'judge.run must be the command that runs the judge');
+  need(has(cases, 'good') && has(cases, 'bad'), 'judge.cases must hold a good and a bad case');
+  need(JSON.stringify(at(cases, 'good')) !== JSON.stringify(at(cases, 'bad')), 'judge.cases.good and .bad must differ');
+  need(text(at(bound, 'run')) !== '', 'boundary.run must be the command that checks the lane');
+  need(has(bound, 'inLane') && has(bound, 'outOfLane'), 'boundary must hold an inLane and an outOfLane sample');
+  need(JSON.stringify(at(bound, 'inLane')) !== JSON.stringify(at(bound, 'outOfLane')), 'boundary.inLane and .outOfLane must differ');
+  need(text(at(bound, 'escalate')) !== '', 'boundary.escalate must name who out-of-lane input goes to');
+  need(text(at(health, 'run')) !== '', 'health.run must be the command that reports health');
+  need(text(at(tomb, 'apply')) !== '' && text(at(tomb, 'restore')) !== '', 'tombstone must have an apply and a restore command');
+  need(REPO.test(text(at(prov, 'repo'))), 'provenance.repo must be owner/name');
+  need(text(at(prov, 'by')) !== '', 'provenance.by must say who made it');
+  need(DATE.test(text(at(prov, 'born'))), 'provenance.born must be a date (YYYY-MM-DD)');
+  return { trait: 'describe', pass: r.length === 0, reasons: r };
+}
+
+// a hook's run as the runner records it: { code, out }
+const ran = (run) => Number.isInteger(at(run, 'code'));
+const statusOf = (run) => at(lastJson(at(run, 'out')), 'status');
+
+// verify(seed, runs) → the judge tells right from wrong: good → verified, bad → never verified
+export function verify(seed, runs) {
+  const r = [];
+  const good = at(at(runs, 'judge'), 'good'), bad = at(at(runs, 'judge'), 'bad');
+  if (!ran(good)) r.push('the judge did not run on the good case');
+  else {
+    const s = statusOf(good);
+    if (!STATUSES.includes(s)) r.push('the judge gave no status on the good case (verified, unverified or refused)');
+    else if (s !== 'verified') r.push(`the judge did not verify the known-good case (said ${s})`);
+    if (at(good, 'code') !== 0) r.push(`the judge exited ${at(good, 'code')} on the good case`);
+  }
+  if (!ran(bad)) r.push('the judge did not run on the bad case');
+  else {
+    const s = statusOf(bad);
+    if (!STATUSES.includes(s)) r.push('the judge gave no status on the bad case (verified, unverified or refused)');
+    else if (s === 'verified') r.push('the judge called the known-bad case verified');
+  }
+  return { trait: 'verify', pass: r.length === 0, reasons: r };
+}
+
+// prune(seed, runs) → it reports its health, and its tombstone is reversible
+export function prune(seed, runs) {
+  const r = [];
+  const h = at(runs, 'health');
+  if (!ran(h)) r.push('the health hook did not run');
+  else {
+    const v = lastJson(at(h, 'out'));
+    if (v === null) r.push('the health hook printed no JSON');
+    else {
+      const flag = (k) => { const x = at(v, k); if (!(x === null || typeof x === 'boolean')) r.push(`health.${k} must be true, false or null`); };
+      flag('used'); flag('dependedOn');
+      if (typeof at(v, 'passing') !== 'boolean') r.push('health.passing must be measured (true or false)');
+      const le = at(v, 'lastEarned');
+      if (!(le === null || DATE.test(text(le)))) r.push('health.lastEarned must be a date or null');
+    }
+  }
+  const t = at(runs, 'tombstone');
+  const before = text(at(t, 'before'));
+  if (before === '') r.push('the tombstone was not tried');
+  else {
+    if (at(t, 'applyCode') !== 0) r.push('tombstone apply failed');
+    if (at(t, 'restoreCode') !== 0) r.push('tombstone restore failed');
+    if (text(at(t, 'applied')) === before) r.push('tombstone apply changed nothing');
+    if (text(at(t, 'restored')) !== before) r.push('tombstone restore did not bring back the identical part');
+  }
+  return { trait: 'prune', pass: r.length === 0, reasons: r };
+}
+
+// boundary(seed, runs) → in-lane is taken; out-of-lane is refused and escalated to the declared party
+export function boundary(seed, runs) {
+  const r = [];
+  const inRun = at(at(runs, 'boundary'), 'inLane'), outRun = at(at(runs, 'boundary'), 'outOfLane');
+  if (!ran(inRun)) r.push('the lane check did not run on the in-lane sample');
+  else {
+    const v = lastJson(at(inRun, 'out'));
+    if (at(v, 'inLane') !== true) r.push('the lane check did not accept its own in-lane sample');
+    if (at(v, 'status') === 'refused') r.push('the lane check refused its own in-lane sample');
+  }
+  if (!ran(outRun)) r.push('the lane check did not run on the out-of-lane sample');
+  else {
+    const v = lastJson(at(outRun, 'out'));
+    if (at(v, 'inLane') !== false) r.push('the lane check did not mark the out-of-lane sample out of lane');
+    if (at(v, 'status') !== 'refused') r.push('the lane check did not refuse the out-of-lane sample');
+    const want = text(at(at(seed, 'boundary'), 'escalate'));
+    if (want === '' || text(at(v, 'escalate')) !== want) r.push(`the lane check did not escalate to "${want}"`);
+  }
+  return { trait: 'boundary', pass: r.length === 0, reasons: r };
+}
+
+// birth(seed, runs) → { admitted, cell, traits }: a cell only when all four hold
+export function birth(seed, runs) {
+  const traits = [describe(seed), verify(seed, runs), prune(seed, runs), boundary(seed, runs)];
+  const admitted = traits.every((t) => t.pass);
+  return { admitted, cell: admitted ? 'cell' : 'part', traits };
+}
+
+// verdictLine(result) → one plain line a person or an agent can read
+export function verdictLine(result) {
+  const traits = Array.isArray(at(result, 'traits')) ? result.traits : [];
+  const marks = TRAITS.map((name) => {
+    const t = traits.find((x) => at(x, 'trait') === name);
+    return `${name} ${at(t, 'pass') === true ? 'yes' : 'no'}`;
+  });
+  const n = traits.filter((t) => at(t, 'pass') === true).length;
+  return `${at(result, 'admitted') === true ? 'ADMITTED: a cell' : 'NOT ADMITTED: a part'} (${n} of 4: ${marks.join(', ')})`;
+}
+
+// describeText(src) → the check anyone can run without the part's code: parse + describe (the census and the page use this)
+export function describeText(src) {
+  const p = parseSeed(src);
+  if (!p.ok) return { declared: false, describes: false, reasons: [p.why] };
+  const d = describe(p.seed);
+  return { declared: true, describes: d.pass, reasons: d.reasons, name: text(at(p.seed, 'name')), lane: text(at(at(p.seed, 'lane'), 'id')) };
+}
+
+export default { GENOME, TRAITS, STATUSES, KINDS, at, parseSeed, lastJson, describe, verify, prune, boundary, birth, verdictLine, describeText };
+</script>
+<script type="module">
+const mods = {};
+for (const s of document.querySelectorAll('script[data-module]')) mods[s.dataset.module] = s.textContent;
+const link = linkModules(mods, (src) => URL.createObjectURL(new Blob([src], { type: 'text/javascript' })));
+const K = await import(link('src/fold.mjs'));
+const P = await import(link('src/page.mjs'));
+const $ = (id) => document.getElementById(id);
+let cell = null;
+$('fold').addEventListener('click', () => {
+  const title = $('title').value.trim() || 'my documents', name = P.slug(title);
+  const r = K.fold({ docs: P.docsFromPaste($('corpus').value), name, title, escalate: 'kar', repo: 'your-org/' + name, by: 'you', born: new Date().toISOString().slice(0, 10) });
+  $('fold-out').innerHTML = P.foldHtml(r);
+  cell = r.ok ? r : null;
+  $('ask').disabled = cell === null;
+  $('answer-out').innerHTML = cell ? '<p class="small">Ask it something.</p>' : '<p class="small">This corpus did not fold into a cell, so there is nothing to ask.</p>';
+});
+$('ask').addEventListener('click', () => {
+  if (cell) $('answer-out').innerHTML = P.answerHtml(cell.index, K.act(cell.index, cell.lane.share, { question: $('question').value }, 'kar'));
+});
+$('question').addEventListener('keydown', (e) => { if (e.key === 'Enter') $('ask').click(); });
+$('files').addEventListener('change', async (e) => {
+  const parts = [];
+  for (const f of e.target.files) parts.push('=== ' + f.name + ' ===\n' + (await f.text()));
+  if (parts.length) $('corpus').value = parts.join('\n\n');
+});
+const root = document.documentElement;
+try { const t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') root.dataset.theme = t; } catch { /* storage may be blocked */ }
+$('theme').addEventListener('click', () => {
+  const dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+  root.dataset.theme = dark ? 'light' : 'dark';
+  try { localStorage.setItem('theme', root.dataset.theme); } catch { /* storage may be blocked */ }
+});
+$('fold').click();
+</script>
+</body>
+</html>

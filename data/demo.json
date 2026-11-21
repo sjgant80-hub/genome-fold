@@ -1,0 +1,169 @@
+{
+ "born": "2026-11-21",
+ "repo": "sjgant80-hub/consumer-rights-cell",
+ "live": "https://sjgant80-hub.github.io/consumer-rights-cell/",
+ "source": {
+  "what": "Part 1 of the Consumer Rights Act 2015 (sections 1 to 60), as revised to 29 October 2026",
+  "url": "https://www.legislation.gov.uk/ukpga/2015/15/part/1/data.xml",
+  "sha256": "d43c398aa31fa46f41227af419dbe3351482eaeb477939daa56ffd751d242b76",
+  "retrieved": "2026-11-21",
+  "licence": "Contains public sector information licensed under the Open Government Licence v3.0."
+ },
+ "files": [
+  {
+   "path": "01-chapter-1.md",
+   "sha256": "c029e84216858a44125f3a5c7359b2acc68e13114d7b9b5fdfe14b482d58c832",
+   "bytes": 2667
+  },
+  {
+   "path": "02-chapter-2.md",
+   "sha256": "7f86fa496844133b018be1e10d996ef541853d30ffacf1fd3d3398ab87f870a8",
+   "bytes": 51111
+  },
+  {
+   "path": "03-chapter-3.md",
+   "sha256": "a9db8287aebaa1cc20dd521b3f864a4c80f5e9cf6bc8fc1a98952f091f5ab410",
+   "bytes": 23230
+  },
+  {
+   "path": "04-chapter-4.md",
+   "sha256": "aae3f116d82ab51c149906f126f0d34fa1426313c9a00732fd4ae5bf2de49b90",
+   "bytes": 11258
+  },
+  {
+   "path": "05-chapter-5.md",
+   "sha256": "8ce42c9f54fa93a50ead1db3b8f9879e639f57ed274033e9b068fa74522248df",
+   "bytes": 3691
+  }
+ ],
+ "sections": 60,
+ "counts": {
+  "docs": 5,
+  "dropped": 0,
+  "passages": 372,
+  "questions": 372
+ },
+ "lane": {
+  "rule": "in lane when at least 50% of the question's content words appear as whole words in the indexed passages",
+  "share": 0.5,
+  "tune": {
+   "inLaneAccepted": 1,
+   "offTopicRefused": 0.9333,
+   "n": [
+    186,
+    30
+   ]
+  },
+  "eval": {
+   "inLaneAccepted": 1,
+   "offTopicRefused": 0.8667,
+   "n": [
+    186,
+    30
+   ]
+  }
+ },
+ "cases": {
+  "good": {
+   "question": "Where is oral implied explained?",
+   "source": "01-chapter-1.md#1",
+   "start": 0,
+   "end": 128,
+   "text": "(2) It applies whether the contract is written or oral or implied from the parties' conduct, or more than one of these combined."
+  },
+  "bad": {
+   "question": "Where is oral implied explained?",
+   "source": "01-chapter-1.md#1",
+   "start": 0,
+   "end": 128,
+   "text": "(2) It apply whether the contract is written or oral or implied from the parties' conduct, or more than one of these combined."
+  }
+ },
+ "samples": {
+  "inLane": {
+   "question": "Where is oral implied explained?"
+  },
+  "outOfLane": {
+   "question": "What is the best pizza topping?"
+  }
+ },
+ "check": {
+  "describe": {
+   "pass": true,
+   "reasons": []
+  },
+  "verify": {
+   "pass": true,
+   "good": "verified",
+   "bad": "unverified"
+  },
+  "boundary": {
+   "pass": true,
+   "inLane": true,
+   "outOfLane": false
+  },
+  "prune": {
+   "pass": null,
+   "why": "the tombstone round-trip runs on the written cell folder, in the birth check"
+  }
+ },
+ "line": "ADMITTED: a cell (4 of 4: describe yes, verify yes, prune yes, boundary yes)",
+ "asked": [
+  {
+   "question": "Must a service be performed with reasonable care and skill?",
+   "result": {
+    "status": "verified",
+    "record": {
+     "question": "Must a service be performed with reasonable care and skill?",
+     "source": "04-chapter-4.md#9",
+     "start": 0,
+     "end": 148,
+     "text": "(1) Every contract to supply a service is to be treated as including a term that the trader must perform the service with reasonable care and skill."
+    }
+   }
+  },
+  {
+   "question": "How long do I have to reject faulty goods?",
+   "result": {
+    "status": "verified",
+    "record": {
+     "question": "How long do I have to reject faulty goods?",
+     "source": "02-chapter-2.md#104",
+     "start": 0,
+     "end": 302,
+     "text": "(2) If the consumer is entitled to reject the goods in an instalment, but does not reject all of those goods, the consumer— (a) may reject some or all of the goods in the instalment that do not conform to the contract, but (b) may not reject any goods in the instalment that do conform to the contract."
+    }
+   },
+   "note": "Verified, but not the answer: the sentence really is in the Act at those positions (section 21, partial rejection), yet the time limit for the short-term right to reject (30 days) is in section 22(3). Verified means the words are there, not that they are the best answer."
+  },
+  {
+   "question": "What is the best pizza topping?",
+   "result": {
+    "status": "refused",
+    "why": "out of lane: too few of the question's words are words this corpus uses",
+    "escalate": "kar"
+   }
+  }
+ ],
+ "passages": [
+  {
+   "id": "01-chapter-1.md#1",
+   "title": "Section 1: Where Part 1 applies",
+   "text": "(2) It applies whether the contract is written or oral or implied from the parties' conduct, or more than one of these combined."
+  },
+  {
+   "id": "02-chapter-2.md#104",
+   "title": "Section 21: Partial rejection of goods",
+   "text": "(2) If the consumer is entitled to reject the goods in an instalment, but does not reject all of those goods, the consumer— (a) may reject some or all of the goods in the instalment that do not conform to the contract, but (b) may not reject any goods in the instalment that do conform to the contract."
+  },
+  {
+   "id": "04-chapter-4.md#9",
+   "title": "Section 49: Service to be performed with reasonable care and skill",
+   "text": "(1) Every contract to supply a service is to be treated as including a term that the trader must perform the service with reasonable care and skill."
+  }
+ ],
+ "ci": {
+  "url": "https://github.com/sjgant80-hub/consumer-rights-cell/actions/runs/44923296581",
+  "line": "ADMITTED: a cell (4 of 4: describe yes, verify yes, prune yes, boundary yes)"
+ }
+}
